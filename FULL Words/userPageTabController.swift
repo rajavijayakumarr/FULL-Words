@@ -9,27 +9,24 @@
 import UIKit
 
 class userPageTabController: UITabBarController {
+    
+    var userName: String?
+    var emailId: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        self.navigationController?.visibleViewController?.title = "Dashboard"
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.title = "Dashboard"
+        
+        let dashboard = self.viewControllers?.first as? dashBoardViewController
+        if let userName = userName, let emailId = emailId {
+            dashboard?.userName = userName
+            dashboard?.emailId = emailId
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

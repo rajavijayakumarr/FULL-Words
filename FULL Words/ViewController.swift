@@ -21,9 +21,11 @@ let ADAPTIVEU_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
 let ADAPTIVIEWU_REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
 let ADAPTIVIEWU_ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
 let ADAPTIVIEWU_TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
-
-
 let UNIQUE_STATE_TOKEN_VERIFY = "validated_token"
+let userValues = UserDefaults.standard
+
+let USER_NAME = "USER_NAME"
+let EMAIL_ID = "EMAIL_ID"
 
 class ViewController: UIViewController, UIScrollViewDelegate {
     
@@ -61,9 +63,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     
                     print("****************************************************************************************")
                     print("accessToken: \(accessToken)\nrefreshToken: \(refreshToken)")
-                UserDefaults.standard.set(refreshToken, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
-                UserDefaults.standard.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
-                UserDefaults.standard.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(refreshToken, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
+                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
                     
                 var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
                 requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
@@ -73,32 +75,33 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                     if responseData.error == nil {
                     var dataContainingUserDetails = JSON(responseData.data!)
                     print("****************************************************************************************")
-                    let firstName = dataContainingUserDetails["data"]["user"]["firstName"]
-                    let lastName = dataContainingUserDetails["data"]["user"]["lastName"]
-                    let emailId = dataContainingUserDetails["data"]["user"]["login"]
+                    let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
+                    let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
+                    let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
                     print("****************************************************************************************")
                     print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
+                    userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                    userValues.set(emailId, forKey: EMAIL_ID)
                         
-                        
-                        
+                    let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
+                    toTabBarViewControler?.userName = firstName + " " + lastName
+                    toTabBarViewControler?.emailId = emailId
+                    if let toTabBarViewControler = toTabBarViewControler {
+                    self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
+                    }
+       
                 }
                 }
             }
             }
-            
-            
-            
-            
-            
-            
-            
-            
         })
+        
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
         authenticationSession?.start()
     }
+    
     
     func getTheAuthenticationCode(from url:URL?) -> String {
 
