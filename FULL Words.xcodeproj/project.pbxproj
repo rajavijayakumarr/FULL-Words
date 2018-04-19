@@ -16,6 +16,11 @@
 		CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */; };
 		CE19227820874E8A000D7676 /* FULL_WordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19227720874E8A000D7676 /* FULL_WordsTests.swift */; };
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
+		CE610D8420875C9700C0377F /* fullLogo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE610D8320875C9700C0377F /* fullLogo.jpg */; };
+		CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */; };
+		CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */; };
+		CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */; };
+		CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
 		EC103F9DC4EC784EDB04CCC4 /* Pods_FULL_Words.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +65,11 @@
 		CE19227E20874E8A000D7676 /* FULL WordsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FULL WordsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FULL_WordsUITests.swift; sourceTree = "<group>"; };
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE610D8320875C9700C0377F /* fullLogo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fullLogo.jpg; sourceTree = "<group>"; };
+		CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
+		CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-ThinItalic.otf"; sourceTree = "<group>"; };
+		CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-UltralightItalic.otf"; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -142,6 +152,11 @@
 				CE19225F20874E88000D7676 /* AppDelegate.swift */,
 				CE19226120874E88000D7676 /* ViewController.swift */,
 				CE19226320874E88000D7676 /* Main.storyboard */,
+				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
+				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
+				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
+				CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */,
+				CE610D8320875C9700C0377F /* fullLogo.jpg */,
 				CE19226920874E8A000D7676 /* Assets.xcassets */,
 				CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */,
 				CE19226E20874E8A000D7676 /* Info.plist */,
@@ -279,6 +294,11 @@
 				CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */,
 				CE19226A20874E8A000D7676 /* Assets.xcassets in Resources */,
 				CE19226520874E88000D7676 /* Main.storyboard in Resources */,
+				CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */,
+				CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */,
+				CE610D8420875C9700C0377F /* fullLogo.jpg in Resources */,
+				CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */,
+				CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,8 +579,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-Words";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -575,8 +598,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-Words";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -592,7 +618,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -610,7 +640,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -627,7 +661,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -644,7 +682,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
