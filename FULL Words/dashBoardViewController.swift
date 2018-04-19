@@ -18,6 +18,12 @@ class dashBoardViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         userNameLabel.text = userName
+        userNameLabel.numberOfLines = 3
+        userNameLabel.adjustsFontSizeToFitWidth = true
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.visibleViewController?.title = "Dashboard"
+
     }
 
 }
