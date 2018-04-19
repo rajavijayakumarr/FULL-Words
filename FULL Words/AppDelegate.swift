@@ -43,6 +43,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        // just making sure we send the notification when the URL is opened in SFSafariViewController
+        if let sourceApplication = options[.sourceApplication] {
+            print("app delegate called", sourceApplication as Any)
+            if (sourceApplication as? String == "com.apple.SafariViewService") {
+                //   NSNotificationCenter.defaultCenter().postNotificationName(kCloseSafariViewControllerNotification, object: url)
+                let name = NSNotification.Name.init(kCloseSafariViewControllerNotification)
+                NotificationCenter.default.post(name: name, object: url)
+                return true
+            }
+        }
+        return true
+    }
 
     // MARK: - Core Data stack
 
