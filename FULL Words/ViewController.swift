@@ -41,6 +41,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
         let url = ADAPTIVEU_CODE_URL+"?response_type=code&client_id="+ADAPTIVEU_CLIENT_ID+"&access_type=offline&scope=awapis.identity&redirect_uri="+ADAPTIVEU_REDIRECT_URL+"&approval_prompt=force"
