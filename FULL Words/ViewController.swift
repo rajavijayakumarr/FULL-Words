@@ -22,6 +22,7 @@ let ADAPTIVIEWU_REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
 let ADAPTIVIEWU_ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
 let ADAPTIVIEWU_TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
 let UNIQUE_STATE_TOKEN_VERIFY = "validated_token"
+let USER_LOGGED_IN = "USER_LOGGED_IN"
 let userValues = UserDefaults.standard
 
 let USER_NAME = "USER_NAME"
@@ -33,17 +34,27 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
 
+    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var singnedInUserNameLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let name = NSNotification.Name.init(rawValue: kCloseSafariViewControllerNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
+        continueButton.isHidden = true
+        singnedInUserNameLabel.isHidden = true
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        if userValues.bool(forKey: USER_LOGGED_IN) {
+            continueButton.isHidden = false
+            singnedInUserNameLabel.isHidden = false
+            singnedInUserNameLabel.text = userValues.value(forKey: USER_NAME) as? String
+        }
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
@@ -95,41 +106,80 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
                 userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
                 
-                var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
-                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-                requestForGettingToken.httpMethod = "GET"
-                
-                Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
-                    if responseData.error == nil {
-                        var dataContainingUserDetails = JSON(responseData.data!)
-                        print("****************************************************************************************")
-                        let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
-                        let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
-                        let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
-                        print("****************************************************************************************")
-                        print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
-                        guard firstName != "" && lastName != "" && emailId != "" else {
-                            let alert = UIAlertController(title: "Something went wrong!", message: "Try again", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
-                            return
-                        }
-                        
-                        userValues.set(firstName + " " + lastName , forKey: USER_NAME)
-                        userValues.set(emailId, forKey: EMAIL_ID)
-                        let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
-                        toTabBarViewControler?.userName = firstName + " " + lastName
-                        toTabBarViewControler?.emailId = emailId
-                        if let toTabBarViewControler = toTabBarViewControler {
-                            self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
-                        }
-                    }
-                }
+                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
             }
         }
         self.safariViewController?.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func continueButtonPressed(_ sender: UIButton) {
+        
+        var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
+        
+        var data:Data = "refresh_token=\(userValues.value(forKey: ADAPTIVIEWU_REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(ADAPTIVEU_CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&grant_type=refresh_token".data(using: .utf8)!)
+        requestForGettingToken.httpBody = data
+        requestForGettingToken.httpMethod = "POST"
+        
+        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+            if responseData.error == nil{
+                var dataContainingTokens = JSON(responseData.data!)
+                let accessToken = dataContainingTokens["access_token"].stringValue
+                let tokenType = dataContainingTokens["token_type"].stringValue
+                
+                print("****************************************************************************************")
+                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(true, forKey: USER_LOGGED_IN)
+                
+                var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+                requestForGettingToken.httpMethod = "GET"
+                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+            }
+        }
+    }
+    
+    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String, request_For_Getting_Token requestForGettingTokens: URLRequest) -> Void {
+        
+        var requestForGettingToken = requestForGettingTokens
+        
+        var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        requestForGettingToken.httpMethod = "GET"
+        
+        Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+            if responseData.error == nil {
+                var dataContainingUserDetails = JSON(responseData.data!)
+                print("****************************************************************************************")
+                let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
+                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
+                let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                print("****************************************************************************************")
+                print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
+                guard firstName != "" && lastName != "" && emailId != "" else {
+                    let alert = UIAlertController(title: "Something went wrong!", message: "Try again", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                userValues.set(emailId, forKey: EMAIL_ID)
+                userValues.set(true, forKey: USER_LOGGED_IN)
+                
+                let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
+                toTabBarViewControler?.userName = firstName + " " + lastName
+                toTabBarViewControler?.emailId = emailId
+                if let toTabBarViewControler = toTabBarViewControler {
+                    self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
+                }
+            }
+        }
+    }
     func getTheAuthenticationCode(from url:URL?) -> String? {
 
         let stringUrl:String! = url?.absoluteString

@@ -76,6 +76,7 @@ class settingsTableViewController: UITableViewController {
                 userValues.set(nil, forKey: ADAPTIVIEWU_TOKEN_TYPE)
                 userValues.set(nil, forKey: USER_NAME)
                 userValues.set(nil, forKey: EMAIL_ID)
+                userValues.set(false, forKey: USER_LOGGED_IN)
                 
               
                 let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? ViewController
