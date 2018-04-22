@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class wordsTableViewController: UITableViewController {
     
     var addButtonBarButton: UIBarButtonItem!
@@ -27,9 +28,8 @@ class wordsTableViewController: UITableViewController {
         
         self.present(wordsViewController!, animated: true, completion: nil)
     }
+
     
-
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -44,3 +44,5 @@ class wordsTableViewController: UITableViewController {
 
 
 }
+
+
