@@ -24,6 +24,8 @@
 		CE610D902088808300C0377F /* dashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D8F2088808200C0377F /* dashBoardViewController.swift */; };
 		CE610D92208880D800C0377F /* userPageTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D91208880D800C0377F /* userPageTabController.swift */; };
 		CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D93208888BE00C0377F /* settingsTableViewController.swift */; };
+		CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */; };
+		CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* newWordViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
 		EC103F9DC4EC784EDB04CCC4 /* Pods_FULL_Words.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */; };
 /* End PBXBuildFile section */
@@ -76,6 +78,8 @@
 		CE610D8F2088808200C0377F /* dashBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashBoardViewController.swift; sourceTree = "<group>"; };
 		CE610D91208880D800C0377F /* userPageTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userPageTabController.swift; sourceTree = "<group>"; };
 		CE610D93208888BE00C0377F /* settingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsTableViewController.swift; sourceTree = "<group>"; };
+		CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordsTableViewController.swift; sourceTree = "<group>"; };
+		CE9724CD208C40C4001F2ABC /* newWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newWordViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -161,6 +165,8 @@
 				CE610D91208880D800C0377F /* userPageTabController.swift */,
 				CE610D8F2088808200C0377F /* dashBoardViewController.swift */,
 				CE610D93208888BE00C0377F /* settingsTableViewController.swift */,
+				CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */,
+				CE9724CD208C40C4001F2ABC /* newWordViewController.swift */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
 				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
 				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
@@ -411,6 +417,8 @@
 			files = (
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
 				CE19226220874E88000D7676 /* ViewController.swift in Sources */,
+				CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */,
+				CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* userPageTabController.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,

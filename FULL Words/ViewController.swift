@@ -122,13 +122,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                         toTabBarViewControler?.emailId = emailId
                         if let toTabBarViewControler = toTabBarViewControler {
                             self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
-                            self.safariViewController?.dismiss(animated: true, completion: nil)
                         }
                     }
                 }
             }
         }
-        
+        self.safariViewController?.dismiss(animated: true, completion: nil)
     }
     
     func getTheAuthenticationCode(from url:URL?) -> String? {
