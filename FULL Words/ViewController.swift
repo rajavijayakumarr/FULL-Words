@@ -36,6 +36,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
 
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var singnedInUserNameLabel: UILabel!
+    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet var loadingVIew: UIView!
     
     
     override func viewDidLoad() {
@@ -77,11 +79,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
             self.present(alert, animated: true, completion: nil)
             return
         }
-        
+        self.showLoadingView()
         print(url?.absoluteString ?? "nothing")
         print(authenticationCode!)
         
         var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
+        self.changeLoadingLabel(lableToShowInLoading: "sending token request")
         
         var data:Data = "code=\(authenticationCode ?? "none")".data(using: .utf8)!
         data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
@@ -106,14 +109,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
                 userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
                 
+                self.changeLoadingLabel(lableToShowInLoading: "tokens received")
+                
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
             }
         }
-        self.safariViewController?.dismiss(animated: true, completion: nil)
+        self.safariViewController?.dismiss(animated: true, completion: {
+            
+        })
     }
     
     @IBAction func continueButtonPressed(_ sender: UIButton) {
         
+        showLoadingView()
+        changeLoadingLabel(lableToShowInLoading: "sending request to the server")
         var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
         
         var data:Data = "refresh_token=\(userValues.value(forKey: ADAPTIVIEWU_REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
@@ -125,9 +134,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         
         Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
             if responseData.error == nil{
+                print(responseData)
                 var dataContainingTokens = JSON(responseData.data!)
                 let accessToken = dataContainingTokens["access_token"].stringValue
                 let tokenType = dataContainingTokens["token_type"].stringValue
+                self.changeLoadingLabel(lableToShowInLoading: "retrived the tokens")
                 
                 print("****************************************************************************************")
                 print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
@@ -138,7 +149,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
                 requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
                 requestForGettingToken.httpMethod = "GET"
+                
+                self.changeLoadingLabel(lableToShowInLoading: "sending the tokens to retrive values")
+                
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+                
             }
         }
     }
@@ -167,9 +182,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                     return
                 }
                 
+                self.changeLoadingLabel(lableToShowInLoading: "retrived user values")
+                
                 userValues.set(firstName + " " + lastName , forKey: USER_NAME)
                 userValues.set(emailId, forKey: EMAIL_ID)
                 userValues.set(true, forKey: USER_LOGGED_IN)
+                
+                
                 
                 let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
                 toTabBarViewControler?.userName = firstName + " " + lastName
@@ -179,6 +198,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 }
             }
         }
+    }
+    func showLoadingView() {
+        loadingVIew.bounds.size.width = view.bounds.width
+        loadingVIew.bounds.size.height = view.bounds.height
+        
+        loadingVIew.center = view.center
+        view.addSubview(loadingVIew)
+    }
+    func changeLoadingLabel(lableToShowInLoading lable: String) {
+        loadingLabel.text = lable
+    }
+    func hideLoadingView() {
+        loadingVIew.removeFromSuperview()
     }
     func getTheAuthenticationCode(from url:URL?) -> String? {
 
