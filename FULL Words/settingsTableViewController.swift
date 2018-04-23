@@ -14,6 +14,7 @@ class settingsTableViewController: UITableViewController {
     let settingsMenu = ["Profile", "View Status", "Logout" ]
     
     var userName: String?
+    var emailId: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class settingsTableViewController: UITableViewController {
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
+        navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
     }
 
     override func didReceiveMemoryWarning() {

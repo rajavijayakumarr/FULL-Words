@@ -8,10 +8,23 @@
 
 import UIKit
 
-class newWordViewController: UIViewController {
-    var activeTextField: UITextField?
+struct WordsOfUserValues: Codable {
+    var addedWord: String
+    var wordMeaning: String
+    var sourceOfTheWord: String
     
-    @IBOutlet weak var nameTextField: UITextField!
+   static let NEW_WORDS_VALUES = "NEW_WORDS_VALUES"
+   static let NEW_WORDS_VALUES_forNSKeyArchiever = "NEW_WORDS_VALUES_forNSKeyArchiever"
+}
+
+class newWordViewController: UIViewController {
+    
+    
+    
+    var activeTextField: UITextField?
+    var userName: String?
+    
+    @IBOutlet weak var navigationBarItem: UINavigationItem!
     @IBOutlet weak var newWordTextField: UITextField!
     @IBOutlet weak var sourceTextField: UITextField!
     @IBOutlet weak var meaningTextField: UITextField!
@@ -23,10 +36,10 @@ class newWordViewController: UIViewController {
         self.registerForKeyBoardNotification()
         
         self.scrollView.delegate = self
-        nameTextField.delegate = self
         newWordTextField.delegate = self
         sourceTextField.delegate = self
         meaningTextField.delegate = self
+        
         
         }
     
@@ -34,15 +47,59 @@ class newWordViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+                self.dismiss(animated: true, completion: nil)
     }
-   
-    @IBAction func submitButtonPressed(_ sender: UIButton) {
-    }
-    
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        guard newWordTextField.text != "" && sourceTextField.text != "" && meaningTextField.text != "" else {
+            let alert = UIAlertController(title: "Missing fields", message: "Please fill all the text fields!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let addedWord = newWordTextField.text!
+        let wordMeaning = meaningTextField.text!
+        let sourceOfTheWord = sourceTextField.text!
+        // added to the nsuserdefaults from here delete and modify it when using the server
+        
+       if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
+        guard userName != nil else {return}
+        var jsonData = decodedValues[userName!]
+        guard jsonData != nil else {return}
+        let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
+        let jsonEncoder = JSONEncoder()
+        let wordValuesToData = try? jsonEncoder.encode(wordValuesOfTheUser)
+        jsonData?.append(wordValuesToData!)
+        let userAndWordValues: [String: [Data]] = [userName!: jsonData!]
+        userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
+        print(userAndWordValues)
+//        let jsonDecoder = JSONDecoder()
+//        for jsonDataValues in jsonData! {
+//            let values = try? jsonDecoder.decode(WordsOfUserValues.self, from: jsonDataValues)
+//            print(values!)
+//        }
+        
+       } else {
+            let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
+            let jsonEncoder = JSONEncoder()
+            let wordValuesToData = try? jsonEncoder.encode(wordValuesOfTheUser)
+            let userAndWordValues: [String: [Data]] = [userName!: [wordValuesToData!]]
+            userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
+        print(userAndWordValues)
 
+        }
+        
+//        let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
+//        let userAndWordValues: [String: WordsOfUserValues] = [userName!: wordValuesOfTheUser]
+//        let jsonEncoder = JSONEncoder()
+//        let encodedData = try? jsonEncoder.encode(userAndWordValues)
+//        userValues.set(encodedData, forKey: WordsOfUserValues.NEW_WORDS_VALUES)
+        
+        
+        
+        
+    }
 }
 
 /// extension used for text field related things
@@ -116,17 +173,16 @@ extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
         scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.origin.x, y: self.scrollView.frame.origin.y), animated: true)
-        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
 
         activeTextField = textField
-
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextField = nil
-
     }
 }
+
+

@@ -18,16 +18,21 @@ class userPageTabController: UITabBarController {
         // Do any additional setup after loading the view.
         self.navigationController?.visibleViewController?.title = "Dashboard"
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
         
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.title = "Dashboard"
         
         let dashboard = self.viewControllers?.first as? dashBoardViewController
         let setting = self.viewControllers?.last as? settingsTableViewController
+        
+        let wordsTable = self.viewControllers?[1] as? wordsTableViewController
         if let userName = userName, let emailId = emailId {
+             wordsTable?.userName = userName
             dashboard?.userName = userName
             dashboard?.emailId = emailId
             setting?.userName = userName
+           
         }
     }
 

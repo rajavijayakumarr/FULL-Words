@@ -112,6 +112,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 self.changeLoadingLabel(lableToShowInLoading: "tokens received")
                 
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+                
             }
         }
         self.safariViewController?.dismiss(animated: true, completion: {

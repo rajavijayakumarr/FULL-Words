@@ -23,6 +23,7 @@ class dashBoardViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.visibleViewController?.title = "Dashboard"
+        navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
 
     }
 
