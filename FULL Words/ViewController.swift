@@ -34,8 +34,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
 
-    @IBOutlet weak var continueButton: UIButton!
-    @IBOutlet weak var singnedInUserNameLabel: UILabel!
+
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet var loadingVIew: UIView!
     
@@ -45,18 +44,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         // Do any additional setup after loading the view, typically from a nib.
         let name = NSNotification.Name.init(rawValue: kCloseSafariViewControllerNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
-        continueButton.isHidden = true
-        singnedInUserNameLabel.isHidden = true
+
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        if userValues.bool(forKey: USER_LOGGED_IN) {
-            continueButton.isHidden = false
-            singnedInUserNameLabel.isHidden = false
-            singnedInUserNameLabel.text = userValues.value(forKey: USER_NAME) as? String
-        }
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
@@ -118,45 +111,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         self.safariViewController?.dismiss(animated: true, completion: {
             
         })
-    }
-    
-    @IBAction func continueButtonPressed(_ sender: UIButton) {
-        
-        showLoadingView()
-        changeLoadingLabel(lableToShowInLoading: "sending request to the server")
-        var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
-        
-        var data:Data = "refresh_token=\(userValues.value(forKey: ADAPTIVIEWU_REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-        data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
-        data.append("&client_secret=\(ADAPTIVEU_CLIENT_SECRET)".data(using: .utf8)!)
-        data.append("&grant_type=refresh_token".data(using: .utf8)!)
-        requestForGettingToken.httpBody = data
-        requestForGettingToken.httpMethod = "POST"
-        
-        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
-            if responseData.error == nil{
-                print(responseData)
-                var dataContainingTokens = JSON(responseData.data!)
-                let accessToken = dataContainingTokens["access_token"].stringValue
-                let tokenType = dataContainingTokens["token_type"].stringValue
-                self.changeLoadingLabel(lableToShowInLoading: "retrived the tokens")
-                
-                print("****************************************************************************************")
-                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
-                userValues.set(true, forKey: USER_LOGGED_IN)
-                
-                var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
-                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-                requestForGettingToken.httpMethod = "GET"
-                
-                self.changeLoadingLabel(lableToShowInLoading: "sending the tokens to retrive values")
-                
-                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
-                
-            }
-        }
     }
     
     func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String, request_For_Getting_Token requestForGettingTokens: URLRequest) -> Void {

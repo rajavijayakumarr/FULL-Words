@@ -10,8 +10,9 @@ import UIKit
 
 
 class settingsTableViewController: UITableViewController {
+    let VERSION_OF_THE_APPLICATION = "1.0"
     
-    let settingsMenu = ["Profile", "View Status", "Logout" ]
+    let settingsMenu = ["Profile", "No. Words to learn", "Version", "Logout"]
     
     var userName: String?
     var emailId: String?
@@ -20,8 +21,8 @@ class settingsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingstableviewcell")
-        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = UITableViewAutomaticDimension
         
     }
     
@@ -39,19 +40,46 @@ class settingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingsMenu.count
+        return 1
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingstableviewcell", for: indexPath)
-        cell.accessoryType = .disclosureIndicator
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! tableCell
+        
+        switch settingsMenu[indexPath.section] {
+        case "Logout":
+            cell.nameLabel.textColor = UIColor.red
+            cell.accessoryType = .disclosureIndicator
+            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.infoLabel.text = ""
+            
+        case "Profile":
+            cell.accessoryType = .none
+            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.infoLabel.text = emailId
+            
+            
+        case "Version":
+            cell.accessoryType = .none
+            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.infoLabel.text = VERSION_OF_THE_APPLICATION
+        case "No. Words to learn":
+            cell.accessoryType = .disclosureIndicator
+            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.infoLabel.text = ""
+
+        default:
+            break
+            
+        }
         cell.tag = indexPath.row
-        cell.textLabel?.text = settingsMenu[indexPath.item]
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.item {
+        switch indexPath.section {
             
         case 0:
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
@@ -62,15 +90,18 @@ class settingsTableViewController: UITableViewController {
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-            
         case 2:
+            if let selection: IndexPath = tableView.indexPathForSelectedRow{
+                tableView.deselectRow(at: selection, animated: true)
+            }
+        case 3:
             let alert = UIAlertController(title: "Confirmation!", message: "Are you sure?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: {_ in
                 if let selection: IndexPath = tableView.indexPathForSelectedRow{
                     tableView.deselectRow(at: selection, animated: true)
                 }
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Logout", comment: ""), style: .default, handler:{ _ in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Logout", comment: ""), style: .destructive, handler:{ _ in
                 
                 
                 userValues.set(nil, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
@@ -97,7 +128,20 @@ class settingsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return settingsMenu.count
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 
+}
+
+///custome table view cell for the version lable and the profile lable
+class tableCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
+    
 }

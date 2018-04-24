@@ -8,17 +8,77 @@
 
 import UIKit
 import CoreData
+import Alamofire
+import SwiftyJSON
 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var navigationController: UINavigationController?
+    var viewController: userPageTabController?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.        
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        if userValues.bool(forKey: USER_LOGGED_IN) {
+            
+            
+        viewController = userPageTabController()
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
+            viewController?.userName = userValues.value(forKey: USER_NAME) as? String
+            viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
+            if let viewController = viewController {
+                let newNavigationController = UINavigationController()
+                newNavigationController.navigationBar.backgroundColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+                newNavigationController.navigationBar.tintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+                newNavigationController.navigationBar.barTintColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+                newNavigationController.viewControllers = [viewController]
+                self.window?.rootViewController = newNavigationController
+                self.window?.makeKeyAndVisible()
+            }
+            
+            
+            
+        var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
+        
+        var data:Data = "refresh_token=\(userValues.value(forKey: ADAPTIVIEWU_REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(ADAPTIVEU_CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&grant_type=refresh_token".data(using: .utf8)!)
+        requestForGettingToken.httpBody = data
+        requestForGettingToken.httpMethod = "POST"
+        
+        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+            if responseData.error == nil{
+                print(responseData)
+                var dataContainingTokens = JSON(responseData.data!)
+                let accessToken = dataContainingTokens["access_token"].stringValue
+                let tokenType = dataContainingTokens["token_type"].stringValue
+                
+                print("****************************************************************************************")
+                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(true, forKey: USER_LOGGED_IN)
+                
+                var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+                requestForGettingToken.httpMethod = "GET"
+                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+                
+            }
+        }
+        
+    }
         return true
+}
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+      return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -56,6 +116,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
+    }
+    
+    //for autologin
+    
+    
+    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String, request_For_Getting_Token requestForGettingTokens: URLRequest) -> Void {
+        
+        var requestForGettingToken = requestForGettingTokens
+        
+        var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        requestForGettingToken.httpMethod = "GET"
+        
+        Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+            if responseData.error == nil {
+                var dataContainingUserDetails = JSON(responseData.data!)
+                print("****************************************************************************************")
+                let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
+                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
+                let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                print("****************************************************************************************")
+                print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
+                guard firstName != "" && lastName != "" && emailId != "" else {
+                    return
+                }
+                
+                
+                userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                userValues.set(emailId, forKey: EMAIL_ID)
+                userValues.set(true, forKey: USER_LOGGED_IN)
+
+               
+            }
+        }
     }
 
     // MARK: - Core Data stack

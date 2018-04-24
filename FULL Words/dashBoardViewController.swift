@@ -13,18 +13,14 @@ class dashBoardViewController: UIViewController {
     var userName: String?
     var emailId: String?
 
-    @IBOutlet weak var userNameLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        userNameLabel.text = userName
-        userNameLabel.numberOfLines = 3
-        userNameLabel.adjustsFontSizeToFitWidth = true
+//        userNameLabel.adjustsFontSizeToFitWidth = true
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.visibleViewController?.title = "Dashboard"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
-
     }
 
 }

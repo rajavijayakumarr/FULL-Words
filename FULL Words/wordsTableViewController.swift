@@ -28,6 +28,10 @@ class wordsTableViewController: UITableViewController {
         addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
     }
     
+    func add() {
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
          wordsOfUserValues = [WordsOfUserValues]()
@@ -61,7 +65,8 @@ class wordsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
         //do the additional setup here as to display the table view cells
         cell.addedWordLabel.text = wordsOfUserValues?[indexPath.item].addedWord
-        cell.addedByLabel.text = "addedBy: " + userName!
+        cell.addedBy = userName!
+        cell.sourceForTheWord = wordsOfUserValues?[indexPath.item].sourceOfTheWord
         cell.meaningLabel.text = wordsOfUserValues?[indexPath.item].wordMeaning
         return cell
     }
@@ -83,7 +88,7 @@ class wordsTableViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 112
+        return 60
     }
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
     }
@@ -97,9 +102,8 @@ class wordsTableViewController: UITableViewController {
 class AddedWordsCells: UITableViewCell {
     @IBOutlet weak var addedWordLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
-    @IBOutlet weak var addedByLabel: UILabel!
-    
-    
+    var addedBy: String?
+    var sourceForTheWord: String?
 }
 
 

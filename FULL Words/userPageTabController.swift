@@ -25,13 +25,14 @@ class userPageTabController: UITabBarController {
         
         let dashboard = self.viewControllers?.first as? dashBoardViewController
         let setting = self.viewControllers?.last as? settingsTableViewController
-        
         let wordsTable = self.viewControllers?[1] as? wordsTableViewController
+        
         if let userName = userName, let emailId = emailId {
              wordsTable?.userName = userName
             dashboard?.userName = userName
             dashboard?.emailId = emailId
             setting?.userName = userName
+            setting?.emailId = emailId
            
         }
     }
