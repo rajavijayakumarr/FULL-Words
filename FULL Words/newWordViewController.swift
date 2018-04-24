@@ -74,11 +74,6 @@ class newWordViewController: UIViewController {
         let userAndWordValues: [String: [Data]] = [userName!: jsonData!]
         userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
         print(userAndWordValues)
-//        let jsonDecoder = JSONDecoder()
-//        for jsonDataValues in jsonData! {
-//            let values = try? jsonDecoder.decode(WordsOfUserValues.self, from: jsonDataValues)
-//            print(values!)
-//        }
         
        } else {
             let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
@@ -90,14 +85,11 @@ class newWordViewController: UIViewController {
 
         }
         
-//        let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
-//        let userAndWordValues: [String: WordsOfUserValues] = [userName!: wordValuesOfTheUser]
-//        let jsonEncoder = JSONEncoder()
-//        let encodedData = try? jsonEncoder.encode(userAndWordValues)
-//        userValues.set(encodedData, forKey: WordsOfUserValues.NEW_WORDS_VALUES)
-        
-        
-        
+        let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
         
     }
 }

@@ -19,24 +19,32 @@ class wordsTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        wordsOfUserValues = [WordsOfUserValues]()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+       
         
+        
+        
+        addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+         wordsOfUserValues = [WordsOfUserValues]()
         if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
             guard userName != nil else {return}
             let jsonData = decodedValues[userName!]
             guard jsonData != nil else {return}
             let jsonDecoder = JSONDecoder()
             for data in jsonData!{
-               let valuesOfWords = try? jsonDecoder.decode(WordsOfUserValues.self, from: data)
+                let valuesOfWords = try? jsonDecoder.decode(WordsOfUserValues.self, from: data)
                 wordsOfUserValues?.append(valuesOfWords!)
             }
             
         }
-        
-        addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        if let selection: IndexPath = tableView.indexPathForSelectedRow{
+            tableView.deselectRow(at: selection, animated: true)
+        }
         navigationController?.visibleViewController?.title = "Added Words"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(addButtonBarButton, animated: false)
         tableView.reloadData()
@@ -70,6 +78,18 @@ class wordsTableViewController: UITableViewController {
 
         return wordsOfUserValues?.count ?? 0
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 112
+    }
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 
@@ -78,6 +98,7 @@ class AddedWordsCells: UITableViewCell {
     @IBOutlet weak var addedWordLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
     @IBOutlet weak var addedByLabel: UILabel!
+    
     
 }
 
