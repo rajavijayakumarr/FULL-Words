@@ -49,6 +49,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 

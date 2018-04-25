@@ -37,6 +37,7 @@
 		CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D93208888BE00C0377F /* settingsTableViewController.swift */; };
 		CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */; };
 		CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* newWordViewController.swift */; };
+		CEFF532B2090D147006FEB2C /* viewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
 		EC103F9DC4EC784EDB04CCC4 /* Pods_FULL_Words.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */; };
 /* End PBXBuildFile section */
@@ -102,6 +103,7 @@
 		CE610D93208888BE00C0377F /* settingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CD208C40C4001F2ABC /* newWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newWordViewController.swift; sourceTree = "<group>"; };
+		CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewWordsViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -190,6 +192,7 @@
 				CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */,
 				CE9724CD208C40C4001F2ABC /* newWordViewController.swift */,
 				CE550E20208F3B1400DA10DF /* learnViewController.swift */,
+				CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
 				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
 				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
@@ -467,6 +470,7 @@
 				CE610D92208880D800C0377F /* userPageTabController.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
 				CE610D902088808300C0377F /* dashBoardViewController.swift in Sources */,
+				CEFF532B2090D147006FEB2C /* viewWordsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

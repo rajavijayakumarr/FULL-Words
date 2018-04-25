@@ -17,6 +17,7 @@ class learnViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         self.navigationController?.visibleViewController?.navigationItem.title = "Learn"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
     }

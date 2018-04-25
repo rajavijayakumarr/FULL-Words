@@ -27,6 +27,7 @@ class settingsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         navigationController?.visibleViewController?.title = "Settings"
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)

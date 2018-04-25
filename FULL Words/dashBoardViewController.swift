@@ -19,6 +19,7 @@ class dashBoardViewController: UIViewController {
 //        userNameLabel.adjustsFontSizeToFitWidth = true
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         navigationController?.visibleViewController?.title = "Dashboard"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
     }

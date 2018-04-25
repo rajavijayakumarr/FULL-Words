@@ -28,12 +28,9 @@ class wordsTableViewController: UITableViewController {
         addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
     }
     
-    func add() {
-        
-    }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewDidAppear(true)
          wordsOfUserValues = [WordsOfUserValues]()
         if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
             guard userName != nil else {return}
@@ -64,10 +61,13 @@ class wordsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
         //do the additional setup here as to display the table view cells
-        cell.addedWordLabel.text = wordsOfUserValues?[indexPath.item].addedWord
+        cell.addedWordLabel.text = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
+        cell.addedWord = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
         cell.addedBy = userName!
         cell.sourceForTheWord = wordsOfUserValues?[indexPath.item].sourceOfTheWord
         cell.meaningLabel.text = wordsOfUserValues?[indexPath.item].wordMeaning
+        cell.meaningOfTheWord = wordsOfUserValues?[indexPath.item].wordMeaning
+        
         return cell
     }
     
@@ -90,11 +90,16 @@ class wordsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+//        tableView.deselectRow(at: indexPath, animated: true)
+        let wordsCell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
+  
+        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? viewWordsViewController
+        wordsViewController?.nameOfWord = wordsCell?.addedWord
+        wordsViewController?.meaningOfWord = wordsCell?.meaningOfTheWord
+        wordsViewController?.sourceOfWord = wordsCell?.sourceForTheWord
+        wordsViewController?.wordAddedBy = wordsCell?.addedBy
+        self.navigationController?.pushViewController(wordsViewController!, animated: true)    }
 }
 
 
@@ -102,8 +107,21 @@ class wordsTableViewController: UITableViewController {
 class AddedWordsCells: UITableViewCell {
     @IBOutlet weak var addedWordLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
+    var addedWord: String?
+    var meaningOfTheWord: String?
     var addedBy: String?
     var sourceForTheWord: String?
+}
+
+/// to capitalize the first string
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }
 
 
