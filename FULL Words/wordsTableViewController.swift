@@ -21,11 +21,9 @@ class wordsTableViewController: UITableViewController {
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
-       
-        
-        
-        
+
         addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
+        tableView.reloadData()
     }
     
     
@@ -46,9 +44,9 @@ class wordsTableViewController: UITableViewController {
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
+       
         navigationController?.visibleViewController?.title = "Added Words"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(addButtonBarButton, animated: false)
-        tableView.reloadData()
 
     }
 
@@ -60,7 +58,6 @@ class wordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        //do the additional setup here as to display the table view cells
         cell.addedWordLabel.text = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
         cell.addedWord = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
         cell.addedBy = userName!

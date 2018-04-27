@@ -8,34 +8,38 @@
 
 import UIKit
 
-class viewWordsViewController: UIViewController {
-    @IBOutlet weak var nameOfTheWordLabel: UILabel!
-    @IBOutlet weak var meaningOfTheWordLabel: UILabel!
-    @IBOutlet weak var sourceOfTheWordLabel: UILabel!
-    @IBOutlet weak var wordAddedByLabel: UILabel!
-    @IBOutlet weak var wordAndMeaningView: UIView!
-    @IBOutlet weak var sourceView: UIView!
-    @IBOutlet weak var wordAddedByView: UIView!
+class viewWordsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+   
+    
+    @IBOutlet weak var wordDetailsTableView: UITableView!
     var nameOfWord: String?
     var meaningOfWord: String?
     var sourceOfWord: String?
     var wordAddedBy: String?
 
+    var headingFotTheTableViewCells = ["", "Source:", "Added By:"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        wordDetailsTableView.rowHeight = UITableViewAutomaticDimension
+        wordDetailsTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        
+        headingFotTheTableViewCells.removeFirst()
+        headingFotTheTableViewCells.insert(nameOfWord ?? "", at: headingFotTheTableViewCells.startIndex)
+        wordDetailsTableView.delegate = self
+        wordDetailsTableView.dataSource = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        if let selection: IndexPath = wordDetailsTableView.indexPathForSelectedRow{
+            wordDetailsTableView.deselectRow(at: selection, animated: true)
+        }
         self.navigationController?.visibleViewController?.navigationItem.title = "Details of the word"
-        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
-        nameOfTheWordLabel.text = nameOfWord! + ":"
-        meaningOfTheWordLabel.text = meaningOfWord
-        sourceOfTheWordLabel.text = sourceOfWord
-        wordAddedByLabel.text = wordAddedBy
-        makeCornerRadiusAndDropShadowForAllTheSubView()
+    self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
     
     }
     
@@ -49,17 +53,58 @@ class viewWordsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func makeCornerRadiusAndDropShadowForAllTheSubView() {
-        
-        wordAndMeaningView.dropShadow(color: .black, opacity: 1, radius: 5)
-        sourceView.dropShadow(color: .black, opacity: 1, radius: 5)
-        wordAddedByView.dropShadow(color: .black, opacity: 1, radius: 5)
-
-        wordAndMeaningView.layer.cornerRadius = 25
-        sourceView.layer.cornerRadius = 25
-        wordAddedByView.layer.cornerRadius = 25
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return headingFotTheTableViewCells.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
+        cell?.viewForWordDetails.dropShadow(color: .black, opacity: 1, radius: 5)
+        cell?.viewForWordDetails.layer.cornerRadius = 25
+        cell?.contentLabel.text = "      "
+        switch headingFotTheTableViewCells[indexPath.section] {
+        case nameOfWord:
+            cell?.headingLabel.text = nameOfWord
+            cell?.contentLabel.text?.append(meaningOfWord ?? "")
+            
+        case "Source:":
+            cell?.headingLabel.text = "Source:"
+            cell?.contentLabel.text?.append(sourceOfWord ?? "")
+
+        case "Added By:":
+            cell?.headingLabel.text = "Added By:"
+            cell?.contentLabel.text?.append(wordAddedBy ?? "")
+
+        default:
+            break
+        }
+        
+        return cell!
+    }
+}
+
+///custome tableviewcell for this table view
+class WordDetailsTableViewCell: UITableViewCell {
+    // identifire: tableViewForWordDetails
+    @IBOutlet weak var viewForWordDetails: UIView!
+    @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
+    
 }
 
 ///to make a uiview drop a shadow in side bottom and top
