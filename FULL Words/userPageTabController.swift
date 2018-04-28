@@ -31,7 +31,7 @@ class userPageTabController: UITabBarController {
         if let userName = userName, let emailId = emailId {
             learnView?.userName = userName
             learnView?.emailId = emailId
-             wordsTable?.userName = userName
+            wordsTable?.userName = userName
             dashboard?.userName = userName
             dashboard?.emailId = emailId
             setting?.userName = userName

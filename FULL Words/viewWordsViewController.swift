@@ -73,6 +73,7 @@ class viewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
         cell?.viewForWordDetails.dropShadow(color: .black, opacity: 1, radius: 5)
         cell?.viewForWordDetails.layer.cornerRadius = 25

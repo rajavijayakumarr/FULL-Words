@@ -171,27 +171,26 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1b-QZ-b6x">
-                                                    <rect key="frame" x="8" y="8" width="398" height="42"/>
+                                                    <rect key="frame" x="8" y="8" width="398" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPB-Vi-dAO">
-                                                    <rect key="frame" x="43.000000000000007" y="54" width="65.666666666666686" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Meaning" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPB-Vi-dAO">
+                                                    <rect key="frame" x="43.000000000000007" y="45.333333333333336" width="65.666666666666686" height="20.333333333333336"/>
                                                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="sPB-Vi-dAO" secondAttribute="bottom" constant="17.666666666666671" id="6Gb-qr-v2R"/>
-                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="top" secondItem="a1b-QZ-b6x" secondAttribute="bottom" constant="4" id="D0S-RM-B2v"/>
-                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="top" secondItem="HC4-kT-7pF" secondAttribute="top" constant="8.3333333333332575" id="Fds-zs-wMT"/>
-                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="43" id="Jfy-t0-y1Q"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sPB-Vi-dAO" secondAttribute="trailing" constant="8" id="cCg-TZ-rMq"/>
-                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="centerY" secondItem="HC4-kT-7pF" secondAttribute="centerY" constant="-16.833333333333336" id="fz4-9P-tAa"/>
-                                                <constraint firstAttribute="trailing" secondItem="a1b-QZ-b6x" secondAttribute="trailing" constant="8" id="lWn-Ng-exn"/>
-                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="8" id="oUE-6h-5mH"/>
+                                                <constraint firstAttribute="bottom" secondItem="sPB-Vi-dAO" secondAttribute="bottom" constant="25.999999999999957" id="2CN-mD-NFH"/>
+                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="top" secondItem="HC4-kT-7pF" secondAttribute="top" constant="8" id="AiO-Bb-0mk"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sPB-Vi-dAO" secondAttribute="trailing" constant="8" id="PzR-Y2-fsT"/>
+                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="8" id="T6b-RP-fhV"/>
+                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="43" id="ZWV-34-UAm"/>
+                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="top" secondItem="a1b-QZ-b6x" secondAttribute="bottom" constant="7.3333333333333712" id="ebJ-X0-mdx"/>
+                                                <constraint firstAttribute="trailing" secondItem="a1b-QZ-b6x" secondAttribute="trailing" constant="8" id="fmd-SG-0nF"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -307,79 +306,12 @@
         <scene sceneID="D2D-Rn-HZd">
             <objects>
                 <viewController storyboardIdentifier="newwordviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c87-Ke-bZE" customClass="newWordViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="9Rm-R9-tRd">
+                    <view key="view" contentMode="scaleToFill" id="S0n-KL-lHi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqG-Hz-V3H">
-                                <rect key="frame" x="20" y="328" width="72" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Lf-tr-m5m">
-                                <rect key="frame" x="20" y="357" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" white="0.0" alpha="0.24978595889999999" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="c87-Ke-bZE" id="2jx-8v-BBv"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NAZ-s0-qxp">
-                                <rect key="frame" x="20" y="223" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.24743150680000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="c87-Ke-bZE" id="Emf-qH-V1e"/>
-                                </connections>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meaning:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7YM-5m-1aO">
-                                <rect key="frame" x="20" y="464" width="86" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0K-xV-gcX">
-                                <rect key="frame" x="20" y="194" width="56" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="cmi-12-40U">
-                                <rect key="frame" x="20" y="493" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
-                                        <color key="value" white="0.0" alpha="0.25136451199999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="c87-Ke-bZE" id="9uv-Hc-WMz"/>
-                                </connections>
-                            </textField>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1q4-2D-KLr">
+                            <navigationBar contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="rvL-bp-u7X">
                                 <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="barTintColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -387,35 +319,101 @@
                                     <color key="textShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Add Words" id="ViT-PZ-jy3">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="uhY-zV-PMi">
+                                    <navigationItem title="Add Words" id="unj-iT-y9c">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="0iS-v8-eL1">
                                             <connections>
-                                                <action selector="cancelButtonPressed:" destination="c87-Ke-bZE" id="2C8-Ty-hQu"/>
+                                                <action selector="cancelButtonPressed:" destination="c87-Ke-bZE" id="IMf-dQ-atX"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="QGi-A4-j2w">
+                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="PsJ-qe-0XM">
                                             <connections>
-                                                <action selector="saveButtonPressed:" destination="c87-Ke-bZE" id="8kn-h8-4sB"/>
+                                                <action selector="saveButtonPressed:" destination="c87-Ke-bZE" id="QSt-bq-XOU"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E1W-1f-ukn">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dje-cI-5nA">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lia-vg-QfY">
+                                        <rect key="frame" x="20" y="246" width="72" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FkN-B2-lV4">
+                                        <rect key="frame" x="20" y="275" width="374" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="0.24978595889999999" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Tl-Ad-N3k">
+                                        <rect key="frame" x="20" y="141" width="374" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.24743150680000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meaning:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsF-Xv-jeu">
+                                        <rect key="frame" x="20" y="382" width="86" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nN2-QH-7yd">
+                                        <rect key="frame" x="20" y="112" width="56" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" your answer" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="baX-0w-lq0">
+                                        <rect key="frame" x="20" y="411" width="374" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" smartInsertDeleteType="yes"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="0.25136451199999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <viewLayoutGuide key="safeArea" id="Usm-nJ-Rwz"/>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="sfd-VJ-duD"/>
-                    </scrollView>
+                        <color key="backgroundColor" red="0.12431897968053818" green="0.95806986093521118" blue="0.12663915753364563" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rvL-bp-u7X" firstAttribute="top" secondItem="YwM-cS-AA2" secondAttribute="top" id="bqu-hn-kiJ"/>
+                            <constraint firstItem="rvL-bp-u7X" firstAttribute="leading" secondItem="YwM-cS-AA2" secondAttribute="leading" id="knq-0G-cLy"/>
+                            <constraint firstItem="rvL-bp-u7X" firstAttribute="trailing" secondItem="YwM-cS-AA2" secondAttribute="trailing" id="syN-FB-FyI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="YwM-cS-AA2"/>
+                    </view>
                     <connections>
-                        <outlet property="meaningTextField" destination="cmi-12-40U" id="sMv-FH-pSn"/>
-                        <outlet property="navigationBarItem" destination="ViT-PZ-jy3" id="6jv-4k-AdY"/>
-                        <outlet property="newWordTextField" destination="NAZ-s0-qxp" id="PPF-6m-dTn"/>
-                        <outlet property="scrollView" destination="9Rm-R9-tRd" id="O97-d0-h63"/>
-                        <outlet property="sourceTextField" destination="2Lf-tr-m5m" id="ycT-NK-6V5"/>
+                        <outlet property="meaningTextField" destination="baX-0w-lq0" id="FwJ-f0-LJU"/>
+                        <outlet property="navigationBarItem" destination="unj-iT-y9c" id="yEE-Lf-nM2"/>
+                        <outlet property="navigationBarX" destination="rvL-bp-u7X" id="gmc-9P-dxM"/>
+                        <outlet property="newWordTextField" destination="2Tl-Ad-N3k" id="jN5-XJ-UoE"/>
+                        <outlet property="scrollView" destination="dje-cI-5nA" id="oqf-jd-0n0"/>
+                        <outlet property="sourceTextField" destination="FkN-B2-lV4" id="wkL-hW-4eE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9W-ym-2Ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -474,7 +472,39 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mA2-xY-gjh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1595.6521739130435" y="800.54347826086962"/>
+            <point key="canvasLocation" x="939" y="786"/>
+        </scene>
+        <!--To Select Number Of Words To Learn View Controller-->
+        <scene sceneID="pY2-No-mIQ">
+            <objects>
+                <viewController storyboardIdentifier="toSelectNoOfWordsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dnk-Zh-cef" customClass="toSelectNumberOfWordsToLearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D0q-P1-fpi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select the number of words you want to learn per day" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rlq-Bf-377">
+                                <rect key="frame" x="20" y="141" width="374" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CfE-a2-VgT">
+                                <rect key="frame" x="83" y="224" width="248" height="177"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wD5-ma-Eut"/>
+                    </view>
+                    <connections>
+                        <outlet property="pickerViewForDays" destination="CfE-a2-VgT" id="ee6-8H-u2J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CLB-Wh-vL7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1571.0144927536232" y="784.23913043478262"/>
         </scene>
         <!--Words Details-->
         <scene sceneID="jNQ-PC-j29">
@@ -551,7 +581,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwK-YW-qxz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2586.9565217391305" y="987.22826086956525"/>
+            <point key="canvasLocation" x="3261" y="991"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RY6-u1-EtH">

@@ -96,8 +96,11 @@ class wordsTableViewController: UITableViewController {
         wordsViewController?.meaningOfWord = wordsCell?.meaningOfTheWord
         wordsViewController?.sourceOfWord = wordsCell?.sourceForTheWord
         wordsViewController?.wordAddedBy = wordsCell?.addedBy
-        self.navigationController?.pushViewController(wordsViewController!, animated: true)    }
+        self.navigationController?.pushViewController(wordsViewController!, animated: true)
+        
+    }
 }
+
 
 
 /// class created for the custome cells in the table view

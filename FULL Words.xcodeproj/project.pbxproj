@@ -16,6 +16,7 @@
 		CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */; };
 		CE19227820874E8A000D7676 /* FULL_WordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19227720874E8A000D7676 /* FULL_WordsTests.swift */; };
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
+		CE3FA82220945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */; };
 		CE501DB5208DCECB007B2519 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = CE501DB4208DCECA007B2519 /* button.png */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
 		CE550E15208F37B900DA10DF /* settingsicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E11208F37B700DA10DF /* settingsicon@2x.png */; };
@@ -82,6 +83,7 @@
 		CE19227E20874E8A000D7676 /* FULL WordsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FULL WordsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FULL_WordsUITests.swift; sourceTree = "<group>"; };
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toSelectNumberOfWordsToLearnViewController.swift; sourceTree = "<group>"; };
 		CE501DB4208DCECA007B2519 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
 		CE550E11208F37B700DA10DF /* settingsicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsicon@2x.png"; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				CE9724CD208C40C4001F2ABC /* newWordViewController.swift */,
 				CE550E20208F3B1400DA10DF /* learnViewController.swift */,
 				CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */,
+				CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
 				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
 				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
@@ -462,6 +465,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
+				CE3FA82220945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift in Sources */,
 				CE550E21208F3B1400DA10DF /* learnViewController.swift in Sources */,
 				CE19226220874E88000D7676 /* ViewController.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */,

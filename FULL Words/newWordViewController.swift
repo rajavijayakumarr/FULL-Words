@@ -24,6 +24,7 @@ class newWordViewController: UIViewController {
     var activeTextField: UITextField?
     var userName: String?
     
+    @IBOutlet weak var navigationBarX: UINavigationBar!
     @IBOutlet weak var navigationBarItem: UINavigationItem!
     @IBOutlet weak var newWordTextField: UITextField!
     @IBOutlet weak var sourceTextField: UITextField!
@@ -32,6 +33,7 @@ class newWordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.hideKeyboardWhenTappedAround()
         self.registerForKeyBoardNotification()
         
@@ -41,7 +43,11 @@ class newWordViewController: UIViewController {
         meaningTextField.delegate = self
         
         
-        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -121,7 +127,7 @@ extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
 //        }
         // Do not add a line break
         textField.resignFirstResponder()
-        view.endEditing(true)
+//        view.endEditing(true)
         return false
     }
     
@@ -134,7 +140,6 @@ extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
     
     @objc func keyBoardWasShown(_ aNotification: Notification) {
         
-        self.scrollView.isScrollEnabled = true
         let userValueDictionary = aNotification.userInfo
         let CGSizeOfKeyboard = userValueDictionary![UIKeyboardFrameEndUserInfoKey] as? NSValue
         var backGroundRect = activeTextField?.superview?.frame
@@ -142,14 +147,15 @@ extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
             return
         }
 //        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (CGSizeOfKeyboard?.cgRectValue.size.height)!, right: 0.0)
-//
+
 //        scrollView.contentInset = contentInsets
 //        scrollView.scrollIndicatorInsets = contentInsets
-//        activeTextField?.frame.size
+//        scrollView.contentSize.height += (activeTextField?.bounds.size.height)!
+//        // activeTextField?.frame.size
 //
 //        var frame = self.view.frame
-//        frame.size.height -= (CGSizeOfKeyboard?.cgRectValue.size.height)!
-//        if !frame.contains((activeTextField?.frame.origin)!){
+//        frame.size.height += (CGSizeOfKeyboard?.cgRectValue.size.height)!
+//        if frame.contains((activeTextField?.frame.origin)!){
 //            self.scrollView.scrollRectToVisible((self.activeTextField?.frame)!, animated: true)
 //
 //        }
@@ -164,7 +170,8 @@ extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
         let contentInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
-        scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.origin.x, y: self.scrollView.frame.origin.y), animated: true)
+        scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.origin.x, y: self.scrollView.frame.origin.y - 40), animated: false)
+        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

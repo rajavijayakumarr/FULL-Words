@@ -16,6 +16,8 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var userName: String?
     var emailId: String?
     
+    var numberOfWordsToLearn: WordsToLearnPerDay?
+    
     var example1 = ["datasource", "delegate", "meaning", "strong", "volatile"]
     var example2 = ["animal", "bird", "insect", "plants", "humans"]
     var example3 = ["four legs", "two legs", "multiple legs", "one leg", "two legs"]
@@ -29,10 +31,10 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         wordAndMeaningTableView.delegate = self
         wordAndMeaningTableView.dataSource = self
         
-        self.wordTableView.estimatedRowHeight = 50
+        self.wordTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.wordTableView.rowHeight = UITableViewAutomaticDimension
         
-        self.wordAndMeaningTableView.estimatedRowHeight = 92
+        self.wordAndMeaningTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.wordAndMeaningTableView.rowHeight = UITableViewAutomaticDimension
         
         
@@ -56,6 +58,15 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidAppear(true)
         self.navigationController?.visibleViewController?.navigationItem.title = "Learn"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
+        numberOfWordsToLearn = WordsToLearnPerDay(rawValue: (userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) != 0 ? userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) : 2))
+        print(numberOfWordsToLearn as Any)
+        wordTableView.reloadData()
+        wordAndMeaningTableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+
     }
     
     
@@ -66,7 +77,8 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return wordsOfUserValues?.count ?? 0
+      //  return wordsOfUserValues?.count ?? 0
+        return numberOfWordsToLearn?.rawValue ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

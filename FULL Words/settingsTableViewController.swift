@@ -82,20 +82,20 @@ class settingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
             
-        case 0:
-            if let selection: IndexPath = tableView.indexPathForSelectedRow{
-            tableView.deselectRow(at: selection, animated: true)
-            }
-           
-        case 1:
+        case 0:                                  //profile
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-        case 2:
+
+        case 1:                                  //No. Words to learn
+            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "toSelectNoOfWordsController") as? toSelectNumberOfWordsToLearnViewController
+            self.navigationController?.pushViewController(myVC!, animated: true)
+            
+        case 2:                                  //Version
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-        case 3:
+        case 3:                                  //Logout
             let alert = UIAlertController(title: "Confirmation!", message: "Are you sure?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: {_ in
                 if let selection: IndexPath = tableView.indexPathForSelectedRow{
