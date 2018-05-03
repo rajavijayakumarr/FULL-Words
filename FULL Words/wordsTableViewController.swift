@@ -37,6 +37,7 @@ class wordsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
          wordsOfUserValues = [WordsOfUserValues]()
         if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
             guard userName != nil else {return}
