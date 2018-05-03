@@ -119,80 +119,106 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gBc-tU-WqH">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gBc-tU-WqH">
                                 <rect key="frame" x="0.0" y="115" width="414" height="258"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92148786780000003" green="0.92162030939999995" blue="0.92145878079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="wordThatHasToBeLearned" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordThatHasToBeLearned" rowHeight="50" id="2fR-1Y-VZ1" customClass="WordsToLearnCell" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="wordThatHasToBeLearned" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordThatHasToBeLearned" rowHeight="80" id="2fR-1Y-VZ1" customClass="WordsToLearnCell" customModule="FULL_Words" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2fR-1Y-VZ1" id="wFt-Nr-aR4">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="49.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6CP-Np-318">
-                                                    <rect key="frame" x="20" y="11" width="374" height="28"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="63V-5T-PpS">
+                                                    <rect key="frame" x="13" y="5" width="388" height="70"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ncn-mH-Xgh">
+                                                            <rect key="frame" x="8" y="8" width="380" height="54"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="Ncn-mH-Xgh" firstAttribute="leading" secondItem="63V-5T-PpS" secondAttribute="leading" constant="8" id="aOh-3A-OY2"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Ncn-mH-Xgh" secondAttribute="bottom" constant="7.6699999999999999" id="wDa-WY-5nO"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Ncn-mH-Xgh" secondAttribute="trailing" id="yBi-qR-EuB"/>
+                                                        <constraint firstItem="Ncn-mH-Xgh" firstAttribute="top" secondItem="63V-5T-PpS" secondAttribute="top" constant="8" id="ySp-Kl-Ev1"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6CP-Np-318" firstAttribute="trailing" secondItem="wFt-Nr-aR4" secondAttribute="trailingMargin" id="55H-V1-mzZ"/>
-                                                <constraint firstItem="6CP-Np-318" firstAttribute="bottom" secondItem="wFt-Nr-aR4" secondAttribute="bottomMargin" id="AcU-j8-DOs"/>
-                                                <constraint firstItem="6CP-Np-318" firstAttribute="top" secondItem="wFt-Nr-aR4" secondAttribute="topMargin" id="O43-PZ-h89"/>
-                                                <constraint firstItem="6CP-Np-318" firstAttribute="leading" secondItem="wFt-Nr-aR4" secondAttribute="leadingMargin" id="dTp-SY-IW9"/>
+                                                <constraint firstItem="63V-5T-PpS" firstAttribute="top" secondItem="wFt-Nr-aR4" secondAttribute="top" constant="5" id="IaH-2U-2lC"/>
+                                                <constraint firstAttribute="trailing" secondItem="63V-5T-PpS" secondAttribute="trailing" constant="13" id="Jv3-7d-tcH"/>
+                                                <constraint firstItem="63V-5T-PpS" firstAttribute="leading" secondItem="wFt-Nr-aR4" secondAttribute="leading" constant="13" id="U08-RD-ivC"/>
+                                                <constraint firstAttribute="bottom" secondItem="63V-5T-PpS" secondAttribute="bottom" constant="5" id="c9S-eo-9vk"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="wordThatHasMeaningLabel" destination="6CP-Np-318" id="vKU-xl-az0"/>
+                                            <outlet property="wordThatHasMeaningLabel" destination="Ncn-mH-Xgh" id="IHL-bB-qc7"/>
+                                            <outlet property="wordThatHasMeaningView" destination="63V-5T-PpS" id="BwS-Cn-am8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7Va-Yz-siR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7Va-Yz-siR">
                                 <rect key="frame" x="0.0" y="427" width="414" height="260"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92148786780000003" green="0.92162030939999995" blue="0.92145878079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="wordsThatAreLearned" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsThatAreLearned" rowHeight="92" id="ep3-y4-3Ls" customClass="LearnedWordsCell" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="92"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="wordsThatAreLearned" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsThatAreLearned" rowHeight="100" id="ep3-y4-3Ls" customClass="LearnedWordsCell" customModule="FULL_Words" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ep3-y4-3Ls" id="HC4-kT-7pF">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="91.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1b-QZ-b6x">
-                                                    <rect key="frame" x="8" y="8" width="398" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Meaning" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPB-Vi-dAO">
-                                                    <rect key="frame" x="43.000000000000007" y="45.333333333333336" width="65.666666666666686" height="20.333333333333336"/>
-                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHh-Dr-ytX">
+                                                    <rect key="frame" x="8" y="10" width="398" height="78"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbJ-VH-KhM">
+                                                            <rect key="frame" x="8" y="0.0" width="358" height="26.333333333333332"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSe-ev-x86">
+                                                            <rect key="frame" x="8" y="28.333333333333336" width="358" height="21.666666666666664"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="sbJ-VH-KhM" secondAttribute="trailing" constant="32" id="MEj-K9-kxn"/>
+                                                        <constraint firstItem="ZSe-ev-x86" firstAttribute="leading" secondItem="sHh-Dr-ytX" secondAttribute="leading" constant="8" id="Rzt-HE-Tx6"/>
+                                                        <constraint firstItem="sbJ-VH-KhM" firstAttribute="leading" secondItem="sHh-Dr-ytX" secondAttribute="leading" constant="8" id="bWf-pD-gvn"/>
+                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ZSe-ev-x86" secondAttribute="trailing" constant="32" id="ckI-8j-W9a"/>
+                                                        <constraint firstItem="ZSe-ev-x86" firstAttribute="top" secondItem="sbJ-VH-KhM" secondAttribute="bottom" constant="2.0000000000000036" id="gF1-FI-Zqi"/>
+                                                        <constraint firstItem="sbJ-VH-KhM" firstAttribute="top" secondItem="sHh-Dr-ytX" secondAttribute="top" id="nd7-BJ-r92"/>
+                                                        <constraint firstAttribute="bottom" secondItem="ZSe-ev-x86" secondAttribute="bottom" constant="28" id="vQ6-qc-2Lb"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="sPB-Vi-dAO" secondAttribute="bottom" constant="25.999999999999957" id="2CN-mD-NFH"/>
-                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="top" secondItem="HC4-kT-7pF" secondAttribute="top" constant="8" id="AiO-Bb-0mk"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sPB-Vi-dAO" secondAttribute="trailing" constant="8" id="PzR-Y2-fsT"/>
-                                                <constraint firstItem="a1b-QZ-b6x" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="8" id="T6b-RP-fhV"/>
-                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leading" constant="43" id="ZWV-34-UAm"/>
-                                                <constraint firstItem="sPB-Vi-dAO" firstAttribute="top" secondItem="a1b-QZ-b6x" secondAttribute="bottom" constant="7.3333333333333712" id="ebJ-X0-mdx"/>
-                                                <constraint firstAttribute="trailing" secondItem="a1b-QZ-b6x" secondAttribute="trailing" constant="8" id="fmd-SG-0nF"/>
+                                                <constraint firstItem="sHh-Dr-ytX" firstAttribute="bottom" secondItem="HC4-kT-7pF" secondAttribute="bottomMargin" constant="-1" id="72c-TS-99l"/>
+                                                <constraint firstItem="sHh-Dr-ytX" firstAttribute="leading" secondItem="HC4-kT-7pF" secondAttribute="leadingMargin" constant="-12" id="Muo-j4-8At"/>
+                                                <constraint firstItem="sHh-Dr-ytX" firstAttribute="top" secondItem="HC4-kT-7pF" secondAttribute="topMargin" constant="-1" id="VEw-Ls-qpr"/>
+                                                <constraint firstItem="sHh-Dr-ytX" firstAttribute="trailing" secondItem="HC4-kT-7pF" secondAttribute="trailingMargin" constant="12" id="WZw-mD-QsE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="meaningLabel" destination="sPB-Vi-dAO" id="xgG-OT-rOC"/>
-                                            <outlet property="wordThatHasMeaningLabel" destination="a1b-QZ-b6x" id="hlb-k9-Hjm"/>
+                                            <outlet property="learnedWordsView" destination="sHh-Dr-ytX" id="ha8-fs-fdp"/>
+                                            <outlet property="meaningLabel" destination="ZSe-ev-x86" id="mlm-tk-cBu"/>
+                                            <outlet property="wordThatHasMeaningLabel" destination="sbJ-VH-KhM" id="XLG-aI-jBd"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -248,8 +274,8 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8V6-VO-4qk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.92148786780000003" green="0.92162030939999995" blue="0.92145878079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="separatorColor" red="0.92148786780000003" green="0.92162030939999995" blue="0.92145878079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="separatorColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" restorationIdentifier="wordsofthetableviewcells" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsofthetableviewcells" rowHeight="105" id="r3G-3W-Et5" customClass="AddedWordsCells" customModule="FULL_Words" customModuleProvider="target">

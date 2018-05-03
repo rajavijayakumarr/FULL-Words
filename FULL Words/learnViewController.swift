@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class learnViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -18,11 +19,7 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var numberOfWordsToLearn: WordsToLearnPerDay?
     
-    var example1 = ["datasource", "delegate", "meaning", "strong", "volatile"]
-    var example2 = ["animal", "bird", "insect", "plants", "humans"]
-    var example3 = ["four legs", "two legs", "multiple legs", "one leg", "two legs"]
-    
-    var wordsOfUserValues: [WordsOfUserValues]?
+    var wordsOfUserValues = [WordDetails]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,19 +34,6 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.wordAndMeaningTableView.estimatedRowHeight = UITableViewAutomaticDimension
         self.wordAndMeaningTableView.rowHeight = UITableViewAutomaticDimension
         
-        
-        wordsOfUserValues = [WordsOfUserValues]()
-        if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
-            guard userName != nil else {return}
-            let jsonData = decodedValues[userName!]
-            guard jsonData != nil else {return}
-            let jsonDecoder = JSONDecoder()
-            for data in jsonData!{
-                let valuesOfWords = try? jsonDecoder.decode(WordsOfUserValues.self, from: data)
-                wordsOfUserValues?.append(valuesOfWords!)
-            }
-            
-        }
 
         // Do any additional setup after loading the view.
     }
@@ -60,6 +44,14 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
         numberOfWordsToLearn = WordsToLearnPerDay(rawValue: (userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) != 0 ? userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) : 2))
         print(numberOfWordsToLearn as Any)
+        
+        let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
+        do {
+            wordsOfUserValues = try PersistenceService.context.fetch(fetchRequest)
+        }catch {
+            
+        }
+        
         wordTableView.reloadData()
         wordAndMeaningTableView.reloadData()
     }
@@ -77,7 +69,8 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfWordsToLearn?.rawValue ?? 0
+//        return numberOfWordsToLearn?.rawValue ?? 0
+        return ((numberOfWordsToLearn?.rawValue)! <= wordsOfUserValues.count ? (numberOfWordsToLearn?.rawValue)!: wordsOfUserValues.count)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -90,7 +83,24 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return 1
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        
+        if tableView == self.wordTableView {
+          //  let wordsCell = tableView.cellForRow(at: indexPath) as? WordsToLearnCell
+            
+            
+        } else if tableView == self.wordAndMeaningTableView {
+            let learnedWordCell = tableView.cellForRow(at: indexPath) as? LearnedWordsCell
+            
+            let viewWordsController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? viewWordsViewController
+            viewWordsController?.nameOfWord = learnedWordCell?.wordThatHasMeaning
+            viewWordsController?.meaningOfWord = learnedWordCell?.meaningOfWord
+            viewWordsController?.sourceOfWord = learnedWordCell?.sourceOfWord
+            viewWordsController?.wordAddedBy = userName
+            self.navigationController?.pushViewController(viewWordsController!, animated: true)
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -98,14 +108,22 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if tableView == self.wordTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "wordThatHasToBeLearned", for: indexPath) as? WordsToLearnCell
-            cell?.wordThatHasMeaningLabel.text = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
+            cell?.wordThatHasMeaningLabel.text = wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+            cell?.wordThatHasMeaningView.layer.cornerRadius = 5
+            cell?.wordThatHasMeaningView.dropShadow(color: .black)
             return cell!
         }
         
        else if tableView == self.wordAndMeaningTableView {
             let cell2 = tableView.dequeueReusableCell(withIdentifier: "wordsThatAreLearned", for: indexPath) as? LearnedWordsCell
-            cell2?.meaningLabel.text = wordsOfUserValues?[indexPath.item].wordMeaning
-            cell2?.wordThatHasMeaningLabel.text = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
+            cell2?.meaningLabel.text = "      " + wordsOfUserValues[indexPath.item].meaningOfWord!
+            cell2?.wordThatHasMeaningLabel.text =  wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+            cell2?.learnedWordsView.layer.cornerRadius = 5
+            cell2?.learnedWordsView.dropShadow(color: .black)
+            
+            cell2?.meaningOfWord = wordsOfUserValues[indexPath.item].meaningOfWord
+            cell2?.wordThatHasMeaning = wordsOfUserValues[indexPath.item].nameOfWord
+            cell2?.sourceOfWord = wordsOfUserValues[indexPath.item].sourceOfWord
             return cell2!
 
         }
@@ -116,11 +134,17 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
 class WordsToLearnCell: UITableViewCell {
     @IBOutlet weak var wordThatHasMeaningLabel: UILabel!
+    @IBOutlet weak var wordThatHasMeaningView: UIView!
     
 }
 
 class LearnedWordsCell: UITableViewCell {
     @IBOutlet weak var wordThatHasMeaningLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
+    @IBOutlet weak var learnedWordsView: UIView!
+    
+    var meaningOfWord: String?
+    var wordThatHasMeaning: String?
+    var sourceOfWord: String?
     
 }

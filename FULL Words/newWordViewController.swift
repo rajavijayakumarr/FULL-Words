@@ -8,15 +8,6 @@
 
 import UIKit
 
-struct WordsOfUserValues: Codable {
-    var addedWord: String
-    var wordMeaning: String
-    var sourceOfTheWord: String
-    
-   static let NEW_WORDS_VALUES = "NEW_WORDS_VALUES"
-   static let NEW_WORDS_VALUES_forNSKeyArchiever = "NEW_WORDS_VALUES_forNSKeyArchiever"
-}
-
 class newWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
@@ -67,37 +58,15 @@ class newWordViewController: UIViewController {
         let addedWord = newWordTextField.text!
         let wordMeaning = meaningTextField.text!
         let sourceOfTheWord = sourceTextField.text!
-        // added to the nsuserdefaults from here delete and modify it when using the server
         
-       if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
-        guard userName != nil else {return}
-        var jsonData = decodedValues[userName!]
-        guard jsonData != nil else {return}
-        let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
-        let jsonEncoder = JSONEncoder()
-        let wordValuesToData = try? jsonEncoder.encode(wordValuesOfTheUser)
-        guard let bool = (jsonData?.contains(wordValuesToData!)), !bool else {
-            
-            let alert = UIAlertController(title: "Word already exists", message: "Try another word", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-            return
-        }
-        jsonData?.append(wordValuesToData!)
-        let userAndWordValues: [String: [Data]] = [userName!: jsonData!]
-        userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
-        print(userAndWordValues)
-        
-       } else {
-            let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
-            let jsonEncoder = JSONEncoder()
-            let wordValuesToData = try? jsonEncoder.encode(wordValuesOfTheUser)
-            let userAndWordValues: [String: [Data]] = [userName!: [wordValuesToData!]]
-            userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
-        print(userAndWordValues)
-
-        }
+        let date = Date()
+        let wordsDetails = WordDetails(context: PersistenceService.context)
+        wordsDetails.dateAdded = date as NSDate
+        wordsDetails.wordAddedBy = userName
+        wordsDetails.nameOfWord = addedWord
+        wordsDetails.meaningOfWord = wordMeaning
+        wordsDetails.sourceOfWord = sourceOfTheWord
+        PersistenceService.saveContext()
         
         let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in

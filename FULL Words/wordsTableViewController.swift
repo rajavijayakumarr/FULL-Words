@@ -7,14 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 
 class wordsTableViewController: UITableViewController {
     
-//    var addButtonBarButton: UIBarButtonItem!
     var addButtonUIButton: UIButton!
     var userName: String?
-    var wordsOfUserValues: [WordsOfUserValues]?
+    var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
 
     override func viewDidLoad() {
@@ -24,7 +24,6 @@ class wordsTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
 
- //       addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
         let name = NSNotification.Name.init(rawValue: newWOrdAdded)
         NotificationCenter.default.addObserver(self, selector: #selector(self.newWordAdded), name: name, object: nil)
         addButtonCustomization()
@@ -38,23 +37,18 @@ class wordsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-         wordsOfUserValues = [WordsOfUserValues]()
-        if let decodedValues = userValues.value(forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!) as? Dictionary<String, [Data]>{
-            guard userName != nil else {return}
-            let jsonData = decodedValues[userName!]
-            guard jsonData != nil else {return}
-            let jsonDecoder = JSONDecoder()
-            for data in jsonData!{
-                let valuesOfWords = try? jsonDecoder.decode(WordsOfUserValues.self, from: data)
-                wordsOfUserValues?.append(valuesOfWords!)
-            }
+        let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
+        do {
+           wordsOfUserValues = try PersistenceService.context.fetch(fetchRequest)
+        } catch {
+            
         }
         
+  
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
         navigationController?.visibleViewController?.title = "Words"
-   //     navigationController?.visibleViewController?.navigationItem.setRightBarButton(addButtonBarButton, animated: false)
         
         let window = UIApplication.shared.keyWindow
         window?.addSubview(addButtonUIButton)
@@ -82,17 +76,15 @@ class wordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.addedWordLabel.text = wordsOfUserValues?[indexPath.section].addedWord.capitalizingFirstLetter()
-        
-        cell.addedWord = wordsOfUserValues?[indexPath.section].addedWord.capitalizingFirstLetter()
+        cell.addedWordLabel.text = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
+        cell.addedWord = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
         cell.addedBy = userName!
         cell.viewOfAddedWordsCell.layer.cornerRadius = 5
         cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 1, radius: 2)
-        cell.sourceForTheWord = wordsOfUserValues?[indexPath.section].sourceOfTheWord
-        cell.meaningLabel.text = "      " + (wordsOfUserValues?[indexPath.section].wordMeaning ?? "")
         
-        cell.meaningOfTheWord = wordsOfUserValues?[indexPath.section].wordMeaning
-        
+        cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
+        cell.meaningLabel.text = "      " + (wordsOfUserValues[indexPath.section].meaningOfWord ?? "")
+        cell.meaningOfTheWord = wordsOfUserValues[indexPath.section].meaningOfWord
         return cell
     }
     
@@ -100,7 +92,7 @@ class wordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return wordsOfUserValues?.count ?? 0
+        return wordsOfUserValues.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
