@@ -11,9 +11,11 @@ import UIKit
 
 class wordsTableViewController: UITableViewController {
     
-    var addButtonBarButton: UIBarButtonItem!
+//    var addButtonBarButton: UIBarButtonItem!
+    var addButtonUIButton: UIButton!
     var userName: String?
     var wordsOfUserValues: [WordsOfUserValues]?
+    let newWOrdAdded = "newWordAddedForWOrds"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +24,14 @@ class wordsTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
 
-        addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
-        tableView.reloadData()
+ //       addButtonBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonPressed))
+        let name = NSNotification.Name.init(rawValue: newWOrdAdded)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.newWordAdded), name: name, object: nil)
+        addButtonCustomization()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        addButtonUIButton.removeFromSuperview()
     }
     
     
@@ -39,15 +47,30 @@ class wordsTableViewController: UITableViewController {
                 let valuesOfWords = try? jsonDecoder.decode(WordsOfUserValues.self, from: data)
                 wordsOfUserValues?.append(valuesOfWords!)
             }
-            
         }
+        
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
-       
-        navigationController?.visibleViewController?.title = "Added Words"
-        navigationController?.visibleViewController?.navigationItem.setRightBarButton(addButtonBarButton, animated: false)
+        navigationController?.visibleViewController?.title = "Words"
+   //     navigationController?.visibleViewController?.navigationItem.setRightBarButton(addButtonBarButton, animated: false)
+        
+        let window = UIApplication.shared.keyWindow
+        window?.addSubview(addButtonUIButton)
 
+    }
+    
+    func addButtonCustomization() {
+        addButtonUIButton = UIButton(type: .custom)
+        addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 3/4, y: self.view.frame.maxY * 3/4, width: 50, height: 50)
+        addButtonUIButton.tintColor = UIColor.red
+        addButtonUIButton.layer.backgroundColor = UIColor.red.cgColor
+        addButtonUIButton.layer.cornerRadius = addButtonUIButton.frame.width / 2
+        addButtonUIButton.clipsToBounds = true
+        addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        addButtonUIButton.titleLabel?.font = UIFont.init(name: "AvenirNext-UltraLightItalic", size: 50)
+        addButtonUIButton.setTitle("+", for: UIControlState.normal)
+        addButtonUIButton.addTarget(self, action: #selector(addButtonPressed), for: UIControlEvents.touchUpInside)
     }
 
     @objc func addButtonPressed(){
@@ -58,12 +81,16 @@ class wordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.addedWordLabel.text = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
-        cell.addedWord = wordsOfUserValues?[indexPath.item].addedWord.capitalizingFirstLetter()
+        cell.addedWordLabel.text = wordsOfUserValues?[indexPath.section].addedWord.capitalizingFirstLetter()
+        
+        cell.addedWord = wordsOfUserValues?[indexPath.section].addedWord.capitalizingFirstLetter()
         cell.addedBy = userName!
-        cell.sourceForTheWord = wordsOfUserValues?[indexPath.item].sourceOfTheWord
-        cell.meaningLabel.text = wordsOfUserValues?[indexPath.item].wordMeaning
-        cell.meaningOfTheWord = wordsOfUserValues?[indexPath.item].wordMeaning
+        cell.viewOfAddedWordsCell.layer.cornerRadius = 5
+        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 1, radius: 2)
+        cell.sourceForTheWord = wordsOfUserValues?[indexPath.section].sourceOfTheWord
+        cell.meaningLabel.text = "      " + (wordsOfUserValues?[indexPath.section].wordMeaning ?? "")
+        
+        cell.meaningOfTheWord = wordsOfUserValues?[indexPath.section].wordMeaning
         
         return cell
     }
@@ -72,13 +99,13 @@ class wordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return wordsOfUserValues?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 
-        return wordsOfUserValues?.count ?? 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -101,12 +128,19 @@ class wordsTableViewController: UITableViewController {
     }
 }
 
+extension wordsTableViewController {
+    @objc func newWordAdded() {
+        tableView.reloadData()
+    }
+}
+
 
 
 /// class created for the custome cells in the table view
 class AddedWordsCells: UITableViewCell {
     @IBOutlet weak var addedWordLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
+    @IBOutlet weak var viewOfAddedWordsCell: UIView!
     var addedWord: String?
     var meaningOfTheWord: String?
     var addedBy: String?
@@ -122,6 +156,7 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+    
 }
 
 

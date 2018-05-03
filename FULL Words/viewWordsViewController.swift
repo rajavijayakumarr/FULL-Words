@@ -38,7 +38,8 @@ class viewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         if let selection: IndexPath = wordDetailsTableView.indexPathForSelectedRow{
             wordDetailsTableView.deselectRow(at: selection, animated: true)
         }
-        self.navigationController?.visibleViewController?.navigationItem.title = "Details of the word"
+        wordDetailsTableView.reloadData()
+        self.navigationController?.visibleViewController?.navigationItem.title = "Word Details"
     self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
     
     }
@@ -75,17 +76,22 @@ class viewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
-        cell?.viewForWordDetails.dropShadow(color: .black, opacity: 1, radius: 5)
-        cell?.viewForWordDetails.layer.cornerRadius = 25
+        cell?.viewForWordDetails.dropShadow(color: .black, opacity: 1, radius: 2)
+        cell?.viewForWordDetails.layer.cornerRadius = 5
         cell?.contentLabel.text = "      "
         switch headingFotTheTableViewCells[indexPath.section] {
         case nameOfWord:
             cell?.headingLabel.text = nameOfWord
+            
             cell?.contentLabel.text?.append(meaningOfWord ?? "")
             
         case "Source:":
             cell?.headingLabel.text = "Source:"
             cell?.contentLabel.text?.append(sourceOfWord ?? "")
+            let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(longPressGestureRecognizer:)))
+            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
+            cell?.contentLabel.isUserInteractionEnabled = true
+            cell?.contentLabel.becomeFirstResponder()
 
         case "Added By:":
             cell?.headingLabel.text = "Added By:"
@@ -97,7 +103,18 @@ class viewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         return cell!
     }
+    
+    @objc private func longPressLabel (longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        if longPressGestureRecognizer.state == .began {
+            print("long press began")
+            
+        } else if longPressGestureRecognizer.state == .ended {
+            print("long press ended")
+        }
+        
+    }
 }
+
 
 ///custome tableviewcell for this table view
 class WordDetailsTableViewCell: UITableViewCell {
@@ -116,7 +133,8 @@ extension UIView {
         layer.shadowColor = color.cgColor
         layer.shadowOpacity = opacity
 //        layer.shadowOffset = CGSize.zero
-        layer.shadowOffset = CGSize(width: 3, height: 3)
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = radius
     }
 }
+

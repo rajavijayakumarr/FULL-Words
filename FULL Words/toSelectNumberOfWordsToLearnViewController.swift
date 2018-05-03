@@ -30,7 +30,7 @@ class toSelectNumberOfWordsToLearnViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.visibleViewController?.navigationItem.title = "Number of Words to learn"
+        self.navigationController?.visibleViewController?.navigationItem.title = "Words to Learn"
         
         if let index = daysForPickerView.index(of: String(userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN))) {
         pickerViewForDays.selectRow(index, inComponent: 0, animated: true)

@@ -16,6 +16,7 @@ class settingsTableViewController: UITableViewController {
     
     var userName: String?
     var emailId: String?
+    var pickedDaysToLearn: Int = 2
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,9 @@ class settingsTableViewController: UITableViewController {
             tableView.deselectRow(at: selection, animated: true)
         }
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
+        pickedDaysToLearn = userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN)
+        tableView.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +71,7 @@ class settingsTableViewController: UITableViewController {
             cell.infoLabel.text = VERSION_OF_THE_APPLICATION
         case "No. Words to learn":
             cell.accessoryType = .disclosureIndicator
-            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.nameLabel.text = settingsMenu[indexPath.section] + ": " + String(pickedDaysToLearn)
             cell.infoLabel.text = ""
 
         default:

@@ -19,7 +19,7 @@ struct WordsOfUserValues: Codable {
 
 class newWordViewController: UIViewController {
     
-    
+    let newWOrdAdded = "newWordAddedForWOrds"
     
     var activeTextField: UITextField?
     var userName: String?
@@ -76,6 +76,14 @@ class newWordViewController: UIViewController {
         let wordValuesOfTheUser = WordsOfUserValues(addedWord: addedWord, wordMeaning: wordMeaning, sourceOfTheWord: sourceOfTheWord)
         let jsonEncoder = JSONEncoder()
         let wordValuesToData = try? jsonEncoder.encode(wordValuesOfTheUser)
+        guard let bool = (jsonData?.contains(wordValuesToData!)), !bool else {
+            
+            let alert = UIAlertController(title: "Word already exists", message: "Try another word", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+            return
+        }
         jsonData?.append(wordValuesToData!)
         let userAndWordValues: [String: [Data]] = [userName!: jsonData!]
         userValues.set(userAndWordValues, forKey: WordsOfUserValues.NEW_WORDS_VALUES + userName!)
@@ -93,7 +101,13 @@ class newWordViewController: UIViewController {
         
         let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            self.dismiss(animated: true, completion: nil)
+
+            self.dismiss(animated: true, completion: {
+                let name = NSNotification.Name.init(self.newWOrdAdded)
+                NotificationCenter.default.post(name: name, object: nil)
+            })
+          
+            
         }))
         self.present(alert, animated: true, completion: nil)
         

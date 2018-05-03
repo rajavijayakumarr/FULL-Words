@@ -77,7 +77,6 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      //  return wordsOfUserValues?.count ?? 0
         return numberOfWordsToLearn?.rawValue ?? 0
     }
     
