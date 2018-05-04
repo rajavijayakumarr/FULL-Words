@@ -8,38 +8,62 @@
 
 import UIKit
 
+let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
+let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
+
 class newWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
+    let wordCell = WordTableViewCell()
+    let meaningCell = MeaningTableViewCell()
+    let sourceCell = SourceTableViewCell()
     
+    static var nameOfTheWord: String? = ""
+    static var meaningOfTheWord: String? = ""
+    static var sourceOfTheWord: String? = ""
+    
+    @IBOutlet weak var addWordsTableView: UITableView!
     var activeTextField: UITextField?
     var userName: String?
     
     @IBOutlet weak var navigationBarX: UINavigationBar!
     @IBOutlet weak var navigationBarItem: UINavigationItem!
-    @IBOutlet weak var newWordTextField: UITextField!
-    @IBOutlet weak var sourceTextField: UITextField!
-    @IBOutlet weak var meaningTextField: UITextField!
     @IBOutlet var scrollView: UIScrollView!
     
+    var saveBarButtonPressed: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.hideKeyboardWhenTappedAround()
-        self.registerForKeyBoardNotification()
-        
         self.scrollView.delegate = self
-        newWordTextField.delegate = self
-        sourceTextField.delegate = self
-        meaningTextField.delegate = self
+        addWordsTableView.delegate = self
+        addWordsTableView.dataSource = self
+        addWordsTableView.rowHeight = 100
+        addWordsTableView.estimatedRowHeight = 100
         
-        
+        saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: false)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+    }
+    @objc func saveButtonValidated() {
+        saveBarButtonPressed.tintColor = UIColor.blue
+        saveBarButtonPressed.action = #selector(saveButtonPressed(_:))
+    }
+    @objc func saveButtonInvalidated() {
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        saveBarButtonPressed.action = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        newWordViewController.nameOfTheWord = ""
+        newWordViewController.sourceOfTheWord = ""
+        newWordViewController.meaningOfTheWord = ""
+        saveBarButtonPressed = nil
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,17 +71,24 @@ class newWordViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
                 self.dismiss(animated: true, completion: nil)
     }
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        guard newWordTextField.text != "" && sourceTextField.text != "" && meaningTextField.text != "" else {
+    @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
+        guard newWordViewController.nameOfTheWord != "" && newWordViewController.meaningOfTheWord != "" && newWordViewController.sourceOfTheWord != "" else {
             let alert = UIAlertController(title: "Missing fields", message: "Please fill all the text fields!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
         
-        let addedWord = newWordTextField.text!
-        let wordMeaning = meaningTextField.text!
-        let sourceOfTheWord = sourceTextField.text!
+        guard newWordViewController.nameOfTheWord != "Word", newWordViewController.meaningOfTheWord != "Meaning", newWordViewController.sourceOfTheWord != "Source" else {
+            let alert = UIAlertController(title: "Missing fields", message: "Please fill all the text fields!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let addedWord = newWordViewController.nameOfTheWord
+        let wordMeaning = newWordViewController.meaningOfTheWord
+        let sourceOfTheWord = newWordViewController.sourceOfTheWord
         
         let date = Date()
         let wordsDetails = WordDetails(context: PersistenceService.context)
@@ -96,75 +127,151 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-extension newWordViewController: UITextFieldDelegate, UIScrollViewDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Try to find next responder
-//        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-//            activeTextField = nextField
-//            NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//            nextField.becomeFirstResponder()
-//        } else {
-//            // Not found, so remove keyboard.
-//            NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//            textField.resignFirstResponder()
-//        }
-        // Do not add a line break
-        textField.resignFirstResponder()
-//        view.endEditing(true)
-        return false
+
+
+
+extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
-    func registerForKeyBoardNotification() {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
-    @objc func keyBoardWasShown(_ aNotification: Notification) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+//        let amountOfLinesToBeShown: CGFloat = 5
+        let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewWord") as? WordTableViewCell
+        let sourceCell = addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewsource") as?
+        SourceTableViewCell
+        let meaningCell = addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewMeaning") as? MeaningTableViewCell
         
-        let userValueDictionary = aNotification.userInfo
-        let CGSizeOfKeyboard = userValueDictionary![UIKeyboardFrameEndUserInfoKey] as? NSValue
-        var backGroundRect = activeTextField?.superview?.frame
-        guard activeTextField != nil else {
-            return
+        if indexPath.section == 0 {
+            return wordCell ?? cell
+        } else if indexPath.section == 1 {
+            return sourceCell ?? cell
         }
-//        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (CGSizeOfKeyboard?.cgRectValue.size.height)!, right: 0.0)
-
-//        scrollView.contentInset = contentInsets
-//        scrollView.scrollIndicatorInsets = contentInsets
-//        scrollView.contentSize.height += (activeTextField?.bounds.size.height)!
-//        // activeTextField?.frame.size
-//
-//        var frame = self.view.frame
-//        frame.size.height += (CGSizeOfKeyboard?.cgRectValue.size.height)!
-//        if frame.contains((activeTextField?.frame.origin)!){
-//            self.scrollView.scrollRectToVisible((self.activeTextField?.frame)!, animated: true)
-//
-//        }
-
-        backGroundRect?.size.height += (CGSizeOfKeyboard?.cgRectValue.size.height)!
-        activeTextField?.superview?.frame(forAlignmentRect: backGroundRect!)
-        scrollView.setContentOffset(CGPoint(x: 0.0, y: (activeTextField?.frame.origin.y)! - (CGSizeOfKeyboard?.cgRectValue.size.height)!), animated: true)
         
+        return meaningCell ?? cell
     }
     
-    @objc func keyBoardWillBeHidden(_ aNotification: Notification) {
-        let contentInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-        scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.origin.x, y: self.scrollView.frame.origin.y - 40), animated: false)
-        
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-
-        activeTextField = textField
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        activeTextField = nil
-    }
 }
 
 
+//use this to make the screen go up when the keyboard pops up
+//type anything here inside this extension
+
+extension newWordViewController: UIScrollViewDelegate {
+    
+}
+
+// for the uitextview to display in the storyboard
+class WordTableViewCell: UITableViewCell, UITextViewDelegate {
+    @IBOutlet weak var wordTextView: UITextView!
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Word" {
+            textView.text = ""
+        }
+        textView.textColor = UIColor.black
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Word"
+            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        newWordViewController.nameOfTheWord = wordTextView.text
+        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+            return
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+    }
+    
+}
+class SourceTableViewCell: UITableViewCell, UITextViewDelegate {
+    @IBOutlet weak var sourceTextView: UITextView!
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Source" {
+        textView.text = ""
+        }
+        textView.textColor = UIColor.black
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Source"
+            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        newWordViewController.sourceOfTheWord = sourceTextView.text
+        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+            return
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+    }
+    
+}
+
+
+
+class MeaningTableViewCell: UITableViewCell, UITextViewDelegate {
+    @IBOutlet weak var meaningTextView: UITextView!
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Meaning" {
+            textView.text = ""
+        }
+        textView.textColor = UIColor.black
+        textView.becomeFirstResponder()
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Meaning"
+            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        newWordViewController.meaningOfTheWord = meaningTextView.text
+        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+            return
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+    }
+}
