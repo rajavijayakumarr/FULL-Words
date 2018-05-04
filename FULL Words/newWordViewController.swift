@@ -72,19 +72,6 @@ class newWordViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
-        guard newWordViewController.nameOfTheWord != "" && newWordViewController.meaningOfTheWord != "" && newWordViewController.sourceOfTheWord != "" else {
-            let alert = UIAlertController(title: "Missing fields", message: "Please fill all the text fields!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        guard newWordViewController.nameOfTheWord != "Word", newWordViewController.meaningOfTheWord != "Meaning", newWordViewController.sourceOfTheWord != "Source" else {
-            let alert = UIAlertController(title: "Missing fields", message: "Please fill all the text fields!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
         
         let addedWord = newWordViewController.nameOfTheWord
         let wordMeaning = newWordViewController.meaningOfTheWord
@@ -106,11 +93,8 @@ class newWordViewController: UIViewController {
                 let name = NSNotification.Name.init(self.newWOrdAdded)
                 NotificationCenter.default.post(name: name, object: nil)
             })
-          
-            
         }))
         self.present(alert, animated: true, completion: nil)
-        
     }
 }
 
@@ -127,8 +111,6 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-
-
 
 extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -164,13 +146,10 @@ extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-
-
 //use this to make the screen go up when the keyboard pops up
 //type anything here inside this extension
 
 extension newWordViewController: UIScrollViewDelegate {
-    
 }
 
 // for the uitextview to display in the storyboard
@@ -238,8 +217,6 @@ class SourceTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
 }
-
-
 
 class MeaningTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var meaningTextView: UITextView!
