@@ -40,19 +40,20 @@ class newWordViewController: UIViewController {
         addWordsTableView.rowHeight = 100
         addWordsTableView.estimatedRowHeight = 100
         
-        saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: nil)
+        saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed(_:)))
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-        self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: false)
+        self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
+        saveBarButtonPressed.isEnabled = false
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
     }
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = UIColor.blue
-        saveBarButtonPressed.action = #selector(saveButtonPressed(_:))
+        saveBarButtonPressed.isEnabled = true
     }
     @objc func saveButtonInvalidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-        saveBarButtonPressed.action = nil
+        saveBarButtonPressed.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,9 +78,8 @@ class newWordViewController: UIViewController {
         let wordMeaning = newWordViewController.meaningOfTheWord
         let sourceOfTheWord = newWordViewController.sourceOfTheWord
         
-        let date = Date()
         let wordsDetails = WordDetails(context: PersistenceService.context)
-        wordsDetails.dateAdded = date as NSDate
+        wordsDetails.dateAdded = NSDate().timeIntervalSince1970 * 1000
         wordsDetails.wordAddedBy = userName
         wordsDetails.nameOfWord = addedWord
         wordsDetails.meaningOfWord = wordMeaning
@@ -153,6 +153,15 @@ extension newWordViewController: UIScrollViewDelegate {
 }
 
 // for the uitextview to display in the storyboard
+extension newWordViewController {
+    static func chechAndEnableAddButton() {
+        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+            return
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+    }
+}
 class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wordTextView: UITextView!
     
@@ -177,11 +186,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     func textViewDidChange(_ textView: UITextView) {
         newWordViewController.nameOfTheWord = wordTextView.text
-        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
-            return
-        }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+        newWordViewController.chechAndEnableAddButton()
     }
     
 }
@@ -209,11 +214,7 @@ class SourceTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     func textViewDidChange(_ textView: UITextView) {
         newWordViewController.sourceOfTheWord = sourceTextView.text
-        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
-            return
-        }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+        newWordViewController.chechAndEnableAddButton()
     }
     
 }
@@ -245,10 +246,6 @@ class MeaningTableViewCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         newWordViewController.meaningOfTheWord = meaningTextView.text
-        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
-            return
-        }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+        newWordViewController.chechAndEnableAddButton()
     }
 }

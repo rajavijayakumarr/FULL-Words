@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let viewController = viewController {
                 let newNavigationController = UINavigationController()
                 newNavigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-                newNavigationController.navigationBar.barTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+                newNavigationController.navigationBar.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 newNavigationController.viewControllers = [viewController]
                 self.window?.rootViewController = newNavigationController
                 self.window?.makeKeyAndVisible()

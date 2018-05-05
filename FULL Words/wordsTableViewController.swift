@@ -85,6 +85,11 @@ class wordsTableViewController: UITableViewController {
         cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
         cell.meaningLabel.text = "      " + (wordsOfUserValues[indexPath.section].meaningOfWord ?? "")
         cell.meaningOfTheWord = wordsOfUserValues[indexPath.section].meaningOfWord
+        
+        let milliseconds = wordsOfUserValues[indexPath.section].dateAdded
+        let date = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+        print(date as Any)
+        
         return cell
     }
     
@@ -116,6 +121,7 @@ class wordsTableViewController: UITableViewController {
         wordsViewController?.meaningOfWord = wordsCell?.meaningOfTheWord
         wordsViewController?.sourceOfWord = wordsCell?.sourceForTheWord
         wordsViewController?.wordAddedBy = wordsCell?.addedBy
+        
         self.navigationController?.pushViewController(wordsViewController!, animated: true)
         
     }

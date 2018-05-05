@@ -185,7 +185,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSe-ev-x86">
-                                                            <rect key="frame" x="8" y="28.333333333333336" width="358" height="21.666666666666664"/>
+                                                            <rect key="frame" x="8" y="28.333333333333336" width="69.666666666666671" height="21.666666666666664"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -196,7 +196,7 @@
                                                         <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="sbJ-VH-KhM" secondAttribute="trailing" constant="32" id="MEj-K9-kxn"/>
                                                         <constraint firstItem="ZSe-ev-x86" firstAttribute="leading" secondItem="sHh-Dr-ytX" secondAttribute="leading" constant="8" id="Rzt-HE-Tx6"/>
                                                         <constraint firstItem="sbJ-VH-KhM" firstAttribute="leading" secondItem="sHh-Dr-ytX" secondAttribute="leading" constant="8" id="bWf-pD-gvn"/>
-                                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ZSe-ev-x86" secondAttribute="trailing" constant="32" id="ckI-8j-W9a"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZSe-ev-x86" secondAttribute="trailing" constant="32" id="ckI-8j-W9a"/>
                                                         <constraint firstItem="ZSe-ev-x86" firstAttribute="top" secondItem="sbJ-VH-KhM" secondAttribute="bottom" constant="2.0000000000000036" id="gF1-FI-Zqi"/>
                                                         <constraint firstItem="sbJ-VH-KhM" firstAttribute="top" secondItem="sHh-Dr-ytX" secondAttribute="top" id="nd7-BJ-r92"/>
                                                         <constraint firstAttribute="bottom" secondItem="ZSe-ev-x86" secondAttribute="bottom" constant="28" id="vQ6-qc-2Lb"/>
@@ -672,7 +672,7 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <color key="textShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>

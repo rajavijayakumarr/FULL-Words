@@ -18,9 +18,9 @@
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
 		CE3FA82220945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */; };
 		CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA823209B37720022D4D5 /* PersistenceService.swift */; };
-		CE3FA82B209B3B500022D4D5 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA829209B3B4E0022D4D5 /* WordDetails+CoreDataProperties.swift */; };
-		CE3FA82C209B3B500022D4D5 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82A209B3B4F0022D4D5 /* WordDetails+CoreDataClass.swift */; };
 		CE501DB5208DCECB007B2519 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = CE501DB4208DCECA007B2519 /* button.png */; };
+		CE542CF3209D89EA000F0D77 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */; };
+		CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
 		CE550E15208F37B900DA10DF /* settingsicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E11208F37B700DA10DF /* settingsicon@2x.png */; };
 		CE550E16208F37B900DA10DF /* settingsicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E12208F37B700DA10DF /* settingsicon.png */; };
@@ -88,9 +88,9 @@
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toSelectNumberOfWordsToLearnViewController.swift; sourceTree = "<group>"; };
 		CE3FA823209B37720022D4D5 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
-		CE3FA829209B3B4E0022D4D5 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		CE3FA82A209B3B4F0022D4D5 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE501DB4208DCECA007B2519 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
 		CE550E11208F37B700DA10DF /* settingsicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsicon@2x.png"; sourceTree = "<group>"; };
 		CE550E12208F37B700DA10DF /* settingsicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsicon.png; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 				CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */,
 				CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */,
 				CE3FA823209B37720022D4D5 /* PersistenceService.swift */,
-				CE3FA82A209B3B4F0022D4D5 /* WordDetails+CoreDataClass.swift */,
-				CE3FA829209B3B4E0022D4D5 /* WordDetails+CoreDataProperties.swift */,
+				CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */,
+				CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
 				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
 				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
@@ -476,14 +476,14 @@
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
 				CE3FA82220945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift in Sources */,
 				CE550E21208F3B1400DA10DF /* learnViewController.swift in Sources */,
-				CE3FA82B209B3B500022D4D5 /* WordDetails+CoreDataProperties.swift in Sources */,
+				CE542CF3209D89EA000F0D77 /* WordDetails+CoreDataProperties.swift in Sources */,
 				CE19226220874E88000D7676 /* ViewController.swift in Sources */,
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */,
 				CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* userPageTabController.swift in Sources */,
-				CE3FA82C209B3B500022D4D5 /* WordDetails+CoreDataClass.swift in Sources */,
+				CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
 				CE610D902088808300C0377F /* dashBoardViewController.swift in Sources */,
 				CEFF532B2090D147006FEB2C /* viewWordsViewController.swift in Sources */,

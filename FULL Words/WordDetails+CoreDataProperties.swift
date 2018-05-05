@@ -2,7 +2,7 @@
 //  WordDetails+CoreDataProperties.swift
 //  
 //
-//  Created by User on 03/05/18.
+//  Created by User on 05/05/18.
 //
 //
 
@@ -16,10 +16,10 @@ extension WordDetails {
         return NSFetchRequest<WordDetails>(entityName: "WordDetails")
     }
 
+    @NSManaged public var dateAdded: Double
+    @NSManaged public var meaningOfWord: String?
     @NSManaged public var nameOfWord: String?
     @NSManaged public var sourceOfWord: String?
-    @NSManaged public var meaningOfWord: String?
-    @NSManaged public var dateAdded: NSDate?
     @NSManaged public var wordAddedBy: String?
 
 }

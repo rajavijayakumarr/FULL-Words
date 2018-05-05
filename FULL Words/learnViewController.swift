@@ -43,7 +43,7 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.navigationController?.visibleViewController?.navigationItem.title = "Learn"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
         numberOfWordsToLearn = WordsToLearnPerDay(rawValue: (userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) != 0 ? userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) : 2))
-        print(numberOfWordsToLearn as Any)
+//        print(numberOfWordsToLearn as Any)
         
         let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
         do {
