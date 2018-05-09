@@ -10,9 +10,9 @@ import UIKit
 
 
 class settingsTableViewController: UITableViewController {
-    let VERSION_OF_THE_APPLICATION = "1.0"
+    let VERSION_OF_THE_APPLICATION = "v 1.0 (1)"
     
-    let settingsMenu = ["Profile", "No. Words to learn", "Version", "Logout"]
+    let settingsMenu = ["Profile", "No of Words", "Build & Version No:", "Sign Out"]
     
     var userName: String?
     var emailId: String?
@@ -53,23 +53,26 @@ class settingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingTableViewCell", for: indexPath) as! tableCell
         
         switch settingsMenu[indexPath.section] {
-        case "Logout":
+        case "Sign Out":
             cell.nameLabel.textColor = UIColor.red
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryType = .none
             cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.nameLabel.font = cell.nameLabel.font.withSize(15)
             cell.infoLabel.text = ""
             
         case "Profile":
             cell.accessoryType = .none
             cell.nameLabel.text = settingsMenu[indexPath.section]
             cell.infoLabel.text = emailId
+            cell.infoLabel.textColor = UIColor.gray
             
             
-        case "Version":
+        case "Build & Version No:":
             cell.accessoryType = .none
             cell.nameLabel.text = settingsMenu[indexPath.section]
             cell.infoLabel.text = VERSION_OF_THE_APPLICATION
-        case "No. Words to learn":
+            cell.infoLabel.textColor = UIColor.gray
+        case "No of Words":
             cell.accessoryType = .disclosureIndicator
             cell.nameLabel.text = settingsMenu[indexPath.section] + ": " + String(pickedDaysToLearn)
             cell.infoLabel.text = ""
@@ -100,13 +103,8 @@ class settingsTableViewController: UITableViewController {
                 tableView.deselectRow(at: selection, animated: true)
             }
         case 3:                                  //Logout
-            let alert = UIAlertController(title: "Confirmation!", message: "Are you sure?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: {_ in
-                if let selection: IndexPath = tableView.indexPathForSelectedRow{
-                    tableView.deselectRow(at: selection, animated: true)
-                }
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("Logout", comment: ""), style: .destructive, handler:{ _ in
+            let alert = UIAlertController(title: nil, message: "Are you sure?", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 
                 
                 userValues.set(nil, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
@@ -121,6 +119,12 @@ class settingsTableViewController: UITableViewController {
                 self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
                 self.navigationController?.popToRootViewController(animated: true)
 
+            }))
+            
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
+                if let selection: IndexPath = tableView.indexPathForSelectedRow{
+                    tableView.deselectRow(at: selection, animated: true)
+                }
             }))
             
             self.present(alert, animated: true, completion: nil)

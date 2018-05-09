@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyJSON
+import Alamofire
 
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
@@ -14,9 +16,8 @@ let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
 class newWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
-    let wordCell = WordTableViewCell()
-    let meaningCell = MeaningTableViewCell()
-    let sourceCell = SourceTableViewCell()
+    let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
+
     
     static var nameOfTheWord: String? = ""
     static var meaningOfTheWord: String? = ""
@@ -37,7 +38,7 @@ class newWordViewController: UIViewController {
         self.scrollView.delegate = self
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
-        addWordsTableView.rowHeight = 100
+        addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
         
         saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed(_:)))
@@ -78,13 +79,33 @@ class newWordViewController: UIViewController {
         let wordMeaning = newWordViewController.meaningOfTheWord
         let sourceOfTheWord = newWordViewController.sourceOfTheWord
         
-        let wordsDetails = WordDetails(context: PersistenceService.context)
-        wordsDetails.dateAdded = NSDate().timeIntervalSince1970 * 1000
-        wordsDetails.wordAddedBy = userName
-        wordsDetails.nameOfWord = addedWord
-        wordsDetails.meaningOfWord = wordMeaning
-        wordsDetails.sourceOfWord = sourceOfTheWord
-        PersistenceService.saveContext()
+        var requestForPostingWord = URLRequest(url: URL(string: ADAPTIVEU_WORDS_SCOPE_URL)!)
+        requestForPostingWord.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestForPostingWord.setValue("Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!, forHTTPHeaderField: "Authorization")
+
+        requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!]
+        let dataToSend = JSON("{\"word\":\"\(addedWord ?? "")\", \"desc\":\"\(wordMeaning ?? "")\", \"src\": \"\(sourceOfTheWord ?? "")\"}")
+        requestForPostingWord.httpBody = try? dataToSend.rawData()
+        requestForPostingWord.httpMethod = "POST"
+        
+                Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
+                    if responseData.error == nil {
+//                        let dataContainingUserDetails = JSON(responseData.data!)
+        
+                        print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+        
+                    } else {
+                        print(responseData.error as Any)
+                    }
+                }
+        
+//        let wordsDetails = WordDetails(context: PersistenceService.context)
+//        wordsDetails.dateAdded = NSDate().timeIntervalSince1970 * 1000
+//        wordsDetails.wordAddedBy = userName
+//        wordsDetails.nameOfWord = addedWord
+//        wordsDetails.meaningOfWord = wordMeaning
+//        wordsDetails.sourceOfWord = sourceOfTheWord
+//        PersistenceService.saveContext()
         
         let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
@@ -115,7 +136,7 @@ extension UIViewController {
 extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return UITableViewAutomaticDimension
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -125,24 +146,38 @@ extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return headingForTableViewCells.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-//        let amountOfLinesToBeShown: CGFloat = 5
-        let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewWord") as? WordTableViewCell
-        let sourceCell = addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewsource") as?
-        SourceTableViewCell
-        let meaningCell = addWordsTableView.dequeueReusableCell(withIdentifier: "addWordsTableViewMeaning") as? MeaningTableViewCell
-        
-        if indexPath.section == 0 {
+        switch headingForTableViewCells[indexPath.section] {
+        case "Word:":
+            let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
+            wordCell?.headingLabel.text = "Word:"
+            wordCell?.wordTextView.tag = 0
             return wordCell ?? cell
-        } else if indexPath.section == 1 {
+            
+        case "Meaning:":
+            let meaningCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
+            meaningCell?.headingLabel.text = "Meaning:"
+            meaningCell?.wordTextView.tag = 1
+            meaningCell?.wordTextView.keyboardType = UIKeyboardType.default
+            return meaningCell ?? cell
+
+        case "Source:":
+            let sourceCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
+            sourceCell?.headingLabel.text = "Source:"
+            sourceCell?.wordTextView.tag = 2
+            sourceCell?.wordTextView.keyboardType = UIKeyboardType.default
             return sourceCell ?? cell
+
+        default:
+            break
         }
+       
         
-        return meaningCell ?? cell
+      return cell
     }
     
 }
@@ -154,7 +189,9 @@ extension newWordViewController: UIScrollViewDelegate {
 
 // for the uitextview to display in the storyboard
 extension newWordViewController {
+    
     static func chechAndEnableAddButton() {
+        
         guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
             return
@@ -164,88 +201,42 @@ extension newWordViewController {
 }
 class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wordTextView: UITextView!
+    @IBOutlet weak var headingLabel: UILabel!
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Word" {
+        if textView.text == "Type here" {
             textView.text = ""
         }
         textView.textColor = UIColor.black
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
-            textView.text = "Word"
+            textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
+        
+        if textView.tag == 0 {
+            if text == "\n" {
+                textView.resignFirstResponder()
+                return false
+            }
         }
         return true
     }
     func textViewDidChange(_ textView: UITextView) {
-        newWordViewController.nameOfTheWord = wordTextView.text
+        if textView.tag == 0{
+            newWordViewController.nameOfTheWord = wordTextView.text
+            
+        } else if textView.tag == 1 {
+            newWordViewController.meaningOfTheWord = wordTextView.text
+        } else {
+            newWordViewController.sourceOfTheWord = wordTextView.text
+        }
         newWordViewController.chechAndEnableAddButton()
-    }
-    
-}
-class SourceTableViewCell: UITableViewCell, UITextViewDelegate {
-    @IBOutlet weak var sourceTextView: UITextView!
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Source" {
-        textView.text = ""
-        }
-        textView.textColor = UIColor.black
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" {
-            textView.text = "Source"
-            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
-        }
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-    func textViewDidChange(_ textView: UITextView) {
-        newWordViewController.sourceOfTheWord = sourceTextView.text
-        newWordViewController.chechAndEnableAddButton()
+        
     }
     
 }
 
-class MeaningTableViewCell: UITableViewCell, UITextViewDelegate {
-    @IBOutlet weak var meaningTextView: UITextView!
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Meaning" {
-            textView.text = ""
-        }
-        textView.textColor = UIColor.black
-        textView.becomeFirstResponder()
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" {
-            textView.text = "Meaning"
-            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
-        }
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        newWordViewController.meaningOfTheWord = meaningTextView.text
-        newWordViewController.chechAndEnableAddButton()
-    }
-}

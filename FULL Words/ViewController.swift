@@ -16,7 +16,9 @@ let ADAPTIVEU_CLIENT_SECRET = "iOsdmGZj-8Tydm0sJ8l6N6dWCZ_e0uZQ5LTy2KfT"
 let ADAPTIVEU_REDIRECT_URL = "com.FULL.FULL-Words://"
 let ADAPTIVEU_CODE_URL = "https://access.anywhereworks.com/o/oauth2/auth"
 let ADAPTIVEU_TOKEN_URL = "https://access.anywhereworks.com/o/oauth2/v1/token"
+
 let ADAPTIVEU_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
+let ADAPTIVEU_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
 
 let ADAPTIVIEWU_REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
 let ADAPTIVIEWU_ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
@@ -54,7 +56,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
-        let url = ADAPTIVEU_CODE_URL+"?response_type=code&client_id="+ADAPTIVEU_CLIENT_ID+"&access_type=offline&scope=awapis.identity&redirect_uri="+ADAPTIVEU_REDIRECT_URL+"&approval_prompt=force"
+        let url = ADAPTIVEU_CODE_URL+"?response_type=code&client_id="+ADAPTIVEU_CLIENT_ID+"&access_type=offline&scope=awapis.identity+awapis.feeds.write&redirect_uri="+ADAPTIVEU_REDIRECT_URL+"&approval_prompt=force"
         
         self.safariViewController = SFSafariViewController(url: URL(string: url)!)
         self.safariViewController?.delegate = self

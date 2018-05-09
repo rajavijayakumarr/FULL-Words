@@ -19,14 +19,21 @@ class userPageTabController: UITabBarController {
         self.navigationController?.visibleViewController?.title = "Dashboard"
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
+    
+        
+        self.tabBar.layer.borderWidth = 0.5
+        self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
+        self.tabBar.clipsToBounds = true
         
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.title = "Dashboard"
         
         let dashboard = self.viewControllers?.first as? dashBoardViewController
         let setting = self.viewControllers?.last as? settingsTableViewController
-        let wordsTable = self.viewControllers?[1] as? wordsTableViewController
-        let learnView = self.viewControllers?[2] as? learnViewController
+        // configure for the peerstableviewcontroller
+        _ = self.viewControllers?[1] as? peersTableViewController
+        let wordsTable = self.viewControllers?[2] as? wordsTableViewController
+        let learnView = self.viewControllers?[3] as? learnViewController
         
         if let userName = userName, let emailId = emailId {
             learnView?.userName = userName

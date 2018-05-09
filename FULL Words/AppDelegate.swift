@@ -32,9 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
             if let viewController = viewController {
                 let newNavigationController = UINavigationController()
-                newNavigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-                newNavigationController.navigationBar.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                let greenColor =  #colorLiteral(red: 0.3745603087, green: 0.7311893369, blue: 0.3431609594, alpha: 1)
+                newNavigationController.navigationBar.backgroundColor = greenColor
+                newNavigationController.navigationBar.barTintColor = greenColor
+                newNavigationController.navigationBar.isTranslucent = false
                 newNavigationController.viewControllers = [viewController]
+                newNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
+                newNavigationController.navigationBar.backItem?.backBarButtonItem?.style = UIBarButtonItemStyle.plain
+                newNavigationController.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
                 self.window?.rootViewController = newNavigationController
                 self.window?.makeKeyAndVisible()
             }

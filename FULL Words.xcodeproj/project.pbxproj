@@ -22,11 +22,7 @@
 		CE542CF3209D89EA000F0D77 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */; };
 		CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
-		CE550E15208F37B900DA10DF /* settingsicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E11208F37B700DA10DF /* settingsicon@2x.png */; };
-		CE550E16208F37B900DA10DF /* settingsicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E12208F37B700DA10DF /* settingsicon.png */; };
 		CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E13208F37B800DA10DF /* dashboardicon.png */; };
-		CE550E1A208F38B200DA10DF /* learnicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E18208F38B000DA10DF /* learnicon.png */; };
-		CE550E1B208F38B200DA10DF /* learnicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E19208F38B100DA10DF /* learnicon@2x.png */; };
 		CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1C208F3AB500DA10DF /* wordsIcon.png */; };
 		CE550E1F208F3AB600DA10DF /* wordsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */; };
 		CE550E21208F3B1400DA10DF /* learnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE550E20208F3B1400DA10DF /* learnViewController.swift */; };
@@ -39,6 +35,13 @@
 		CE610D902088808300C0377F /* dashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D8F2088808200C0377F /* dashBoardViewController.swift */; };
 		CE610D92208880D800C0377F /* userPageTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D91208880D800C0377F /* userPageTabController.swift */; };
 		CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D93208888BE00C0377F /* settingsTableViewController.swift */; };
+		CE85979920A1B15100FB6914 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979720A1B14F00FB6914 /* settings.png */; };
+		CE85979A20A1B15100FB6914 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979820A1B15000FB6914 /* settings@2x.png */; };
+		CE85979D20A1B26A00FB6914 /* learnicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979B20A1B26700FB6914 /* learnicon.png */; };
+		CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979C20A1B26900FB6914 /* learnicon@2x.png */; };
+		CE8597A120A1B4DD00FB6914 /* peersicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979F20A1B4DA00FB6914 /* peersicon.png */; };
+		CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */; };
+		CE8597A420A1B52A00FB6914 /* peersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8597A320A1B52A00FB6914 /* peersTableViewController.swift */; };
 		CE9724CC208C3C39001F2ABC /* wordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */; };
 		CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* newWordViewController.swift */; };
 		CEFF532B2090D147006FEB2C /* viewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */; };
@@ -92,11 +95,7 @@
 		CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
-		CE550E11208F37B700DA10DF /* settingsicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsicon@2x.png"; sourceTree = "<group>"; };
-		CE550E12208F37B700DA10DF /* settingsicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsicon.png; sourceTree = "<group>"; };
 		CE550E13208F37B800DA10DF /* dashboardicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dashboardicon.png; sourceTree = "<group>"; };
-		CE550E18208F38B000DA10DF /* learnicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = learnicon.png; sourceTree = "<group>"; };
-		CE550E19208F38B100DA10DF /* learnicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "learnicon@2x.png"; sourceTree = "<group>"; };
 		CE550E1C208F3AB500DA10DF /* wordsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsIcon.png; sourceTree = "<group>"; };
 		CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wordsIcon@2x.png"; sourceTree = "<group>"; };
 		CE550E20208F3B1400DA10DF /* learnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = learnViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +108,13 @@
 		CE610D8F2088808200C0377F /* dashBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashBoardViewController.swift; sourceTree = "<group>"; };
 		CE610D91208880D800C0377F /* userPageTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userPageTabController.swift; sourceTree = "<group>"; };
 		CE610D93208888BE00C0377F /* settingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsTableViewController.swift; sourceTree = "<group>"; };
+		CE85979720A1B14F00FB6914 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		CE85979820A1B15000FB6914 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		CE85979B20A1B26700FB6914 /* learnicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = learnicon.png; sourceTree = "<group>"; };
+		CE85979C20A1B26900FB6914 /* learnicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "learnicon@2x.png"; sourceTree = "<group>"; };
+		CE85979F20A1B4DA00FB6914 /* peersicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = peersicon.png; sourceTree = "<group>"; };
+		CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peersicon@2x.png"; sourceTree = "<group>"; };
+		CE8597A320A1B52A00FB6914 /* peersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peersTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CB208C3C39001F2ABC /* wordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CD208C40C4001F2ABC /* newWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newWordViewController.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewWordsViewController.swift; sourceTree = "<group>"; };
@@ -203,23 +209,11 @@
 				CEFF532A2090D147006FEB2C /* viewWordsViewController.swift */,
 				CE3FA82120945DB80022D4D5 /* toSelectNumberOfWordsToLearnViewController.swift */,
 				CE3FA823209B37720022D4D5 /* PersistenceService.swift */,
+				CE8597A320A1B52A00FB6914 /* peersTableViewController.swift */,
 				CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */,
 				CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */,
-				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
-				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
-				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
-				CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */,
-				CE610D8320875C9700C0377F /* fullLogo.jpg */,
-				CE501DB4208DCECA007B2519 /* button.png */,
-				CE550E13208F37B800DA10DF /* dashboardicon.png */,
-				CE550E10208F37B500DA10DF /* dashboardicon@2x.png */,
-				CE550E12208F37B700DA10DF /* settingsicon.png */,
-				CE550E11208F37B700DA10DF /* settingsicon@2x.png */,
-				CE550E18208F38B000DA10DF /* learnicon.png */,
-				CE550E19208F38B100DA10DF /* learnicon@2x.png */,
-				CE550E1C208F3AB500DA10DF /* wordsIcon.png */,
-				CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */,
-				CE550E22208F41BE00DA10DF /* adaptiveUImage.png */,
+				CE9D236C20A2C4BC0043962B /* Fonts */,
+				CE9D236B20A2C45F0043962B /* Images */,
 				CE19226920874E8A000D7676 /* Assets.xcassets */,
 				CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */,
 				CE19226E20874E8A000D7676 /* Info.plist */,
@@ -244,6 +238,37 @@
 				CE19228420874E8A000D7676 /* Info.plist */,
 			);
 			path = "FULL WordsUITests";
+			sourceTree = "<group>";
+		};
+		CE9D236B20A2C45F0043962B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CE610D8320875C9700C0377F /* fullLogo.jpg */,
+				CE501DB4208DCECA007B2519 /* button.png */,
+				CE550E13208F37B800DA10DF /* dashboardicon.png */,
+				CE550E10208F37B500DA10DF /* dashboardicon@2x.png */,
+				CE550E1C208F3AB500DA10DF /* wordsIcon.png */,
+				CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */,
+				CE85979720A1B14F00FB6914 /* settings.png */,
+				CE85979820A1B15000FB6914 /* settings@2x.png */,
+				CE85979B20A1B26700FB6914 /* learnicon.png */,
+				CE85979C20A1B26900FB6914 /* learnicon@2x.png */,
+				CE85979F20A1B4DA00FB6914 /* peersicon.png */,
+				CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */,
+				CE550E22208F41BE00DA10DF /* adaptiveUImage.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		CE9D236C20A2C4BC0043962B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
+				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
+				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
+				CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,15 +380,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE550E1F208F3AB600DA10DF /* wordsIcon@2x.png in Resources */,
+				CE85979A20A1B15100FB6914 /* settings@2x.png in Resources */,
 				CE550E23208F41C000DA10DF /* adaptiveUImage.png in Resources */,
-				CE550E15208F37B900DA10DF /* settingsicon@2x.png in Resources */,
-				CE550E16208F37B900DA10DF /* settingsicon.png in Resources */,
 				CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */,
-				CE550E1A208F38B200DA10DF /* learnicon.png in Resources */,
-				CE550E1B208F38B200DA10DF /* learnicon@2x.png in Resources */,
+				CE85979920A1B15100FB6914 /* settings.png in Resources */,
+				CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */,
 				CE19226A20874E8A000D7676 /* Assets.xcassets in Resources */,
 				CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */,
 				CE19226520874E88000D7676 /* Main.storyboard in Resources */,
+				CE85979D20A1B26A00FB6914 /* learnicon.png in Resources */,
 				CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */,
 				CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */,
@@ -371,6 +396,8 @@
 				CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */,
 				CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */,
 				CE501DB5208DCECB007B2519 /* button.png in Resources */,
+				CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */,
+				CE8597A120A1B4DD00FB6914 /* peersicon.png in Resources */,
 				CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,6 +510,7 @@
 				CE9724CE208C40C4001F2ABC /* newWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* settingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* userPageTabController.swift in Sources */,
+				CE8597A420A1B52A00FB6914 /* peersTableViewController.swift in Sources */,
 				CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
 				CE610D902088808300C0377F /* dashBoardViewController.swift in Sources */,
