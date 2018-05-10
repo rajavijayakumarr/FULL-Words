@@ -148,7 +148,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 
                 
                 
-                let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
+                let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
                 toTabBarViewControler?.userName = firstName + " " + lastName
                 toTabBarViewControler?.emailId = emailId
                 if let toTabBarViewControler = toTabBarViewControler {

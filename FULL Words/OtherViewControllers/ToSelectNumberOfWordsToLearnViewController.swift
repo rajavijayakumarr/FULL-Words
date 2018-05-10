@@ -14,7 +14,7 @@ enum WordsToLearnPerDay: Int {
 
 let NUMBER_OF_WORDS_TO_LEARN = "NUMBER_OF_WORDS_TO_LEARN"
 
-class toSelectNumberOfWordsToLearnViewController: UIViewController {
+class ToSelectNumberOfWordsToLearnViewController: UIViewController {
 
     let daysForPickerView = ["2", "3", "4", "5"]
     var pickedDaysToLearn: WordsToLearnPerDay? = nil
@@ -44,7 +44,7 @@ class toSelectNumberOfWordsToLearnViewController: UIViewController {
 }
 
 
-extension toSelectNumberOfWordsToLearnViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension ToSelectNumberOfWordsToLearnViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

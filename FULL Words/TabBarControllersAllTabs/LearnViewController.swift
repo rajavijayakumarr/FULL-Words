@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class learnViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LearnViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var wordTableView: UITableView!
     @IBOutlet weak var wordAndMeaningTableView: UITableView!
@@ -93,7 +93,7 @@ class learnViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else if tableView == self.wordAndMeaningTableView {
             let learnedWordCell = tableView.cellForRow(at: indexPath) as? LearnedWordsCell
             
-            let viewWordsController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? viewWordsViewController
+            let viewWordsController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? ViewWordsViewController
             viewWordsController?.nameOfWord = learnedWordCell?.wordThatHasMeaning
             viewWordsController?.meaningOfWord = learnedWordCell?.meaningOfWord
             viewWordsController?.sourceOfWord = learnedWordCell?.sourceOfWord

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class wordsTableViewController: UITableViewController {
+class WordsTableViewController: UITableViewController {
     
     var addButtonUIButton: UIButton!
     var userName: String?
@@ -57,19 +57,21 @@ class wordsTableViewController: UITableViewController {
     
     func addButtonCustomization() {
         addButtonUIButton = UIButton(type: .custom)
-        addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 3/4, y: self.view.frame.maxY * 3/4, width: 50, height: 50)
-        addButtonUIButton.tintColor = UIColor.red
-        addButtonUIButton.layer.backgroundColor = UIColor.red.cgColor
-        addButtonUIButton.layer.cornerRadius = addButtonUIButton.frame.width / 2
+        addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 5/6, y: self.view.frame.maxY * 4/5, width: 50, height: 50)
         addButtonUIButton.clipsToBounds = true
         addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        addButtonUIButton.tintColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        addButtonUIButton.layer.isOpaque = true
+        addButtonUIButton.layer.cornerRadius = addButtonUIButton.frame.width / 2
+        addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
         addButtonUIButton.titleLabel?.font = UIFont.init(name: "AvenirNext-UltraLightItalic", size: 50)
         addButtonUIButton.setTitle("+", for: UIControlState.normal)
         addButtonUIButton.addTarget(self, action: #selector(addButtonPressed), for: UIControlEvents.touchUpInside)
     }
 
     @objc func addButtonPressed(){
-        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? newWordViewController
+        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? NewWordViewController
         wordsViewController?.userName = userName
         self.present(wordsViewController!, animated: true, completion: nil)
     }
@@ -116,7 +118,7 @@ class wordsTableViewController: UITableViewController {
 //        tableView.deselectRow(at: indexPath, animated: true)
         let wordsCell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
   
-        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? viewWordsViewController
+        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? ViewWordsViewController
         wordsViewController?.nameOfWord = wordsCell?.addedWord
         wordsViewController?.meaningOfWord = wordsCell?.meaningOfTheWord
         wordsViewController?.sourceOfWord = wordsCell?.sourceForTheWord
@@ -127,7 +129,7 @@ class wordsTableViewController: UITableViewController {
     }
 }
 
-extension wordsTableViewController {
+extension WordsTableViewController {
     @objc func newWordAdded() {
         tableView.reloadData()
     }

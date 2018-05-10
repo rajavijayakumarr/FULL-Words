@@ -8,7 +8,7 @@
 
 import UIKit
 
-class userPageTabController: UITabBarController {
+class UserPageTabController: UITabBarController {
     
     var userName: String?
     var emailId: String?
@@ -28,12 +28,12 @@ class userPageTabController: UITabBarController {
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.title = "Dashboard"
         
-        let dashboard = self.viewControllers?.first as? dashBoardViewController
-        let setting = self.viewControllers?.last as? settingsTableViewController
+        let dashboard = self.viewControllers?.first as? DashBoardViewController
+        let setting = self.viewControllers?.last as? SettingsTableViewController
         // configure for the peerstableviewcontroller
-        _ = self.viewControllers?[1] as? peersTableViewController
-        let wordsTable = self.viewControllers?[2] as? wordsTableViewController
-        let learnView = self.viewControllers?[3] as? learnViewController
+        _ = self.viewControllers?[1] as? PeersTableViewController
+        let wordsTable = self.viewControllers?[2] as? WordsTableViewController
+        let learnView = self.viewControllers?[3] as? LearnViewController
         
         if let userName = userName, let emailId = emailId {
             learnView?.userName = userName

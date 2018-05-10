@@ -8,7 +8,7 @@
 
 import UIKit
 
-class peersTableViewController: UITableViewController {
+class PeersTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

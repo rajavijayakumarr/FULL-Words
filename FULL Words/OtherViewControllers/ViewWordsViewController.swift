@@ -8,7 +8,7 @@
 
 import UIKit
 
-class viewWordsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
     

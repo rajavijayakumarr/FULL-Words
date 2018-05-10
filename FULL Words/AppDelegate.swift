@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var navigationController: UINavigationController?
-    var viewController: userPageTabController?
+    var viewController: UserPageTabController?
 
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
@@ -25,9 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if userValues.bool(forKey: USER_LOGGED_IN) {
             
             
-        viewController = userPageTabController()
+        viewController = UserPageTabController()
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? userPageTabController
+            viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
             viewController?.userName = userValues.value(forKey: USER_NAME) as? String
             viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
             if let viewController = viewController {

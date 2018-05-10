@@ -85,7 +85,7 @@
         <!--Dashboard-->
         <scene sceneID="Xu8-Rt-02n">
             <objects>
-                <viewController id="o9p-mx-JCu" customClass="dashBoardViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="o9p-mx-JCu" customClass="DashBoardViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" id="8Zg-IJ-I42">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -102,7 +102,7 @@
         <!--Learn-->
         <scene sceneID="hf6-l1-U2V">
             <objects>
-                <viewController storyboardIdentifier="learnTabViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZnY-FF-vns" customClass="learnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="learnTabViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZnY-FF-vns" customClass="LearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gPD-Wj-dQP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -246,7 +246,7 @@
         <!--User Page Tab Controller-->
         <scene sceneID="5zL-cu-MId">
             <objects>
-                <tabBarController storyboardIdentifier="userTabBarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="spF-2s-RvS" customClass="userPageTabController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="userTabBarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="spF-2s-RvS" customClass="UserPageTabController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="xBD-5A-DU2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -275,7 +275,7 @@
         <!--Words-->
         <scene sceneID="fDC-hJ-jQl">
             <objects>
-                <tableViewController storyboardIdentifier="wordsviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eqC-Iu-7go" customClass="wordsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="wordsviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eqC-Iu-7go" customClass="WordsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8V6-VO-4qk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -348,7 +348,7 @@
         <!--New Word View Controller-->
         <scene sceneID="D2D-Rn-HZd">
             <objects>
-                <viewController storyboardIdentifier="newwordviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c87-Ke-bZE" customClass="newWordViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newwordviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c87-Ke-bZE" customClass="NewWordViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S0n-KL-lHi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -466,7 +466,7 @@
         <!--Settings-->
         <scene sceneID="9AP-Wq-7cw">
             <objects>
-                <tableViewController storyboardIdentifier="settingsOfUser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PCY-V3-rMr" customClass="settingsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="settingsOfUser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PCY-V3-rMr" customClass="SettingsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="a6B-kE-LIZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -520,7 +520,7 @@
         <!--Peers-->
         <scene sceneID="MVC-q7-f6Z">
             <objects>
-                <tableViewController id="zpr-rQ-qde" customClass="peersTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zpr-rQ-qde" customClass="PeersTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IWD-7B-mSr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -550,7 +550,7 @@
         <!--To Select Number Of Words To Learn View Controller-->
         <scene sceneID="pY2-No-mIQ">
             <objects>
-                <viewController storyboardIdentifier="toSelectNoOfWordsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dnk-Zh-cef" customClass="toSelectNumberOfWordsToLearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="toSelectNoOfWordsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dnk-Zh-cef" customClass="ToSelectNumberOfWordsToLearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D0q-P1-fpi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -582,7 +582,7 @@
         <!--Words Details-->
         <scene sceneID="jNQ-PC-j29">
             <objects>
-                <viewController storyboardIdentifier="viewWordsController" title="Words Details" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sv6-NE-oYk" customClass="viewWordsViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewWordsController" title="Words Details" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sv6-NE-oYk" customClass="ViewWordsViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" id="J9l-hY-hg3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

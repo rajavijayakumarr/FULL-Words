@@ -9,7 +9,7 @@
 import UIKit
 
 
-class settingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController {
     let VERSION_OF_THE_APPLICATION = "v 1.0 (1)"
     
     let settingsMenu = ["Profile", "No of Words", "Build & Version No:", "Sign Out"]
@@ -95,7 +95,7 @@ class settingsTableViewController: UITableViewController {
             }
 
         case 1:                                  //No. Words to learn
-            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "toSelectNoOfWordsController") as? toSelectNumberOfWordsToLearnViewController
+            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "toSelectNoOfWordsController") as? ToSelectNumberOfWordsToLearnViewController
             self.navigationController?.pushViewController(myVC!, animated: true)
             
         case 2:                                  //Version

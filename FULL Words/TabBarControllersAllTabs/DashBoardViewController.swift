@@ -8,7 +8,7 @@
 
 import UIKit
 
-class dashBoardViewController: UIViewController {
+class DashBoardViewController: UIViewController {
     
     var userName: String?
     var emailId: String?

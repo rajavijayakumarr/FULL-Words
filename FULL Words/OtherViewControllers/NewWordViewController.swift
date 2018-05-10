@@ -13,7 +13,7 @@ import Alamofire
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
 
-class newWordViewController: UIViewController {
+class NewWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
@@ -61,9 +61,9 @@ class newWordViewController: UIViewController {
         super.viewWillAppear(true)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        newWordViewController.nameOfTheWord = ""
-        newWordViewController.sourceOfTheWord = ""
-        newWordViewController.meaningOfTheWord = ""
+        NewWordViewController.nameOfTheWord = ""
+        NewWordViewController.sourceOfTheWord = ""
+        NewWordViewController.meaningOfTheWord = ""
         saveBarButtonPressed = nil
     }
     override func didReceiveMemoryWarning() {
@@ -75,47 +75,54 @@ class newWordViewController: UIViewController {
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         
-        let addedWord = newWordViewController.nameOfTheWord
-        let wordMeaning = newWordViewController.meaningOfTheWord
-        let sourceOfTheWord = newWordViewController.sourceOfTheWord
+        let addedWord = NewWordViewController.nameOfTheWord
+        let wordMeaning = NewWordViewController.meaningOfTheWord
+        let sourceOfTheWord = NewWordViewController.sourceOfTheWord
         
         var requestForPostingWord = URLRequest(url: URL(string: ADAPTIVEU_WORDS_SCOPE_URL)!)
         requestForPostingWord.setValue("application/json", forHTTPHeaderField: "Content-Type")
         requestForPostingWord.setValue("Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!, forHTTPHeaderField: "Authorization")
 
         requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!]
-        let dataToSend = JSON("{\"word\":\"\(addedWord ?? "")\", \"desc\":\"\(wordMeaning ?? "")\", \"src\": \"\(sourceOfTheWord ?? "")\"}")
-        requestForPostingWord.httpBody = try? dataToSend.rawData()
+        let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
+        requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
         requestForPostingWord.httpMethod = "POST"
         
                 Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
                     if responseData.error == nil {
 //                        let dataContainingUserDetails = JSON(responseData.data!)
-        
-                        print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+                        let receivedWordValues = JSON(responseData.data!)
+                        if receivedWordValues["response"] == true {
+                            let wordsDetails = WordDetails(context: PersistenceService.context)
+                            wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
+                            wordsDetails.wordAddedBy = self.userName
+                            wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
+                            wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
+                            wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
+                            PersistenceService.saveContext()
+                            
+                            let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                                
+                                self.dismiss(animated: true, completion: {
+                                    let name = NSNotification.Name.init(self.newWOrdAdded)
+                                    NotificationCenter.default.post(name: name, object: nil)
+                                })
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        } else {
+                            let error = receivedWordValues["error"].stringValue
+                            let message = receivedWordValues["msg"].stringValue
+                            let alert = UIAlertController(title: error, message: message, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        
         
                     } else {
                         print(responseData.error as Any)
                     }
                 }
-        
-//        let wordsDetails = WordDetails(context: PersistenceService.context)
-//        wordsDetails.dateAdded = NSDate().timeIntervalSince1970 * 1000
-//        wordsDetails.wordAddedBy = userName
-//        wordsDetails.nameOfWord = addedWord
-//        wordsDetails.meaningOfWord = wordMeaning
-//        wordsDetails.sourceOfWord = sourceOfTheWord
-//        PersistenceService.saveContext()
-        
-        let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-
-            self.dismiss(animated: true, completion: {
-                let name = NSNotification.Name.init(self.newWOrdAdded)
-                NotificationCenter.default.post(name: name, object: nil)
-            })
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -133,7 +140,7 @@ extension UIViewController {
     }
 }
 
-extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
+extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -184,15 +191,15 @@ extension newWordViewController: UITableViewDelegate, UITableViewDataSource {
 //use this to make the screen go up when the keyboard pops up
 //type anything here inside this extension
 
-extension newWordViewController: UIScrollViewDelegate {
+extension NewWordViewController: UIScrollViewDelegate {
 }
 
 // for the uitextview to display in the storyboard
-extension newWordViewController {
+extension NewWordViewController {
     
     static func chechAndEnableAddButton() {
         
-        guard newWordViewController.nameOfTheWord != "", newWordViewController.meaningOfTheWord != "", newWordViewController.sourceOfTheWord != "" else {
+        guard NewWordViewController.nameOfTheWord != "", NewWordViewController.meaningOfTheWord != "", NewWordViewController.sourceOfTheWord != "" else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
             return
         }
@@ -227,14 +234,14 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     func textViewDidChange(_ textView: UITextView) {
         if textView.tag == 0{
-            newWordViewController.nameOfTheWord = wordTextView.text
+            NewWordViewController.nameOfTheWord = wordTextView.text
             
         } else if textView.tag == 1 {
-            newWordViewController.meaningOfTheWord = wordTextView.text
+            NewWordViewController.meaningOfTheWord = wordTextView.text
         } else {
-            newWordViewController.sourceOfTheWord = wordTextView.text
+            NewWordViewController.sourceOfTheWord = wordTextView.text
         }
-        newWordViewController.chechAndEnableAddButton()
+        NewWordViewController.chechAndEnableAddButton()
         
     }
     
