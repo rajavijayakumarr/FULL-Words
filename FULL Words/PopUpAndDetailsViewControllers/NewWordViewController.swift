@@ -38,7 +38,7 @@ class NewWordViewController: UIViewController {
         self.scrollView.delegate = self
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
-        addWordsTableView.rowHeight = UITableViewAutomaticDimension
+        addWordsTableView.rowHeight = 125
         addWordsTableView.estimatedRowHeight = 100
         
         saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed(_:)))
@@ -75,15 +75,17 @@ class NewWordViewController: UIViewController {
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         
+        let loadingSpinWheel = UIViewController.displaySpinner(onView: self.view)
+        
         let addedWord = NewWordViewController.nameOfTheWord
         let wordMeaning = NewWordViewController.meaningOfTheWord
         let sourceOfTheWord = NewWordViewController.sourceOfTheWord
         
-        var requestForPostingWord = URLRequest(url: URL(string: ADAPTIVEU_WORDS_SCOPE_URL)!)
-        requestForPostingWord.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestForPostingWord.setValue("Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!, forHTTPHeaderField: "Authorization")
+        var requestForPostingWord = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL)!)
+//        requestForPostingWord.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        requestForPostingWord.setValue("Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!, forHTTPHeaderField: "Authorization")
 
-        requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ADAPTIVIEWU_ACCESS_TOKEN) as? String)!]
+        requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]
         let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
         requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
         requestForPostingWord.httpMethod = "POST"
@@ -92,25 +94,41 @@ class NewWordViewController: UIViewController {
                     if responseData.error == nil {
 //                        let dataContainingUserDetails = JSON(responseData.data!)
                         let receivedWordValues = JSON(responseData.data!)
-                        if receivedWordValues["response"] == true {
+                        if receivedWordValues["response"].boolValue {
                             let wordsDetails = WordDetails(context: PersistenceService.context)
+                            wordsDetails.dateUpdated = receivedWordValues["data"]["word"]["updatedAt"].doubleValue
                             wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
                             wordsDetails.wordAddedBy = self.userName
                             wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
                             wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
                             wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
                             PersistenceService.saveContext()
+                            self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
                             
+                            UIViewController.removeSpinner(spinner: loadingSpinWheel)
                             let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                                
-                                self.dismiss(animated: true, completion: {
-                                    let name = NSNotification.Name.init(self.newWOrdAdded)
-                                    NotificationCenter.default.post(name: name, object: nil)
-                                })
-                            }))
+//                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+//
+//                                self.dismiss(animated: true, completion: {
+//                                    let name = NSNotification.Name.init(self.newWOrdAdded)
+//                                    NotificationCenter.default.post(name: name, object: nil)
+//                                })
+//                            }))
                             self.present(alert, animated: true, completion: nil)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                alert.dismiss(animated: true, completion: {
+                                    self.dismiss(animated: true, completion: {
+                                        let name = NSNotification.Name.init(self.newWOrdAdded)
+                                        NotificationCenter.default.post(name: name, object: nil)
+                                    })
+                                })
+                            }
+
+
+                            
                         } else {
+                            UIViewController.removeSpinner(spinner: loadingSpinWheel)
                             let error = receivedWordValues["error"].stringValue
                             let message = receivedWordValues["msg"].stringValue
                             let alert = UIAlertController(title: error, message: message, preferredStyle: .alert)
@@ -123,6 +141,26 @@ class NewWordViewController: UIViewController {
                         print(responseData.error as Any)
                     }
                 }
+    }
+    
+    func updateTheFeedInAnywhereWorks(Word word: String, Meaning meaning: String, Source source: String) {
+        let content = "Here is the new word I found, \n\n*Word*: \(word)\n*Meaning*: \(meaning)\n*Source*: \(source)\n\n#fullwords"
+        
+        var requestForPostingFeed = URLRequest(url: URL(string: FEEDS_SCOPE_URL)!)
+        requestForPostingFeed.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]
+        let dataToSend = ["content": content, "type": "update"]
+        requestForPostingFeed.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
+        requestForPostingFeed.httpMethod = "POST"
+        
+        Alamofire.request(requestForPostingFeed).responseJSON { (responseData) in
+            if responseData.error == nil {
+                print(responseData as Any)
+            } else {
+                let alert = UIAlertController(title: "error", message: "cannot update feed", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }
 
@@ -143,7 +181,7 @@ extension UIViewController {
 extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 125
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100

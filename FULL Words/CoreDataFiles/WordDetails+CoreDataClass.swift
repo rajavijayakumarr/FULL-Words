@@ -2,7 +2,7 @@
 //  WordDetails+CoreDataClass.swift
 //  
 //
-//  Created by User on 05/05/18.
+//  Created by User on 10/05/18.
 //
 //
 

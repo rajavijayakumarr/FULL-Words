@@ -40,6 +40,13 @@ class LearnViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        let greenColor =  #colorLiteral(red: 0.3745603087, green: 0.7311893369, blue: 0.3431609594, alpha: 1)
+        self.navigationController?.navigationBar.backgroundColor = greenColor
+        self.navigationController?.navigationBar.barTintColor = greenColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
+        
         self.navigationController?.visibleViewController?.navigationItem.title = "Learn"
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
         numberOfWordsToLearn = WordsToLearnPerDay(rawValue: (userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) != 0 ? userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN) : 2))

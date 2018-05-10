@@ -9,17 +9,17 @@
 /* Begin PBXBuildFile section */
 		190EB697703EC8921E1C2BD9 /* Pods_FULL_WordsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0077C9EEFA11039007DB7A63 /* Pods_FULL_WordsTests.framework */; };
 		CE19226020874E88000D7676 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19225F20874E88000D7676 /* AppDelegate.swift */; };
-		CE19226220874E88000D7676 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19226120874E88000D7676 /* ViewController.swift */; };
+		CE19226220874E88000D7676 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19226120874E88000D7676 /* LoginPageViewController.swift */; };
 		CE19226520874E88000D7676 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE19226320874E88000D7676 /* Main.storyboard */; };
 		CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE19226620874E88000D7676 /* FULL_Words.xcdatamodeld */; };
 		CE19226A20874E8A000D7676 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE19226920874E8A000D7676 /* Assets.xcassets */; };
 		CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */; };
 		CE19227820874E8A000D7676 /* FULL_WordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19227720874E8A000D7676 /* FULL_WordsTests.swift */; };
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
+		CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */; };
+		CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */; };
 		CE3FA82220945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */; };
 		CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA823209B37720022D4D5 /* PersistenceService.swift */; };
-		CE542CF3209D89EA000F0D77 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */; };
-		CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
 		CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E13208F37B800DA10DF /* dashboardicon.png */; };
 		CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1C208F3AB500DA10DF /* wordsIcon.png */; };
@@ -75,7 +75,7 @@
 		6D0AC2CCE57343C04670EA22 /* Pods-FULL Words.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FULL Words.release.xcconfig"; path = "Pods/Target Support Files/Pods-FULL Words/Pods-FULL Words.release.xcconfig"; sourceTree = "<group>"; };
 		CE19225C20874E88000D7676 /* FULL Words.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FULL Words.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE19225F20874E88000D7676 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE19226120874E88000D7676 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE19226120874E88000D7676 /* LoginPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
 		CE19226420874E88000D7676 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CE19226720874E88000D7676 /* FULL_Words.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FULL_Words.xcdatamodel; sourceTree = "<group>"; };
 		CE19226920874E8A000D7676 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,10 +87,10 @@
 		CE19227E20874E8A000D7676 /* FULL WordsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FULL WordsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FULL_WordsUITests.swift; sourceTree = "<group>"; };
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSelectNumberOfWordsToLearnViewController.swift; sourceTree = "<group>"; };
 		CE3FA823209B37720022D4D5 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
-		CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
 		CE550E13208F37B800DA10DF /* dashboardicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dashboardicon.png; sourceTree = "<group>"; };
 		CE550E1C208F3AB500DA10DF /* wordsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsIcon.png; sourceTree = "<group>"; };
@@ -194,11 +194,11 @@
 			isa = PBXGroup;
 			children = (
 				CE19225F20874E88000D7676 /* AppDelegate.swift */,
-				CE19226120874E88000D7676 /* ViewController.swift */,
+				CE19226120874E88000D7676 /* LoginPageViewController.swift */,
 				CE19226320874E88000D7676 /* Main.storyboard */,
 				CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */,
 				CE9D236D20A319BA0043962B /* TabBarControllersAllTabs */,
-				CE9D236F20A31A460043962B /* OtherViewControllers */,
+				CE9D236F20A31A460043962B /* PopUpAndDetailsViewControllers */,
 				CE9D236E20A31A0A0043962B /* CoreDataFiles */,
 				CE9D236C20A2C4BC0043962B /* Fonts */,
 				CE9D236B20A2C45F0043962B /* Images */,
@@ -272,21 +272,21 @@
 			isa = PBXGroup;
 			children = (
 				CE3FA823209B37720022D4D5 /* PersistenceService.swift */,
-				CE542CF2209D89E9000F0D77 /* WordDetails+CoreDataClass.swift */,
-				CE542CF1209D89E8000F0D77 /* WordDetails+CoreDataProperties.swift */,
+				CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */,
+				CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */,
 				CE19226620874E88000D7676 /* FULL_Words.xcdatamodeld */,
 			);
 			path = CoreDataFiles;
 			sourceTree = "<group>";
 		};
-		CE9D236F20A31A460043962B /* OtherViewControllers */ = {
+		CE9D236F20A31A460043962B /* PopUpAndDetailsViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */,
 				CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */,
 				CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */,
 			);
-			path = OtherViewControllers;
+			path = PopUpAndDetailsViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -519,18 +519,18 @@
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
 				CE3FA82220945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift in Sources */,
 				CE550E21208F3B1400DA10DF /* LearnViewController.swift in Sources */,
-				CE542CF3209D89EA000F0D77 /* WordDetails+CoreDataProperties.swift in Sources */,
-				CE19226220874E88000D7676 /* ViewController.swift in Sources */,
+				CE19226220874E88000D7676 /* LoginPageViewController.swift in Sources */,
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */,
 				CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */,
 				CE8597A420A1B52A00FB6914 /* PeersTableViewController.swift in Sources */,
-				CE542CF4209D89EA000F0D77 /* WordDetails+CoreDataClass.swift in Sources */,
+				CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
 				CE610D902088808300C0377F /* DashBoardViewController.swift in Sources */,
 				CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */,
+				CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

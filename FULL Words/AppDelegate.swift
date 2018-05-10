@@ -46,11 +46,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             
             
-        var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
+        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
         
-        var data:Data = "refresh_token=\(userValues.value(forKey: ADAPTIVIEWU_REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-        data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
-        data.append("&client_secret=\(ADAPTIVEU_CLIENT_SECRET)".data(using: .utf8)!)
+        var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
         data.append("&grant_type=refresh_token".data(using: .utf8)!)
         requestForGettingToken.httpBody = data
         requestForGettingToken.httpMethod = "POST"
@@ -64,11 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 print("****************************************************************************************")
                 print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(accessToken, forKey: ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: TOKEN_TYPE)
                 userValues.set(true, forKey: USER_LOGGED_IN)
                 
-                var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+                var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
                 requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
                 requestForGettingToken.httpMethod = "GET"
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var requestForGettingToken = requestForGettingTokens
         
-        var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingToken.httpMethod = "GET"
         
@@ -155,8 +155,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-   
-
 }
 

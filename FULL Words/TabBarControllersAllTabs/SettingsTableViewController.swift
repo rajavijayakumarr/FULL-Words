@@ -29,14 +29,23 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        navigationController?.visibleViewController?.title = "Settings"
+
+        let whiteColor =  #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+        self.navigationController?.navigationBar.backgroundColor = whiteColor
+        self.navigationController?.navigationBar.barTintColor = whiteColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+        
+        self.navigationController?.visibleViewController?.title = "Settings"
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
         pickedDaysToLearn = userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN)
         tableView.reloadData()
-        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,15 +116,15 @@ class SettingsTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 
                 
-                userValues.set(nil, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
-                userValues.set(nil, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
-                userValues.set(nil, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(nil, forKey: REFRESH_TOKEN)
+                userValues.set(nil, forKey: ACCESS_TOKEN)
+                userValues.set(nil, forKey: TOKEN_TYPE)
                 userValues.set(nil, forKey: USER_NAME)
                 userValues.set(nil, forKey: EMAIL_ID)
                 userValues.set(false, forKey: USER_LOGGED_IN)
                 
               
-                let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? ViewController
+                let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? LoginPageViewController
                 self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
                 self.navigationController?.popToRootViewController(animated: true)
 

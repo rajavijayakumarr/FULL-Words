@@ -11,8 +11,9 @@ import CoreData
 
 
 class WordsTableViewController: UITableViewController {
+    typealias this = WordsTableViewController
     
-    var addButtonUIButton: UIButton!
+    static var addButtonUIButton: UIButton!
     var userName: String?
     var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
@@ -30,12 +31,19 @@ class WordsTableViewController: UITableViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        addButtonUIButton.removeFromSuperview()
+        this.addButtonUIButton.removeFromSuperview()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        let greenColor =  #colorLiteral(red: 0.3745603087, green: 0.7311893369, blue: 0.3431609594, alpha: 1)
+        self.navigationController?.navigationBar.backgroundColor = greenColor
+        self.navigationController?.navigationBar.barTintColor = greenColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
+        
         
         let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
         do {
@@ -51,23 +59,23 @@ class WordsTableViewController: UITableViewController {
         navigationController?.visibleViewController?.title = "Words"
         
         let window = UIApplication.shared.keyWindow
-        window?.addSubview(addButtonUIButton)
+        window?.addSubview(this.addButtonUIButton)
 
     }
     
     func addButtonCustomization() {
-        addButtonUIButton = UIButton(type: .custom)
-        addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 5/6, y: self.view.frame.maxY * 4/5, width: 50, height: 50)
-        addButtonUIButton.clipsToBounds = true
-        addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        addButtonUIButton.tintColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        addButtonUIButton.layer.isOpaque = true
-        addButtonUIButton.layer.cornerRadius = addButtonUIButton.frame.width / 2
-        addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
-        addButtonUIButton.titleLabel?.font = UIFont.init(name: "AvenirNext-UltraLightItalic", size: 50)
-        addButtonUIButton.setTitle("+", for: UIControlState.normal)
-        addButtonUIButton.addTarget(self, action: #selector(addButtonPressed), for: UIControlEvents.touchUpInside)
+        this.addButtonUIButton = UIButton(type: .custom)
+        this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 5/6, y: self.view.frame.maxY * 5/6, width: 50, height: 50)
+        this.addButtonUIButton.clipsToBounds = true
+        this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        this.addButtonUIButton.layer.isOpaque = true
+        this.addButtonUIButton.layer.cornerRadius = this.addButtonUIButton.frame.width / 2
+        this.addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
+        this.addButtonUIButton.titleLabel?.font = UIFont.init(name: "AvenirNext-UltraLightItalic", size: 50)
+        this.addButtonUIButton.setTitle("+", for: UIControlState.normal)
+        this.addButtonUIButton.addTarget(self, action: #selector(addButtonPressed), for: UIControlEvents.touchUpInside)
     }
 
     @objc func addButtonPressed(){

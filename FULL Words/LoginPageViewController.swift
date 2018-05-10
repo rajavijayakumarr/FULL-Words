@@ -11,18 +11,19 @@ import SafariServices
 import Alamofire
 import SwiftyJSON
 
-let ADAPTIVEU_CLIENT_ID = "29354-dad2dd8a5dda745be5e6faea2a155d77"
-let ADAPTIVEU_CLIENT_SECRET = "iOsdmGZj-8Tydm0sJ8l6N6dWCZ_e0uZQ5LTy2KfT"
-let ADAPTIVEU_REDIRECT_URL = "com.FULL.FULL-Words://"
-let ADAPTIVEU_CODE_URL = "https://access.anywhereworks.com/o/oauth2/auth"
-let ADAPTIVEU_TOKEN_URL = "https://access.anywhereworks.com/o/oauth2/v1/token"
+let CLIENT_ID = "29354-dad2dd8a5dda745be5e6faea2a155d77"
+let CLIENT_SECRET = "iOsdmGZj-8Tydm0sJ8l6N6dWCZ_e0uZQ5LTy2KfT"
+let REDIRECT_URL = "com.FULL.FULL-Words://"
+let CODE_URL = "https://access.anywhereworks.com/o/oauth2/auth"
+let TOKEN_URL = "https://access.anywhereworks.com/o/oauth2/v1/token"
 
-let ADAPTIVEU_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
-let ADAPTIVEU_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
+let USER_DETAILS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
+let FULL_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
+let FEEDS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/feed"
 
-let ADAPTIVIEWU_REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
-let ADAPTIVIEWU_ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
-let ADAPTIVIEWU_TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
+let REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
+let ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
+let TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
 let UNIQUE_STATE_TOKEN_VERIFY = "validated_token"
 let USER_LOGGED_IN = "USER_LOGGED_IN"
 let userValues = UserDefaults.standard
@@ -31,11 +32,11 @@ let USER_NAME = "USER_NAME"
 let EMAIL_ID = "EMAIL_ID"
 let kCloseSafariViewControllerNotification = "kCloseSafariViewControllerNotification"
 
-class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewControllerDelegate {
+class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariViewControllerDelegate {
     
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
-
+    var loadingSpinnerView: UIView!
 
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet var loadingVIew: UIView!
@@ -56,7 +57,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
-        let url = ADAPTIVEU_CODE_URL+"?response_type=code&client_id="+ADAPTIVEU_CLIENT_ID+"&access_type=offline&scope=awapis.identity+awapis.feeds.write&redirect_uri="+ADAPTIVEU_REDIRECT_URL+"&approval_prompt=force"
+        let url = CODE_URL+"?response_type=code&client_id="+CLIENT_ID+"&access_type=offline&scope=awapis.identity+awapis.feeds.write&redirect_uri="+REDIRECT_URL+"&approval_prompt=force"
         
         self.safariViewController = SFSafariViewController(url: URL(string: url)!)
         self.safariViewController?.delegate = self
@@ -75,17 +76,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
             self.present(alert, animated: true, completion: nil)
             return
         }
-        self.showLoadingView()
+        
+   //     self.showLoadingView()
+        loadingSpinnerView = UIViewController.displaySpinner(onView: self.view)
+        
         print(url?.absoluteString ?? "nothing")
         print(authenticationCode!)
         
-        var requestForGettingToken = URLRequest(url: URL(string: ADAPTIVEU_TOKEN_URL)!)
-        self.changeLoadingLabel(lableToShowInLoading: "sending token request")
+        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
+        self.changeLoadingLabel(lableToShowInLoading: "Loading .")
         
         var data:Data = "code=\(authenticationCode ?? "none")".data(using: .utf8)!
-        data.append("&client_id=\(ADAPTIVEU_CLIENT_ID)".data(using: .utf8)!)
-        data.append("&client_secret=\(ADAPTIVEU_CLIENT_SECRET)".data(using: .utf8)!)
-        data.append("&redirect_uri=\(ADAPTIVEU_REDIRECT_URL)".data(using: .utf8)!)
+        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&redirect_uri=\(REDIRECT_URL)".data(using: .utf8)!)
         data.append("&grant_type=authorization_code".data(using: .utf8)!)
         requestForGettingToken.httpBody = data
         requestForGettingToken.httpMethod = "POST"
@@ -101,11 +105,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 
                 print("****************************************************************************************")
                 print("accessToken: \(accessToken)\nrefreshToken: \(refreshToken)")
-                userValues.set(refreshToken, forKey: ADAPTIVIEWU_REFRESH_TOKEN)
-                userValues.set(accessToken, forKey: ADAPTIVIEWU_ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: ADAPTIVIEWU_TOKEN_TYPE)
+                userValues.set(refreshToken, forKey: REFRESH_TOKEN)
+                userValues.set(accessToken, forKey: ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: TOKEN_TYPE)
                 
-                self.changeLoadingLabel(lableToShowInLoading: "tokens received")
+   //             self.changeLoadingLabel(lableToShowInLoading: "Loading . .")
                 
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
                 
@@ -120,7 +124,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         
         var requestForGettingToken = requestForGettingTokens
         
-        var requestForGettingUserDate = URLRequest(url: URL(string: ADAPTIVEU_SCOPE_URL)!)
+        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingToken.httpMethod = "GET"
         
@@ -140,7 +144,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                     return
                 }
                 
-                self.changeLoadingLabel(lableToShowInLoading: "retrived user values")
                 
                 userValues.set(firstName + " " + lastName , forKey: USER_NAME)
                 userValues.set(emailId, forKey: EMAIL_ID)
@@ -151,7 +154,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
                 let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
                 toTabBarViewControler?.userName = firstName + " " + lastName
                 toTabBarViewControler?.emailId = emailId
+                
                 if let toTabBarViewControler = toTabBarViewControler {
+                    //            self.changeLoadingLabel(lableToShowInLoading: "Loading . . .")
+                    UIViewController.removeSpinner(spinner: self.loadingSpinnerView)
                     self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
                 }
             }
@@ -182,5 +188,32 @@ class ViewController: UIViewController, UIScrollViewDelegate, SFSafariViewContro
         return subS
     }
     
+}
+
+// spinner view done in uiviewcontroller to provide the spinner to be available across all the view controller
+// provided as a static method to be able to implement directly
+// if you dont want this type of the view just add it to the view controller and use it for there itself
+
+extension UIViewController {
+    class func displaySpinner(onView : UIView) -> UIView {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        return spinnerView
+    }
+    
+    class func removeSpinner(spinner :UIView) {
+        DispatchQueue.main.async {
+            spinner.removeFromSuperview()
+        }
+    }
 }
 
