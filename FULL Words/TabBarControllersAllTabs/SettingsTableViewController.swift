@@ -36,7 +36,7 @@ class SettingsTableViewController: UITableViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
         self.navigationController?.view.tintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         
-        self.navigationController?.visibleViewController?.title = "Settings"
+        self.navigationController?.visibleViewController?.navigationItem.title = "Settings"
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }

@@ -35,13 +35,15 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         
+        super.viewWillAppear(true)
         if let selection: IndexPath = wordDetailsTableView.indexPathForSelectedRow{
             wordDetailsTableView.deselectRow(at: selection, animated: true)
         }
         wordDetailsTableView.reloadData()
         self.navigationController?.visibleViewController?.navigationItem.title = "Word Details"
     self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
-    
+        self.navigationController?.navigationBar.backItem?.backBarButtonItem?.title = ""
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {

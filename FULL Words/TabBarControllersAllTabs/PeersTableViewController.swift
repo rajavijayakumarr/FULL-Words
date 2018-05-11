@@ -22,7 +22,7 @@ class PeersTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.visibleViewController?.title = "Peers"
+        self.navigationController?.visibleViewController?.navigationItem.title = "Peers"
 
         let whiteColor =  #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = whiteColor

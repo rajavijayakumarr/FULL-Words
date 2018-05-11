@@ -56,7 +56,9 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="LBV-Nc-IMU"/>
                     </scrollView>
-                    <navigationItem key="navigationItem" id="AzC-62-t0I"/>
+                    <navigationItem key="navigationItem" id="AzC-62-t0I">
+                        <barButtonItem key="backBarButtonItem" title=" " id="61b-Tl-41T"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="loadingLabel" destination="FMq-YR-e0a" id="zjN-ph-e6k"/>
                         <outlet property="loadingVIew" destination="knP-sc-k3E" id="zAn-BX-lmC"/>
@@ -82,10 +84,10 @@
             </objects>
             <point key="canvasLocation" x="939.13043478260875" y="34.239130434782609"/>
         </scene>
-        <!--Dashboard-->
+        <!-- -->
         <scene sceneID="Xu8-Rt-02n">
             <objects>
-                <viewController id="o9p-mx-JCu" customClass="DashBoardViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title=" " id="o9p-mx-JCu" customClass="DashBoardViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" id="8Zg-IJ-I42">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -99,10 +101,10 @@
             </objects>
             <point key="canvasLocation" x="2394.202898550725" y="-528.26086956521738"/>
         </scene>
-        <!--Learn-->
+        <!-- -->
         <scene sceneID="hf6-l1-U2V">
             <objects>
-                <viewController storyboardIdentifier="learnTabViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZnY-FF-vns" customClass="LearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="learnTabViewController" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZnY-FF-vns" customClass="LearnViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gPD-Wj-dQP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -132,12 +134,13 @@
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ncn-mH-Xgh">
                                                             <rect key="frame" x="8" y="8" width="380" height="54"/>
+                                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" red="0.87911438941955566" green="0.38517206907272339" blue="0.40746286511421204" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="Ncn-mH-Xgh" firstAttribute="leading" secondItem="63V-5T-PpS" secondAttribute="leading" constant="8" id="aOh-3A-OY2"/>
                                                         <constraint firstAttribute="bottom" secondItem="Ncn-mH-Xgh" secondAttribute="bottom" constant="7.6699999999999999" id="wDa-WY-5nO"/>
@@ -181,17 +184,17 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbJ-VH-KhM">
                                                             <rect key="frame" x="8" y="0.0" width="382" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZSe-ev-x86">
                                                             <rect key="frame" x="8.0000000000000036" y="30" width="62.333333333333343" height="19.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" red="0.24461841583251953" green="0.64843869209289551" blue="0.93499362468719482" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="ZSe-ev-x86" secondAttribute="bottom" constant="28.666666666666664" id="T4Z-Iu-XPx"/>
                                                         <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="sbJ-VH-KhM" secondAttribute="trailing" constant="8" id="d6a-uE-PyP"/>
@@ -268,14 +271,14 @@
             </objects>
             <point key="canvasLocation" x="1597.1014492753625" y="33.423913043478265"/>
         </scene>
-        <!--Words-->
+        <!-- -->
         <scene sceneID="fDC-hJ-jQl">
             <objects>
-                <tableViewController storyboardIdentifier="wordsviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eqC-Iu-7go" customClass="WordsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="wordsviewcontroller" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="eqC-Iu-7go" customClass="WordsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8V6-VO-4qk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -290,28 +293,28 @@
                                             <rect key="frame" x="7" y="10" width="399" height="87"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word :" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN2-Hm-kxh">
-                                                    <rect key="frame" x="8" y="13" width="383" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                    <nil key="textColor"/>
+                                                    <rect key="frame" x="8" y="8" width="383" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3t-ww-3Bd">
-                                                    <rect key="frame" x="8" y="52.666666666666664" width="366" height="20.333333333333336"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <rect key="frame" x="8" y="40" width="383" height="19.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.72784292697906494" green="0.38349097967147827" blue="0.78123170137405396" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="O3t-ww-3Bd" secondAttribute="bottom" constant="14" id="9JR-Sw-ffr"/>
-                                                <constraint firstAttribute="trailing" secondItem="O3t-ww-3Bd" secondAttribute="trailing" constant="25" id="Fp9-1r-KNK"/>
-                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="GB6-yw-sxx"/>
-                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="top" secondItem="K76-7e-cgZ" secondAttribute="top" constant="13" id="Gnr-7a-VZe"/>
-                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="top" secondItem="qN2-Hm-kxh" secondAttribute="bottom" constant="9.6666666666666643" id="T6w-hX-Qqz"/>
-                                                <constraint firstAttribute="trailing" secondItem="qN2-Hm-kxh" secondAttribute="trailing" constant="8" id="hjh-zc-f8q"/>
-                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="iWt-YK-fgB"/>
+                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="38h-7S-gTf"/>
+                                                <constraint firstAttribute="trailing" secondItem="qN2-Hm-kxh" secondAttribute="trailing" constant="8" id="3El-EE-Gmf"/>
+                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="top" secondItem="K76-7e-cgZ" secondAttribute="top" constant="8" id="9zi-cO-0hU"/>
+                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="top" secondItem="qN2-Hm-kxh" secondAttribute="bottom" constant="8" id="R4c-UT-VRb"/>
+                                                <constraint firstAttribute="trailing" secondItem="O3t-ww-3Bd" secondAttribute="trailing" constant="8" id="omF-Pm-fy0"/>
+                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="pF1-05-1EB"/>
+                                                <constraint firstAttribute="bottom" secondItem="O3t-ww-3Bd" secondAttribute="bottom" constant="27.670000000000002" id="ylU-Rv-wAC"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -359,7 +362,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Add Words" id="unj-iT-y9c">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="0iS-v8-eL1">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" image="BackButtonForNavigationBar" id="0iS-v8-eL1">
                                             <connections>
                                                 <action selector="cancelButtonPressed:" destination="c87-Ke-bZE" id="IMf-dQ-atX"/>
                                             </connections>
@@ -461,10 +464,10 @@
             </objects>
             <point key="canvasLocation" x="3272.4637681159425" y="332.60869565217394"/>
         </scene>
-        <!--Settings-->
+        <!-- -->
         <scene sceneID="9AP-Wq-7cw">
             <objects>
-                <tableViewController storyboardIdentifier="settingsOfUser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PCY-V3-rMr" customClass="SettingsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="settingsOfUser" title=" " useStoryboardIdentifierAsRestorationIdentifier="YES" id="PCY-V3-rMr" customClass="SettingsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="a6B-kE-LIZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -515,10 +518,10 @@
             </objects>
             <point key="canvasLocation" x="937.68115942028987" y="785.86956521739137"/>
         </scene>
-        <!--Peers-->
+        <!-- -->
         <scene sceneID="MVC-q7-f6Z">
             <objects>
-                <tableViewController id="zpr-rQ-qde" customClass="PeersTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title=" " id="zpr-rQ-qde" customClass="PeersTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IWD-7B-mSr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -604,18 +607,18 @@
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading Label:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJ8-L7-KNg">
                                                             <rect key="frame" x="8" y="0.0" width="378" height="48.666666666666664"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Content Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjk-eU-vRm">
                                                             <rect key="frame" x="8" y="56.666666666666679" width="107.33333333333333" height="20.333333333333336"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.34260815382003784" green="0.71417242288589478" blue="0.62153184413909912" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xjk-eU-vRm" secondAttribute="trailing" constant="9" id="2gQ-Fl-oTW"/>
                                                         <constraint firstItem="xjk-eU-vRm" firstAttribute="top" secondItem="YJ8-L7-KNg" secondAttribute="bottom" constant="8" id="4Oy-S2-ZCY"/>
@@ -663,10 +666,10 @@
             </objects>
             <point key="canvasLocation" x="3260.8695652173915" y="990.48913043478274"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Custom Navigation Controller-->
         <scene sceneID="RY6-u1-EtH">
             <objects>
-                <navigationController storyboardIdentifier="mainNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fin-E4-ClK" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="mainNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fin-E4-ClK" customClass="CustomNavigationController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="uam-UB-BoW">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
@@ -690,6 +693,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BackButtonForNavigationBar" width="15" height="27"/>
         <image name="DashboardIcon" width="25" height="25"/>
         <image name="LearnIcon" width="25" height="25"/>
         <image name="PeersIcon" width="25" height="25"/>

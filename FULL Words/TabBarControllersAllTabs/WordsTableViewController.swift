@@ -38,12 +38,11 @@ class WordsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        let greenColor =  #colorLiteral(red: 0.3745603087, green: 0.7311893369, blue: 0.3431609594, alpha: 1)
+        let greenColor =  #colorLiteral(red: 0.727842927, green: 0.3834909797, blue: 0.7812317014, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
         self.navigationController?.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
-        
         
         let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
         do {
@@ -56,8 +55,8 @@ class WordsTableViewController: UITableViewController {
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
             tableView.deselectRow(at: selection, animated: true)
         }
-        navigationController?.visibleViewController?.title = "Words"
-        
+        navigationController?.visibleViewController?.navigationItem.title = "Words"
+
         let window = UIApplication.shared.keyWindow
         window?.addSubview(this.addButtonUIButton)
 
@@ -95,11 +94,6 @@ class WordsTableViewController: UITableViewController {
         cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
         cell.meaningLabel.text = "      " + (wordsOfUserValues[indexPath.section].meaningOfWord ?? "")
         cell.meaningOfTheWord = wordsOfUserValues[indexPath.section].meaningOfWord
-        
-        let milliseconds = wordsOfUserValues[indexPath.section].dateAdded
-        let date = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
-        print(date as Any)
-        
         return cell
     }
     

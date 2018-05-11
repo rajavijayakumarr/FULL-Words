@@ -32,7 +32,7 @@ let USER_NAME = "USER_NAME"
 let EMAIL_ID = "EMAIL_ID"
 let kCloseSafariViewControllerNotification = "kCloseSafariViewControllerNotification"
 
-class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariViewControllerDelegate {
+class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariViewControllerDelegate{
     
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
@@ -188,6 +188,23 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         return subS
     }
     
+}
+
+//to hide the back button globally in the navigation bar use this custom class for the uinavigatoncontroller
+class CustomNavigationController: UINavigationController {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.delegate = self
+    }
+}
+
+
+// MARK:UINavigationControllerDelegate
+extension CustomNavigationController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+    }
 }
 
 // spinner view done in uiviewcontroller to provide the spinner to be available across all the view controller
