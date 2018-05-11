@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
             if let viewController = viewController {
                 let newNavigationController = CustomNavigationController()
-                let greenColor =  #colorLiteral(red: 0.3745603087, green: 0.7311893369, blue: 0.3431609594, alpha: 1)
+                let greenColor =  #colorLiteral(red: 0.3570135832, green: 0.7567988634, blue: 0.7298560143, alpha: 1)
                 newNavigationController.navigationBar.backgroundColor = greenColor
                 newNavigationController.navigationBar.barTintColor = greenColor
                 newNavigationController.navigationBar.isTranslucent = false

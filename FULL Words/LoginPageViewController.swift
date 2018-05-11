@@ -78,7 +78,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         }
         
    //     self.showLoadingView()
-        loadingSpinnerView = UIViewController.displaySpinner(onView: self.view)
+        loadingSpinnerView = UIViewController.displaySpinner(onView: self.view, toDisplayString: "Signing in")
         
         print(url?.absoluteString ?? "nothing")
         print(authenticationCode!)
@@ -191,36 +191,48 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
 }
 
 //to hide the back button globally in the navigation bar use this custom class for the uinavigatoncontroller
-class CustomNavigationController: UINavigationController {
+class CustomNavigationController: UINavigationController, UINavigationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.delegate = self
     }
-}
-
-
-// MARK:UINavigationControllerDelegate
-extension CustomNavigationController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 }
+
+// MARK:UINavigationControllerDelegate
+
 
 // spinner view done in uiviewcontroller to provide the spinner to be available across all the view controller
 // provided as a static method to be able to implement directly
 // if you dont want this type of the view just add it to the view controller and use it for there itself
 
 extension UIViewController {
-    class func displaySpinner(onView : UIView) -> UIView {
+    class func displaySpinner(onView : UIView, toDisplayString : String? = nil) -> UIView {
         let spinnerView = UIView.init(frame: onView.bounds)
+         let displayLabel: UILabel = UILabel()
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+
+        if let displayText = toDisplayString {
+            displayLabel.bounds = CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 150, height: 60)
+            displayLabel.font = UIFont(name: "Avenir-Heavy", size: 50)
+//            displayLabel.tintColor = #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 0.5)
+            displayLabel.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            displayLabel.text = displayText
+            displayLabel.backgroundColor = UIColor.clear
+        }
+        
+        
         let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
         ai.startAnimating()
-        ai.center = spinnerView.center
-        
+        ai.center = CGPoint(x: spinnerView.bounds.midX, y: spinnerView.bounds.midY + 120)
         DispatchQueue.main.async {
             spinnerView.addSubview(ai)
+            if let _ = toDisplayString {
+                spinnerView.addSubview(displayLabel)
+            }
             onView.addSubview(spinnerView)
         }
         

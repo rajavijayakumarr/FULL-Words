@@ -13,6 +13,8 @@ import Alamofire
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
 
+let CHANGE_TABLEVIEWCELL_LENGTH = "CHANGE_TABLEVIEWCELL_LENGTH"
+
 class NewWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
@@ -38,15 +40,21 @@ class NewWordViewController: UIViewController {
         self.scrollView.delegate = self
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
-        addWordsTableView.rowHeight = 125
+        addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
         
         saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed(_:)))
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
         saveBarButtonPressed.isEnabled = false
+        NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+    }
+    @objc func changeTableHeight() {
+        addWordsTableView.beginUpdates()
+        addWordsTableView.endUpdates()
     }
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = UIColor.blue
@@ -75,7 +83,7 @@ class NewWordViewController: UIViewController {
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         
-        let loadingSpinWheel = UIViewController.displaySpinner(onView: self.view)
+        let loadingSpinWheel = UIViewController.displaySpinner(onView: self.view, toDisplayString: "Uploading Word")
         
         let addedWord = NewWordViewController.nameOfTheWord
         let wordMeaning = NewWordViewController.meaningOfTheWord
@@ -181,7 +189,16 @@ extension UIViewController {
 extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 125
+        
+        if tableView.tag == 0 {
+            return UITableViewAutomaticDimension
+        } else if tableView.tag == 1 {
+            return UITableViewAutomaticDimension
+        } else if tableView.tag == 2 {
+            return UITableViewAutomaticDimension
+        }
+        
+        return self.tableView(tableView, heightForRowAt: indexPath)
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -271,16 +288,19 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         return true
     }
     func textViewDidChange(_ textView: UITextView) {
+        
+        
         if textView.tag == 0{
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.nameOfTheWord = wordTextView.text
-            
         } else if textView.tag == 1 {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.meaningOfTheWord = wordTextView.text
         } else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.sourceOfTheWord = wordTextView.text
         }
         NewWordViewController.chechAndEnableAddButton()
-        
     }
     
 }

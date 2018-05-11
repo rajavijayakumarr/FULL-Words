@@ -78,8 +78,6 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
-        cell?.viewForWordDetails.dropShadow(color: .black, opacity: 1, radius: 2)
-        cell?.viewForWordDetails.layer.cornerRadius = 5
         cell?.contentLabel.text = "      "
         switch headingFotTheTableViewCells[indexPath.section] {
         case nameOfWord:
@@ -121,7 +119,6 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
 ///custome tableviewcell for this table view
 class WordDetailsTableViewCell: UITableViewCell {
     // identifire: tableViewForWordDetails
-    @IBOutlet weak var viewForWordDetails: UIView!
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     
