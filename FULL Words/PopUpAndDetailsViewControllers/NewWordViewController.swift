@@ -16,12 +16,13 @@ let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
 let CHANGE_TABLEVIEWCELL_LENGTH = "CHANGE_TABLEVIEWCELL_LENGTH"
 let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
 
+// this is just an example commit i made to check for the merge request
+
 class NewWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
 
-    // just for commit and push
     static var nameOfTheWord: String? = ""
     static var meaningOfTheWord: String? = ""
     static var sourceOfTheWord: String? = ""
@@ -133,9 +134,6 @@ class NewWordViewController: UIViewController {
                                     })
                                 })
                             }
-
-
-                            
                         } else {
                             UIViewController.removeSpinner(spinner: loadingSpinWheel)
                             let error = receivedWordValues["error"].stringValue
@@ -144,8 +142,6 @@ class NewWordViewController: UIViewController {
                             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                             self.present(alert, animated: true, completion: nil)
                         }
-                        
-        
                     } else {
                         print(responseData.error as Any)
                     }
