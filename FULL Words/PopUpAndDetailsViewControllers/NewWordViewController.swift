@@ -20,6 +20,7 @@ let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
 
 class NewWordViewController: UIViewController {
     
+
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
 
@@ -65,16 +66,19 @@ class NewWordViewController: UIViewController {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         saveBarButtonPressed.isEnabled = false
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
     }
     override func viewWillDisappear(_ animated: Bool) {
         NewWordViewController.nameOfTheWord = ""
         NewWordViewController.sourceOfTheWord = ""
         NewWordViewController.meaningOfTheWord = ""
         saveBarButtonPressed = nil
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -126,7 +130,7 @@ class NewWordViewController: UIViewController {
 //                            }))
                             self.present(alert, animated: true, completion: nil)
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 alert.dismiss(animated: true, completion: {
                                     self.dismiss(animated: true, completion: {
                                         let name = NSNotification.Name.init(self.newWOrdAdded)
@@ -187,15 +191,10 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if tableView.tag == 0 {
-            return UITableViewAutomaticDimension
-        } else if tableView.tag == 1 {
-            return UITableViewAutomaticDimension
-        } else if tableView.tag == 2 {
+        if tableView.tag == 0, tableView.tag == 1, tableView.tag == 2 {
             return UITableViewAutomaticDimension
         }
-        
-        return self.tableView(tableView, heightForRowAt: indexPath)
+        return UITableViewAutomaticDimension
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -230,20 +229,21 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
             let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
             wordCell?.headingLabel.text = "Word:"
             wordCell?.wordTextView.tag = 0
+            wordCell?.wordTextView.becomeFirstResponder()
             return wordCell ?? cell
             
         case "Meaning:":
             let meaningCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
             meaningCell?.headingLabel.text = "Meaning:"
             meaningCell?.wordTextView.tag = 1
-            meaningCell?.wordTextView.keyboardType = UIKeyboardType.default
+            meaningCell?.wordTextView.returnKeyType = UIReturnKeyType.default
             return meaningCell ?? cell
 
         case "Source:":
             let sourceCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
             sourceCell?.headingLabel.text = "Source:"
             sourceCell?.wordTextView.tag = 2
-            sourceCell?.wordTextView.keyboardType = UIKeyboardType.default
+            sourceCell?.wordTextView.returnKeyType = UIReturnKeyType.default
             return sourceCell ?? cell
 
         default:

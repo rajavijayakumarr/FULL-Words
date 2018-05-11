@@ -48,7 +48,6 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         let name = NSNotification.Name.init(rawValue: kCloseSafariViewControllerNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
 
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +68,6 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
 
         let url = notification.object as? URL
         let authenticationCode = self.getTheAuthenticationCode(from: url)
-        
         guard authenticationCode != nil || authenticationCode == "access_denied" else {
             let alert = UIAlertController(title: "User cancelled", message: "Try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
@@ -212,14 +210,15 @@ class CustomNavigationController: UINavigationController, UINavigationController
 extension UIViewController {
     class func displaySpinner(onView : UIView, toDisplayString : String? = nil) -> UIView {
         let spinnerView = UIView.init(frame: onView.bounds)
-         let displayLabel: UILabel = UILabel()
+         let displayLabel: UILabel = UILabel(frame: CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 250, height: 60))
+        displayLabel.center = spinnerView.center
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
 
         if let displayText = toDisplayString {
-            displayLabel.bounds = CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 150, height: 60)
-            displayLabel.font = UIFont(name: "Avenir-Heavy", size: 50)
-//            displayLabel.tintColor = #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 0.5)
-            displayLabel.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            displayLabel.font = UIFont(name: "Avenir-Light", size: 35)
+            displayLabel.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.8472549229)
+            displayLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.8472549229)
+            displayLabel.textAlignment = .center
             displayLabel.text = displayText
             displayLabel.backgroundColor = UIColor.clear
         }
