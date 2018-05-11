@@ -361,7 +361,7 @@
                                     <color key="textShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Add Words" id="unj-iT-y9c">
+                                    <navigationItem title="New Words" id="unj-iT-y9c">
                                         <barButtonItem key="leftBarButtonItem" title="Item" image="BackButtonForNavigationBar" id="0iS-v8-eL1">
                                             <connections>
                                                 <action selector="cancelButtonPressed:" destination="c87-Ke-bZE" id="IMf-dQ-atX"/>

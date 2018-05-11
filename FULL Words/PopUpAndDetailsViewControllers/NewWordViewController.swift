@@ -14,13 +14,14 @@ let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
 
 let CHANGE_TABLEVIEWCELL_LENGTH = "CHANGE_TABLEVIEWCELL_LENGTH"
+let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
 
 class NewWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
 
-    
+    // just for commit and push
     static var nameOfTheWord: String? = ""
     static var meaningOfTheWord: String? = ""
     static var sourceOfTheWord: String? = ""
@@ -42,26 +43,25 @@ class NewWordViewController: UIViewController {
         addWordsTableView.dataSource = self
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
-        
-        saveBarButtonPressed = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPressed(_:)))
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        saveBarButtonPressed = UIBarButtonItem(title: "Save",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
         saveBarButtonPressed.isEnabled = false
         NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
     }
+    
     @objc func changeTableHeight() {
         addWordsTableView.beginUpdates()
         addWordsTableView.endUpdates()
     }
     @objc func saveButtonValidated() {
-        saveBarButtonPressed.tintColor = UIColor.blue
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         saveBarButtonPressed.isEnabled = true
     }
     @objc func saveButtonInvalidated() {
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         saveBarButtonPressed.isEnabled = false
     }
     
@@ -73,6 +73,7 @@ class NewWordViewController: UIViewController {
         NewWordViewController.sourceOfTheWord = ""
         NewWordViewController.meaningOfTheWord = ""
         saveBarButtonPressed = nil
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -210,6 +211,21 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return headingForTableViewCells.count
     }
+    
+    ///////////////////// to minimise the distance between two section in a tableview
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1.0
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1.0
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView.init(frame: CGRect.zero)
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView.init(frame: CGRect.zero)
+    }
+    /////////////////////
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
