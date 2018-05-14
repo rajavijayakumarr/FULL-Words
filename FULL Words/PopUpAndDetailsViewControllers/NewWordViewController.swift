@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Alamofire
+import MBProgressHUD
 
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
@@ -103,7 +104,8 @@ class NewWordViewController: UIViewController {
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         
-        let loadingSpinWheel = UIViewController.displaySpinner(onView: self.view, toDisplayString: "Uploading Word")
+        let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        spinnerView.label.text = "Uploading word"
         
         let addedWord = NewWordViewController.nameOfTheWord
         let wordMeaning = NewWordViewController.meaningOfTheWord
@@ -133,7 +135,7 @@ class NewWordViewController: UIViewController {
                             PersistenceService.saveContext()
                             self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
                             
-                            UIViewController.removeSpinner(spinner: loadingSpinWheel)
+                            MBProgressHUD.hide(for: self.view, animated: true)
                             let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
 //                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
 //
@@ -153,7 +155,7 @@ class NewWordViewController: UIViewController {
                                 })
                             }
                         } else {
-                            UIViewController.removeSpinner(spinner: loadingSpinWheel)
+                            MBProgressHUD.hide(for: self.view, animated: true)
                             let error = receivedWordValues["error"].stringValue
                             let message = receivedWordValues["msg"].stringValue
                             let alert = UIAlertController(title: error, message: message, preferredStyle: .alert)

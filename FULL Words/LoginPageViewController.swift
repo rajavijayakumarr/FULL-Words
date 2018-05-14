@@ -34,6 +34,7 @@ let EMAIL_ID = "EMAIL_ID"
 let kCloseSafariViewControllerNotification = "kCloseSafariViewControllerNotification"
 
 class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariViewControllerDelegate{
+    @IBOutlet weak var loginButtonOutlet: UIButton!
     
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
@@ -43,6 +44,9 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         // Do any additional setup after loading the view, typically from a nib.
         let name = NSNotification.Name.init(rawValue: kCloseSafariViewControllerNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
+        
+        loginButtonOutlet.layer.cornerRadius = 10
+        loginButtonOutlet.clipsToBounds = true
 
     }
     
