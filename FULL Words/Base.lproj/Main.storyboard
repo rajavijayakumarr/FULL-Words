@@ -59,28 +59,8 @@
                     <navigationItem key="navigationItem" id="AzC-62-t0I">
                         <barButtonItem key="backBarButtonItem" title=" " id="61b-Tl-41T"/>
                     </navigationItem>
-                    <connections>
-                        <outlet property="loadingLabel" destination="FMq-YR-e0a" id="zjN-ph-e6k"/>
-                        <outlet property="loadingVIew" destination="knP-sc-k3E" id="zAn-BX-lmC"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" restorationIdentifier="ladingScreenView" id="knP-sc-k3E">
-                    <rect key="frame" x="0.0" y="0.0" width="400" height="640"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="16" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FMq-YR-e0a">
-                            <rect key="frame" x="20" y="285" width="360" height="71"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="30"/>
-                            <color key="textColor" red="0.84555273009999998" green="0.18439782830000001" blue="0.84443642990000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <viewLayoutGuide key="safeArea" id="6gU-jb-Y3S"/>
-                </view>
             </objects>
             <point key="canvasLocation" x="939.13043478260875" y="34.239130434782609"/>
         </scene>
@@ -282,39 +262,39 @@
                         <color key="separatorColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" restorationIdentifier="wordsofthetableviewcells" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsofthetableviewcells" rowHeight="105" id="r3G-3W-Et5" customClass="AddedWordsCells" customModule="FULL_Words" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="105"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" restorationIdentifier="wordsofthetableviewcells" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsofthetableviewcells" rowHeight="79" id="r3G-3W-Et5" customClass="AddedWordsCells" customModule="FULL_Words" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="79"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="r3G-3W-Et5" id="a8o-j6-j5r">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="105"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K76-7e-cgZ">
-                                            <rect key="frame" x="7" y="10" width="399" height="87"/>
+                                            <rect key="frame" x="7" y="10" width="399" height="61"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word :" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN2-Hm-kxh">
-                                                    <rect key="frame" x="8" y="8" width="383" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <rect key="frame" x="8" y="7.9999999999999982" width="383" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meaning" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3t-ww-3Bd">
-                                                    <rect key="frame" x="8" y="40" width="383" height="19.333333333333329"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <rect key="frame" x="8" y="35" width="383" height="18"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.32890403270000002" green="0.73019832370000004" blue="0.80726450679999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.34481000899999997" green="0.71779018640000003" blue="0.62152761219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="38h-7S-gTf"/>
-                                                <constraint firstAttribute="trailing" secondItem="qN2-Hm-kxh" secondAttribute="trailing" constant="8" id="3El-EE-Gmf"/>
-                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="top" secondItem="K76-7e-cgZ" secondAttribute="top" constant="8" id="9zi-cO-0hU"/>
-                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="top" secondItem="qN2-Hm-kxh" secondAttribute="bottom" constant="8" id="R4c-UT-VRb"/>
-                                                <constraint firstAttribute="trailing" secondItem="O3t-ww-3Bd" secondAttribute="trailing" constant="8" id="omF-Pm-fy0"/>
-                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="pF1-05-1EB"/>
-                                                <constraint firstAttribute="bottom" secondItem="O3t-ww-3Bd" secondAttribute="bottom" constant="27.670000000000002" id="ylU-Rv-wAC"/>
+                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="top" secondItem="qN2-Hm-kxh" secondAttribute="bottom" constant="6.6666666666666714" id="8jr-qB-O0D"/>
+                                                <constraint firstItem="O3t-ww-3Bd" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="Dq1-Q5-Sw0"/>
+                                                <constraint firstAttribute="bottom" secondItem="O3t-ww-3Bd" secondAttribute="bottom" constant="8" id="hAk-Ss-HnT"/>
+                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="top" secondItem="K76-7e-cgZ" secondAttribute="top" constant="8" id="jC1-yy-8GW"/>
+                                                <constraint firstAttribute="trailing" secondItem="qN2-Hm-kxh" secondAttribute="trailing" constant="8" id="vCo-x8-dIQ"/>
+                                                <constraint firstItem="qN2-Hm-kxh" firstAttribute="leading" secondItem="K76-7e-cgZ" secondAttribute="leading" constant="8" id="w2M-bz-P9P"/>
+                                                <constraint firstAttribute="trailing" secondItem="O3t-ww-3Bd" secondAttribute="trailing" constant="8" id="zFr-Yn-fiI"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -325,7 +305,7 @@
                                         <constraint firstItem="K76-7e-cgZ" firstAttribute="top" secondItem="a8o-j6-j5r" secondAttribute="top" constant="10" id="vyR-uv-v7a"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="addedWordLabel" destination="qN2-Hm-kxh" id="42m-KG-PIf"/>
                                     <outlet property="meaningLabel" destination="O3t-ww-3Bd" id="7qg-fa-e8l"/>
@@ -355,14 +335,14 @@
                             <navigationBar contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rvL-bp-u7X">
                                 <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="barTintColor" red="0.35701358319999998" green="0.75679886340000002" blue="0.72985601430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="barTintColor" red="0.34481000900268555" green="0.71779018640518188" blue="0.62152761220932007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="textShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="New Words" id="unj-iT-y9c">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" image="BackButtonForNavigationBar" id="0iS-v8-eL1">
+                                    <navigationItem title="New Word" id="unj-iT-y9c">
+                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="0iS-v8-eL1">
                                             <connections>
                                                 <action selector="cancelButtonPressed:" destination="c87-Ke-bZE" id="IMf-dQ-atX"/>
                                             </connections>
@@ -415,7 +395,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading Label:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHj-l8-6D9">
                                                             <rect key="frame" x="20" y="11" width="386" height="24"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                                            <color key="textColor" red="0.44200104480000002" green="0.56225413079999997" blue="0.61402809619999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" red="0.34481000899999997" green="0.71779018640000003" blue="0.62152761219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -454,7 +434,7 @@
                                 <viewLayoutGuide key="safeArea" id="Usm-nJ-Rwz"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.35701358319999998" green="0.75679886340000002" blue="0.72985601430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.34481000899999997" green="0.71779018640000003" blue="0.62152761219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="dje-cI-5nA" firstAttribute="leading" secondItem="rvL-bp-u7X" secondAttribute="leading" id="60N-tP-dwU"/>
@@ -677,7 +657,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="uam-UB-BoW">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.35701358318328857" green="0.75679886341094971" blue="0.72985601425170898" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.34481000899999997" green="0.71779018640000003" blue="0.62152761219999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -694,7 +674,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BackButtonForNavigationBar" width="12" height="22"/>
         <image name="DashboardIcon" width="25" height="25"/>
         <image name="LearnIcon" width="25" height="25"/>
         <image name="PeersIcon" width="25" height="25"/>

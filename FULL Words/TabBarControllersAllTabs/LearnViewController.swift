@@ -41,7 +41,7 @@ class LearnViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        let greenColor =  #colorLiteral(red: 0.3570135832, green: 0.7567988634, blue: 0.7298560143, alpha: 1)
+        let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import MBProgressHUD
 
 
 class SettingsTableViewController: UITableViewController {
@@ -115,18 +118,42 @@ class SettingsTableViewController: UITableViewController {
             let alert = UIAlertController(title: nil, message: "Are you sure?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 
+                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+                spinnerView.label.text = "Logging out"
+                //revoking the access token
+                let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
+                var requestForRevokingToken = URLRequest(url: URL(string: "https://access.anywhereworks.com/o/oauth2/revoke?token=\(accessToken)")!)
+                requestForRevokingToken.httpMethod = "GET"
                 
-                userValues.set(nil, forKey: REFRESH_TOKEN)
-                userValues.set(nil, forKey: ACCESS_TOKEN)
-                userValues.set(nil, forKey: TOKEN_TYPE)
-                userValues.set(nil, forKey: USER_NAME)
-                userValues.set(nil, forKey: EMAIL_ID)
-                userValues.set(false, forKey: USER_LOGGED_IN)
-                
-              
-                let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? LoginPageViewController
-                self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
-                self.navigationController?.popToRootViewController(animated: true)
+                Alamofire.request(requestForRevokingToken).responseJSON { (responseData) in
+                    if responseData.error == nil{
+                        let responseJSON_Data = JSON(responseData.data!)
+                        if responseJSON_Data["ok"].boolValue {
+                            //this is should be implemented after the user is successfully logged out and implement the loading screen here
+                            
+                            print(responseJSON_Data["ok"].boolValue)
+                            
+                            userValues.set(nil, forKey: REFRESH_TOKEN)
+                            userValues.set(nil, forKey: ACCESS_TOKEN)
+                            userValues.set(nil, forKey: TOKEN_TYPE)
+                            userValues.set(nil, forKey: USER_NAME)
+                            userValues.set(nil, forKey: EMAIL_ID)
+                            userValues.set(false, forKey: USER_LOGGED_IN)
+                            
+                            MBProgressHUD.hide(for: self.view, animated: true)
+                            
+                            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? LoginPageViewController
+                            self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
+                            self.navigationController?.popToRootViewController(animated: true)
+                        } else {
+                            //this is where the token revolke process is not working as it should be
+                            MBProgressHUD.hide(for: self.view, animated: true)
+                            let alert = UIAlertController(title: "Could not Logout", message: "try again", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
 
             }))
             

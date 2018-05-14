@@ -10,6 +10,7 @@ import UIKit
 import SafariServices
 import Alamofire
 import SwiftyJSON
+import MBProgressHUD
 
 let CLIENT_ID = "29354-dad2dd8a5dda745be5e6faea2a155d77"
 let CLIENT_SECRET = "iOsdmGZj-8Tydm0sJ8l6N6dWCZ_e0uZQ5LTy2KfT"
@@ -36,12 +37,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
     
     var authenticationSession: SFAuthenticationSession? = nil
     var safariViewController: SFSafariViewController? = nil
-    var loadingSpinnerView: UIView!
 
-    @IBOutlet weak var loadingLabel: UILabel!
-    @IBOutlet var loadingVIew: UIView!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -76,13 +72,15 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         }
         
    //     self.showLoadingView()
-        loadingSpinnerView = UIViewController.displaySpinner(onView: self.view, toDisplayString: "Signing in")
+        
+        let spinningActivity = MBProgressHUD.showAdded(to: self.view, animated: true)
+        spinningActivity.label.text = "Signing in"
+        
         
         print(url?.absoluteString ?? "nothing")
         print(authenticationCode!)
         
         var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
-        self.changeLoadingLabel(lableToShowInLoading: "Loading .")
         
         var data:Data = "code=\(authenticationCode ?? "none")".data(using: .utf8)!
         data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
@@ -109,7 +107,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                 
    //             self.changeLoadingLabel(lableToShowInLoading: "Loading . .")
                 
-                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)
                 
             }
         }
@@ -118,13 +116,11 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         })
     }
     
-    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String, request_For_Getting_Token requestForGettingTokens: URLRequest) -> Void {
-        
-        var requestForGettingToken = requestForGettingTokens
+    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Void {
         
         var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-        requestForGettingToken.httpMethod = "GET"
+        requestForGettingUserDate.httpMethod = "GET"
         
         Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
             if responseData.error == nil {
@@ -155,25 +151,13 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                 
                 if let toTabBarViewControler = toTabBarViewControler {
                     //            self.changeLoadingLabel(lableToShowInLoading: "Loading . . .")
-                    UIViewController.removeSpinner(spinner: self.loadingSpinnerView)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
                 }
             }
         }
     }
-    func showLoadingView() {
-        loadingVIew.bounds.size.width = view.bounds.width
-        loadingVIew.bounds.size.height = view.bounds.height
-        
-        loadingVIew.center = view.center
-        view.addSubview(loadingVIew)
-    }
-    func changeLoadingLabel(lableToShowInLoading lable: String) {
-        loadingLabel.text = lable
-    }
-    func hideLoadingView() {
-        loadingVIew.removeFromSuperview()
-    }
+
     func getTheAuthenticationCode(from url:URL?) -> String? {
 
         let stringUrl:String! = url?.absoluteString
@@ -210,7 +194,7 @@ class CustomNavigationController: UINavigationController, UINavigationController
 extension UIViewController {
     class func displaySpinner(onView : UIView, toDisplayString : String? = nil) -> UIView {
         let spinnerView = UIView.init(frame: onView.bounds)
-         let displayLabel: UILabel = UILabel(frame: CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 250, height: 60))
+         let displayLabel: UILabel = UILabel(frame: CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 350, height: 60))
         displayLabel.center = spinnerView.center
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
 
@@ -226,7 +210,7 @@ extension UIViewController {
         
         let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
         ai.startAnimating()
-        ai.center = CGPoint(x: spinnerView.bounds.midX, y: spinnerView.bounds.midY + 120)
+        ai.center = CGPoint(x: spinnerView.bounds.midX, y: spinnerView.bounds.midY + 60)
         DispatchQueue.main.async {
             spinnerView.addSubview(ai)
             if let _ = toDisplayString {
@@ -234,7 +218,6 @@ extension UIViewController {
             }
             onView.addSubview(spinnerView)
         }
-        
         return spinnerView
     }
     

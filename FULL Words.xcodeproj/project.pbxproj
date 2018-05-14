@@ -18,8 +18,6 @@
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
 		CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */; };
 		CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */; };
-		CE2E04FA20A554D200620AE3 /* backbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2E04F820A554CD00620AE3 /* backbutton@2x.png */; };
-		CE2E04FB20A554D200620AE3 /* backbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2E04F920A554D000620AE3 /* backbutton.png */; };
 		CE3FA82220945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */; };
 		CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA823209B37720022D4D5 /* PersistenceService.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
@@ -91,8 +89,6 @@
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		CE2E04F820A554CD00620AE3 /* backbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backbutton@2x.png"; sourceTree = "<group>"; };
-		CE2E04F920A554D000620AE3 /* backbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backbutton.png; sourceTree = "<group>"; };
 		CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSelectNumberOfWordsToLearnViewController.swift; sourceTree = "<group>"; };
 		CE3FA823209B37720022D4D5 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
@@ -233,8 +229,6 @@
 		CE9D236B20A2C45F0043962B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				CE2E04F820A554CD00620AE3 /* backbutton@2x.png */,
-				CE2E04F920A554D000620AE3 /* backbutton.png */,
 				CE550E13208F37B800DA10DF /* dashboardicon.png */,
 				CE550E10208F37B500DA10DF /* dashboardicon@2x.png */,
 				CE550E1C208F3AB500DA10DF /* wordsIcon.png */,
@@ -413,8 +407,6 @@
 				CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */,
 				CE19226520874E88000D7676 /* Main.storyboard in Resources */,
 				CE85979D20A1B26A00FB6914 /* learnicon.png in Resources */,
-				CE2E04FA20A554D200620AE3 /* backbutton@2x.png in Resources */,
-				CE2E04FB20A554D200620AE3 /* backbutton.png in Resources */,
 				CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */,
 				CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */,
@@ -505,11 +497,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FULL Words/Pods-FULL Words-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -715,10 +709,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -734,10 +725,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -754,11 +742,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -776,11 +760,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -797,11 +777,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -818,11 +794,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

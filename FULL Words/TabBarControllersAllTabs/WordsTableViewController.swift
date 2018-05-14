@@ -38,7 +38,7 @@ class WordsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        let greenColor =  #colorLiteral(red: 0.3570135832, green: 0.7567988634, blue: 0.7298560143, alpha: 1)
+        let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
@@ -68,7 +68,7 @@ class WordsTableViewController: UITableViewController {
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
         this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
         this.addButtonUIButton.layer.isOpaque = true
         this.addButtonUIButton.layer.cornerRadius = this.addButtonUIButton.frame.width / 2
         this.addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
@@ -89,7 +89,7 @@ class WordsTableViewController: UITableViewController {
         cell.addedWord = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
         cell.addedBy = userName!
         cell.viewOfAddedWordsCell.layer.cornerRadius = 5
-        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 1, radius: 2)
+        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 0.5, radius: 1)
         
         cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
         cell.meaningLabel.text = "      " + (wordsOfUserValues[indexPath.section].meaningOfWord ?? "")

@@ -23,6 +23,7 @@ class NewWordViewController: UIViewController {
 
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
+    static var ifUserPressedCancelAfterGivingWOrdValues = false
 
     static var nameOfTheWord: String? = ""
     static var meaningOfTheWord: String? = ""
@@ -45,7 +46,7 @@ class NewWordViewController: UIViewController {
         addWordsTableView.dataSource = self
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
-        saveBarButtonPressed = UIBarButtonItem(title: "Save",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
+        saveBarButtonPressed = UIBarButtonItem(title: "Add",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
         saveBarButtonPressed.isEnabled = false
@@ -61,6 +62,7 @@ class NewWordViewController: UIViewController {
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         saveBarButtonPressed.isEnabled = true
+        
     }
     @objc func saveButtonInvalidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
@@ -68,6 +70,7 @@ class NewWordViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
         super.viewWillAppear(true)
     }
     
@@ -85,7 +88,18 @@ class NewWordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        
+        if NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues {
+            let alert = UIAlertController(title: "Word not Saved", message: "Are you sure you want to close?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {_ in
                 self.dismiss(animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {_ in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -281,7 +295,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = UIColor.black
+        textView.textColor = #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
@@ -301,13 +315,22 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     func textViewDidChange(_ textView: UITextView) {
         
-        
         if textView.tag == 0{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.nameOfTheWord = wordTextView.text
+            if !(textView.text == "") {
+                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = true
+            } else {
+                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
+            }
         } else if textView.tag == 1 {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.meaningOfTheWord = wordTextView.text
+            if !(textView.text == "") {
+                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = true
+            } else {
+                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
+            }
         } else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.sourceOfTheWord = wordTextView.text

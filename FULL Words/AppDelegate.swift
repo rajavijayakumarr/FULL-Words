@@ -24,15 +24,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if userValues.bool(forKey: USER_LOGGED_IN) {
             
+            let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
+            let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
             
-        viewController = UserPageTabController()
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            if !self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)  {
+                print("this might not happen for now and this will probably dont get printed")
+                var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
+                
+                var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+                data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+                data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+                data.append("&grant_type=refresh_token".data(using: .utf8)!)
+                requestForGettingToken.httpBody = data
+                requestForGettingToken.httpMethod = "POST"
+                
+                Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+                    if responseData.error == nil{
+                        print(responseData)
+                        var dataContainingTokens = JSON(responseData.data!)
+                        let accessToken = dataContainingTokens["access_token"].stringValue
+                        let tokenType = dataContainingTokens["token_type"].stringValue
+                        
+                        print("****************************************************************************************")
+                        print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                        userValues.set(accessToken, forKey: ACCESS_TOKEN)
+                        userValues.set(tokenType, forKey: TOKEN_TYPE)
+                        userValues.set(true, forKey: USER_LOGGED_IN)
+                        
+                        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
+                        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+                        requestForGettingUserDate.httpMethod = "GET"
+                        //                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
+                        print(self.getTheUserValues(access_Token: accessToken, token_Type: tokenType))
+                        
+                    }
+                }
+            } else {
+                print("the function that you have just typed is cancelled")
+                print("this is the correct expected app behavior")
+            }
+            
+            //before this all the receiving and sending occurs and use befoer this to implement the loading screen
+            //this is where the new view controller will be displayed
+            
+            viewController = UserPageTabController()
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
             viewController?.userName = userValues.value(forKey: USER_NAME) as? String
             viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
             if let viewController = viewController {
                 let newNavigationController = CustomNavigationController()
-                let greenColor =  #colorLiteral(red: 0.3570135832, green: 0.7567988634, blue: 0.7298560143, alpha: 1)
+                let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
                 newNavigationController.navigationBar.backgroundColor = greenColor
                 newNavigationController.navigationBar.barTintColor = greenColor
                 newNavigationController.navigationBar.isTranslucent = false
@@ -43,38 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.window?.rootViewController = newNavigationController
                 self.window?.makeKeyAndVisible()
             }
-            
-            
-            
-        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
-        
-        var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
-        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
-        data.append("&grant_type=refresh_token".data(using: .utf8)!)
-        requestForGettingToken.httpBody = data
-        requestForGettingToken.httpMethod = "POST"
-        
-        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
-            if responseData.error == nil{
-                print(responseData)
-                var dataContainingTokens = JSON(responseData.data!)
-                let accessToken = dataContainingTokens["access_token"].stringValue
-                let tokenType = dataContainingTokens["token_type"].stringValue
-                
-                print("****************************************************************************************")
-                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                userValues.set(accessToken, forKey: ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: TOKEN_TYPE)
-                userValues.set(true, forKey: USER_LOGGED_IN)
-                
-                var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
-                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-                requestForGettingToken.httpMethod = "GET"
-                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
-                
-            }
-        }
         
     }
         return true
@@ -125,17 +135,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //for autologin
     
     
-    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String, request_For_Getting_Token requestForGettingTokens: URLRequest) -> Void {
+    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Bool {
         
-        var requestForGettingToken = requestForGettingTokens
+        var successInGettingValues = true
         
         var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-        requestForGettingToken.httpMethod = "GET"
+        requestForGettingUserDate.httpMethod = "GET"
         
         Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
             if responseData.error == nil {
+                
                 var dataContainingUserDetails = JSON(responseData.data!)
+                guard dataContainingUserDetails["ok"].boolValue else {
+                    successInGettingValues = false
+                    return
+                }
                 print("****************************************************************************************")
                 let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
                 let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
@@ -146,14 +161,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     return
                 }
                 
-                
                 userValues.set(firstName + " " + lastName , forKey: USER_NAME)
                 userValues.set(emailId, forKey: EMAIL_ID)
                 userValues.set(true, forKey: USER_LOGGED_IN)
-
-               
+                successInGettingValues = true
+            } else {
+                successInGettingValues = false
             }
         }
+        
+        return successInGettingValues
     }
 }
 
