@@ -15,7 +15,7 @@ import MBProgressHUD
 class SettingsTableViewController: UITableViewController {
     let VERSION_OF_THE_APPLICATION = "v 1.0 (1)"
     
-    let settingsMenu = ["Profile", "No of Words", "Build & Version No:", "Sign Out"]
+    let settingsMenu = ["Profile", "Build & Version No:", "Sign Out"]
     
     var userName: String?
     var emailId: String?
@@ -44,7 +44,6 @@ class SettingsTableViewController: UITableViewController {
             tableView.deselectRow(at: selection, animated: true)
         }
         navigationController?.visibleViewController?.navigationItem.setRightBarButton(nil, animated: false)
-        pickedDaysToLearn = userValues.integer(forKey: NUMBER_OF_WORDS_TO_LEARN)
         tableView.reloadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,10 +83,6 @@ class SettingsTableViewController: UITableViewController {
             cell.nameLabel.text = settingsMenu[indexPath.section]
             cell.infoLabel.text = VERSION_OF_THE_APPLICATION
             cell.infoLabel.textColor = UIColor.gray
-        case "No of Words":
-            cell.accessoryType = .disclosureIndicator
-            cell.nameLabel.text = settingsMenu[indexPath.section] + ": " + String(pickedDaysToLearn)
-            cell.infoLabel.text = ""
 
         default:
             break
@@ -105,16 +100,12 @@ class SettingsTableViewController: UITableViewController {
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-
-        case 1:                                  //No. Words to learn
-            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "toSelectNoOfWordsController") as? ToSelectNumberOfWordsToLearnViewController
-            self.navigationController?.pushViewController(myVC!, animated: true)
             
-        case 2:                                  //Version
+        case 1:                                  //Version
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-        case 3:                                  //Logout
+        case 2:                                  //Logout
             let alert = UIAlertController(title: nil, message: "Are you sure?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 

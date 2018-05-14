@@ -79,7 +79,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
-        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
+//        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
         cell?.contentLabel.text = "      "
         switch headingFotTheTableViewCells[indexPath.section] {
         case nameOfWord:
@@ -92,11 +92,12 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         case "Source:":
             cell?.headingLabel.text = "Source:"
             cell?.contentLabel.text?.append(sourceOfWord ?? "")
-            if verifyUrl(urlString: sourceOfWord) {
-                cell?.contentLabel.addGestureRecognizer(longPressGestureWithURL)
-            } else {
-                cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
-            }
+//            if verifyUrl(urlString: sourceOfWord) {
+//                cell?.contentLabel.addGestureRecognizer(longPressGestureWithURL)
+//            } else {
+//                cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
+//            }
+            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
             cell?.contentLabel.isUserInteractionEnabled = true
             cell?.contentLabel.becomeFirstResponder()
 

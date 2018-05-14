@@ -18,19 +18,16 @@
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
 		CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */; };
 		CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */; };
-		CE3FA82220945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */; };
 		CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA823209B37720022D4D5 /* PersistenceService.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
 		CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E13208F37B800DA10DF /* dashboardicon.png */; };
 		CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1C208F3AB500DA10DF /* wordsIcon.png */; };
 		CE550E1F208F3AB600DA10DF /* wordsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */; };
-		CE550E21208F3B1400DA10DF /* LearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE550E20208F3B1400DA10DF /* LearnViewController.swift */; };
 		CE550E23208F41C000DA10DF /* adaptiveUImage.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E22208F41BE00DA10DF /* adaptiveUImage.png */; };
 		CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */; };
 		CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */; };
 		CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */; };
 		CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */; };
-		CE610D902088808300C0377F /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D8F2088808200C0377F /* DashBoardViewController.swift */; };
 		CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D91208880D800C0377F /* UserPageTabController.swift */; };
 		CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D93208888BE00C0377F /* SettingsTableViewController.swift */; };
 		CE85979920A1B15100FB6914 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979720A1B14F00FB6914 /* settings.png */; };
@@ -39,7 +36,6 @@
 		CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979C20A1B26900FB6914 /* learnicon@2x.png */; };
 		CE8597A120A1B4DD00FB6914 /* peersicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979F20A1B4DA00FB6914 /* peersicon.png */; };
 		CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */; };
-		CE8597A420A1B52A00FB6914 /* PeersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8597A320A1B52A00FB6914 /* PeersTableViewController.swift */; };
 		CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */; };
 		CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */; };
 		CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */; };
@@ -89,19 +85,16 @@
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSelectNumberOfWordsToLearnViewController.swift; sourceTree = "<group>"; };
 		CE3FA823209B37720022D4D5 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
 		CE550E13208F37B800DA10DF /* dashboardicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dashboardicon.png; sourceTree = "<group>"; };
 		CE550E1C208F3AB500DA10DF /* wordsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsIcon.png; sourceTree = "<group>"; };
 		CE550E1D208F3AB600DA10DF /* wordsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wordsIcon@2x.png"; sourceTree = "<group>"; };
-		CE550E20208F3B1400DA10DF /* LearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnViewController.swift; sourceTree = "<group>"; };
 		CE550E22208F41BE00DA10DF /* adaptiveUImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adaptiveUImage.png; sourceTree = "<group>"; };
 		CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-ThinItalic.otf"; sourceTree = "<group>"; };
 		CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-UltralightItalic.otf"; sourceTree = "<group>"; };
-		CE610D8F2088808200C0377F /* DashBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		CE610D91208880D800C0377F /* UserPageTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPageTabController.swift; sourceTree = "<group>"; };
 		CE610D93208888BE00C0377F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		CE85979720A1B14F00FB6914 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
@@ -110,7 +103,6 @@
 		CE85979C20A1B26900FB6914 /* learnicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "learnicon@2x.png"; sourceTree = "<group>"; };
 		CE85979F20A1B4DA00FB6914 /* peersicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = peersicon.png; sourceTree = "<group>"; };
 		CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peersicon@2x.png"; sourceTree = "<group>"; };
-		CE8597A320A1B52A00FB6914 /* PeersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWordsViewController.swift; sourceTree = "<group>"; };
@@ -260,10 +252,7 @@
 			children = (
 				CE610D91208880D800C0377F /* UserPageTabController.swift */,
 				CE610D93208888BE00C0377F /* SettingsTableViewController.swift */,
-				CE610D8F2088808200C0377F /* DashBoardViewController.swift */,
 				CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */,
-				CE550E20208F3B1400DA10DF /* LearnViewController.swift */,
-				CE8597A320A1B52A00FB6914 /* PeersTableViewController.swift */,
 			);
 			path = TabBarControllersAllTabs;
 			sourceTree = "<group>";
@@ -284,7 +273,6 @@
 			children = (
 				CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */,
 				CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */,
-				CE3FA82120945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift */,
 			);
 			path = PopUpAndDetailsViewControllers;
 			sourceTree = "<group>";
@@ -519,18 +507,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
-				CE3FA82220945DB80022D4D5 /* ToSelectNumberOfWordsToLearnViewController.swift in Sources */,
-				CE550E21208F3B1400DA10DF /* LearnViewController.swift in Sources */,
 				CE19226220874E88000D7676 /* LoginPageViewController.swift in Sources */,
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */,
 				CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */,
-				CE8597A420A1B52A00FB6914 /* PeersTableViewController.swift in Sources */,
 				CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
-				CE610D902088808300C0377F /* DashBoardViewController.swift in Sources */,
 				CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */,
 				CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */,
 			);
@@ -709,7 +693,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -725,7 +712,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FULL.FULL-Words";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -742,7 +732,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -760,7 +754,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -777,7 +775,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -794,7 +796,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75GBEJC733;
 				INFOPLIST_FILE = "FULL WordsUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "FULL.FULL-WordsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
