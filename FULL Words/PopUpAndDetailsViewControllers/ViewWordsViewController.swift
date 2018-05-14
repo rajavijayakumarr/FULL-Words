@@ -78,18 +78,25 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
+        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
         cell?.contentLabel.text = "      "
         switch headingFotTheTableViewCells[indexPath.section] {
         case nameOfWord:
             cell?.headingLabel.text = nameOfWord
-            
             cell?.contentLabel.text?.append(meaningOfWord ?? "")
+            cell?.contentLabel.isUserInteractionEnabled = true
+            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
+            cell?.contentLabel.becomeFirstResponder()
             
         case "Source:":
             cell?.headingLabel.text = "Source:"
             cell?.contentLabel.text?.append(sourceOfWord ?? "")
-            let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(longPressGestureRecognizer:)))
-            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
+            if verifyUrl(urlString: sourceOfWord) {
+                cell?.contentLabel.addGestureRecognizer(longPressGestureWithURL)
+            } else {
+                cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
+            }
             cell?.contentLabel.isUserInteractionEnabled = true
             cell?.contentLabel.becomeFirstResponder()
 
@@ -103,15 +110,37 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         return cell!
     }
-    
-    @objc private func longPressLabel (longPressGestureRecognizer: UILongPressGestureRecognizer) {
-        if longPressGestureRecognizer.state == .began {
-            print("long press began")
-            
-        } else if longPressGestureRecognizer.state == .ended {
-            print("long press ended")
+    func verifyUrl (urlString: String?) -> Bool {
+        if let urlString = urlString {
+            if let url = NSURL(string: urlString) {
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
         }
+        return false
+    }
+    @objc private func longPressLabelWithURL (recognizer: UILongPressGestureRecognizer) {
         
+        if let recognizerView = recognizer.view,
+            let recognizerSuperView = recognizerView.superview
+        {
+            let menuController = UIMenuController.shared
+            let openURLmenuItem = UIMenuItem.init(title: "Open", action: #selector(CopyableUILabel.openURLforMenuItem))
+            menuController.menuItems = [openURLmenuItem]
+            menuController.setTargetRect(recognizerView.frame, in: recognizerSuperView)
+            menuController.setMenuVisible(true, animated:true)
+            recognizerView.becomeFirstResponder()
+        }
+    }
+    @objc private func longPressLabel (recognizer: UILongPressGestureRecognizer) {
+
+        if let recognizerView = recognizer.view,
+                let recognizerSuperView = recognizerView.superview
+            {
+                let menuController = UIMenuController.shared
+                menuController.setTargetRect(recognizerView.frame, in: recognizerSuperView)
+                menuController.setMenuVisible(true, animated:true)
+                recognizerView.becomeFirstResponder()
+            }
     }
 }
 
@@ -135,5 +164,38 @@ extension UIView {
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = radius
     }
+}
+
+//custome uilable for it to be copyable
+class CopyableUILabel: UILabel {
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return (action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(openURLforMenuItem))
+    }
+    
+    // MARK: - UIResponderStandardEditActions
+    override func copy(_ sender: Any?) {
+        UIPasteboard.general.string = text
+    }
+    @objc func openURLforMenuItem() {
+        let webviewInstance = UIWebView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        removeBlankSpaces(&text!)
+        if let urlRequest = URL(string: text!) {
+            webviewInstance.loadRequest(URLRequest(url: urlRequest))
+        }
+    }
+    
+    func removeBlankSpaces(_ string: inout String) {
+        while string.hasPrefix(" ") {
+            if string.hasPrefix(" ") {
+                string.removeFirst()
+            }
+        }
+    }
+    
 }
 
