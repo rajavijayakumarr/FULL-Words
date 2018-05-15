@@ -48,9 +48,9 @@ class NewWordViewController: UIViewController {
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
         saveBarButtonPressed = UIBarButtonItem(title: "Add",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
-        saveBarButtonPressed.isEnabled = false
+//        saveBarButtonPressed.isEnabled = false
         NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
@@ -62,12 +62,12 @@ class NewWordViewController: UIViewController {
     }
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        saveBarButtonPressed.isEnabled = true
+//        saveBarButtonPressed.isEnabled = true
         
     }
     @objc func saveButtonInvalidated() {
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-        saveBarButtonPressed.isEnabled = false
+        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+//        saveBarButtonPressed.isEnabled = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +103,25 @@ class NewWordViewController: UIViewController {
         }
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
+        let title = "Missing fields" ; var messange = ""; var hasValue = true
+        if NewWordViewController.nameOfTheWord == "" {
+            messange = "Word field cannot be blank!"
+            hasValue = false
+        }
+        else if NewWordViewController.meaningOfTheWord == ""  {
+            messange = "Meaning field cannot be blank!"
+            hasValue = false
+        }
+        else if NewWordViewController.sourceOfTheWord == ""  {
+            messange = "Source field cannot be blank!"
+            hasValue = false
+        }
+        guard hasValue else {
+            let alert = UIAlertController(title: title, message: messange, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
         spinnerView.label.text = "Uploading word"
@@ -274,11 +293,8 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-       
-        
       return cell
     }
-    
 }
 //use this to make the screen go up when the keyboard pops up
 //type anything here inside this extension
@@ -348,6 +364,5 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         }
         NewWordViewController.chechAndEnableAddButton()
     }
-    
 }
 
