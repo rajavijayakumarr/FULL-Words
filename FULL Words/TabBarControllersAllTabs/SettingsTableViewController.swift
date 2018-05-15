@@ -115,9 +115,10 @@ class SettingsTableViewController: UITableViewController {
                 let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
                 var requestForRevokingToken = URLRequest(url: URL(string: "https://access.anywhereworks.com/o/oauth2/revoke?token=\(accessToken)")!)
                 requestForRevokingToken.httpMethod = "GET"
+                requestForRevokingToken.timeoutInterval = 6
                 
                 Alamofire.request(requestForRevokingToken).responseJSON { (responseData) in
-                    if responseData.error == nil{
+                    if responseData.error == nil  {
                         let responseJSON_Data = JSON(responseData.data!)
                         if responseJSON_Data["ok"].boolValue {
                             //this is should be implemented after the user is successfully logged out and implement the loading screen here
@@ -140,12 +141,36 @@ class SettingsTableViewController: UITableViewController {
                             //this is where the token revolke process is not working as it should be
                             MBProgressHUD.hide(for: self.view, animated: true)
                             let alert = UIAlertController(title: "Could not Logout", message: "try again", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                                if let selection = tableView.indexPathForSelectedRow {
+                                    tableView.deselectRow(at: selection, animated: true)
+                                }
+                            }))
                             self.present(alert, animated: true, completion: nil)
                         }
+                    }  else {
+                        var title = "", message = ""
+                        MBProgressHUD.hide(for: self.view, animated: true)
+                        switch responseData.result {
+                        case .failure(let error):
+                            if error._code == NSURLErrorTimedOut {
+                                title = "Server timed out!"
+                                message = "try again"
+                            } else {
+                                title = "Netword error!"
+                                message = "Check your internet connection and try again"
+                            }
+                        default: break
+                        }
+                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {_ in
+                            if let selection = tableView.indexPathForSelectedRow {
+                            tableView.deselectRow(at: selection, animated: true)
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
-
             }))
             
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in

@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.653545"
+            timestampString = "548077034.074073"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "displaySpinner(onView:toDisplayString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.681658"
+            timestampString = "548077034.086338"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "displaySpinner(onView:toDisplayString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.682474"
+            timestampString = "548077034.086818"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "displaySpinner(onView:toDisplayString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -634,11 +634,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.683086"
+            timestampString = "548077034.087284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "removeSpinner(spinner:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FULL Words/LoginPageViewController.swift"
+            timestampString = "548077034.087695"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "displaySpinner(onView:toDisplayString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -650,29 +666,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.68366"
+            timestampString = "548077034.0880539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "displaySpinner(onView:toDisplayString:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FULL Words/LoginPageViewController.swift"
-            timestampString = "547994791.684243"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "displaySpinner(onView:toDisplayString:)"
-            landmarkType = "7">
+            startingLineNumber = "273"
+            endingLineNumber = "273">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -682,7 +680,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.641717"
+            timestampString = "548077034.08843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "81"
@@ -698,7 +696,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.642987"
+            timestampString = "548077034.089054"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -714,7 +712,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.643387"
+            timestampString = "548077034.089618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "77"
@@ -730,7 +728,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.643816"
+            timestampString = "548077034.0900429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
@@ -746,7 +744,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.644231"
+            timestampString = "548077034.090421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
@@ -762,7 +760,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.644623"
+            timestampString = "548077034.0908329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
@@ -778,7 +776,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.644974"
+            timestampString = "548077034.091195"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -794,7 +792,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "547996993.645404"
+            timestampString = "548077034.091604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "70"
@@ -842,7 +840,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/ViewWordsViewController.swift"
-            timestampString = "547996993.64583"
+            timestampString = "548063770.512205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "189"
@@ -858,7 +856,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/ViewWordsViewController.swift"
-            timestampString = "547996993.646444"
+            timestampString = "548063770.51228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "191"
@@ -874,71 +872,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-            timestampString = "547996993.646834"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.UIAlertAction) -&gt; () in FULL_Words.SettingsTableViewController.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "FULL Words"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/FULL%20Words/FULL%20Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-                  timestampString = "547984579.454602"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125"
-                  offsetFromSymbolStart = "940">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in closure #1 (__ObjC.UIAlertAction) -&gt; () in FULL_Words.SettingsTableViewController.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "FULL Words"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/FULL%20Words/FULL%20Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-                  timestampString = "547984579.461004"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "126"
-                  endingLineNumber = "126"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-            timestampString = "547996993.6469229"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-            timestampString = "547996993.6470031"
+            timestampString = "548077034.092278"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "121"
@@ -954,7 +888,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-            timestampString = "547996993.647078"
+            timestampString = "548077034.094468"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
+            timestampString = "548077034.095487"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
@@ -970,7 +920,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/SettingsTableViewController.swift"
-            timestampString = "547996993.647158"
+            timestampString = "548077034.096084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "117"

@@ -119,6 +119,7 @@ class NewWordViewController: UIViewController {
         let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
         requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
         requestForPostingWord.httpMethod = "POST"
+        requestForPostingWord.timeoutInterval = 6
         
                 Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
                     if responseData.error == nil {
@@ -137,15 +138,7 @@ class NewWordViewController: UIViewController {
                             
                             MBProgressHUD.hide(for: self.view, animated: true)
                             let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
-//                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-//
-//                                self.dismiss(animated: true, completion: {
-//                                    let name = NSNotification.Name.init(self.newWOrdAdded)
-//                                    NotificationCenter.default.post(name: name, object: nil)
-//                                })
-//                            }))
                             self.present(alert, animated: true, completion: nil)
-                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 alert.dismiss(animated: true, completion: {
                                     self.dismiss(animated: true, completion: {
@@ -162,9 +155,25 @@ class NewWordViewController: UIViewController {
                             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                             self.present(alert, animated: true, completion: nil)
                         }
-                    } else {
-                        print(responseData.error as Any)
+                    }  else {
+                        var title = "", message = ""
+                        MBProgressHUD.hide(for: self.view, animated: true)
+                        switch responseData.result {
+                        case .failure(let error):
+                            if error._code == NSURLErrorTimedOut {
+                                title = "Server timed out!"
+                                message = "try again"
+                            } else {
+                                title = "Netword error!"
+                                message = "Check your internet connection and try again"
+                            }
+                        default: break
+                        }
+                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
+
                 }
     }
     
@@ -297,12 +306,12 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
+        textView.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text == "" {
             textView.text = "Type here"
-            textView.textColor = #colorLiteral(red: 0.9214878678, green: 0.9216203094, blue: 0.9214587808, alpha: 1)
+            textView.textColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -333,7 +342,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
             } else {
                 NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
             }
-        } else {
+        } else if textView.tag == 2{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.sourceOfTheWord = wordTextView.text
         }

@@ -45,7 +45,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         let name = NSNotification.Name.init(rawValue: kCloseSafariViewControllerNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(self.safariLogin(notification:)), name: name, object: nil)
         
-        loginButtonOutlet.layer.cornerRadius = 10
+        loginButtonOutlet.layer.cornerRadius = 5
         loginButtonOutlet.clipsToBounds = true
 
     }
@@ -93,8 +93,10 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         data.append("&grant_type=authorization_code".data(using: .utf8)!)
         requestForGettingToken.httpBody = data
         requestForGettingToken.httpMethod = "POST"
+        requestForGettingToken.timeoutInterval = 6
         
         print(String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue)) as Any)
+
         
         Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
             if responseData.error == nil{
@@ -113,6 +115,23 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                 
                 self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)
                 
+            }  else {
+                var title = "", message = ""
+                MBProgressHUD.hide(for: self.view, animated: true)
+                switch responseData.result {
+                case .failure(let error):
+                    if error._code == NSURLErrorTimedOut {
+                        title = "Server timed out!"
+                        message = "try again"
+                    } else {
+                        title = "Netword error!"
+                        message = "Check your internet connection and try again"
+                    }
+                default: break
+                }
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         self.safariViewController?.dismiss(animated: true, completion: {
@@ -125,6 +144,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingUserDate.httpMethod = "GET"
+        requestForGettingUserDate.timeoutInterval = 6
         
         Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
             if responseData.error == nil {
@@ -158,6 +178,24 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                     MBProgressHUD.hide(for: self.view, animated: true)
                     self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
                 }
+            }  else {
+                
+                var title = "", message = ""
+                MBProgressHUD.hide(for: self.view, animated: true)
+                switch responseData.result {
+                case .failure(let error):
+                    if error._code == NSURLErrorTimedOut {
+                        title = "Server timed out!"
+                        message = "try again"
+                    } else {
+                        title = "Netword error!"
+                        message = "Check your internet connection and try again"
+                    }
+                default: break
+                }
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
