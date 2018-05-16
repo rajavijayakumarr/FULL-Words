@@ -23,7 +23,7 @@ class NewWordViewController: UIViewController {
     
 
     let newWOrdAdded = "newWordAddedForWOrds"
-    let headingForTableViewCells = ["Word:", "Meaning:", "Source:"]
+    let headingForTableViewCells = ["Word", "Meaning", "Source"]
     static var ifUserPressedCancelAfterGivingWOrdValues = false
 
     static var nameOfTheWord: String? = ""
@@ -31,7 +31,7 @@ class NewWordViewController: UIViewController {
     static var sourceOfTheWord: String? = ""
     
     @IBOutlet weak var addWordsTableView: UITableView!
-    var activeTextField: UITextField?
+    var activeTextField: UITextView?
     var userName: String?
     
     @IBOutlet weak var navigationBarX: UINavigationBar!
@@ -41,7 +41,7 @@ class NewWordViewController: UIViewController {
     var saveBarButtonPressed: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
+//        self.hideKeyboardWhenTappedAround()
         self.scrollView.delegate = self
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
@@ -51,9 +51,35 @@ class NewWordViewController: UIViewController {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
 //        saveBarButtonPressed.isEnabled = false
+        registerForKeyboardNotification()
         NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+    }
+
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+    }
+    @objc func keyboardWillBeHidden(_ aNotification: NSNotification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    @objc func keyboardWillBeShown(_ aNotification: NSNotification ) {
+        let info = aNotification.userInfo
+        let kbSize = (info![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
+        
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (kbSize?.height)!, right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        var aRect = self.view.frame
+        aRect.size.height -= (kbSize?.height)!
+        
+        if aRect.contains((activeTextField?.frame.origin)!) {
+            self.scrollView.scrollRectToVisible((activeTextField?.frame)!, animated: true)
+        }
     }
     
     @objc func changeTableHeight() {
@@ -74,15 +100,14 @@ class NewWordViewController: UIViewController {
         NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
         super.viewWillAppear(true)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-    }
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         NewWordViewController.nameOfTheWord = ""
         NewWordViewController.sourceOfTheWord = ""
         NewWordViewController.meaningOfTheWord = ""
         saveBarButtonPressed = nil
+        self.view.endEditing(true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -218,7 +243,7 @@ class NewWordViewController: UIViewController {
 }
 
 /// extension used for text field related things
-/// example keyboard will vanish if touched on the screen
+/// keyboard will vanish if touched on the screen
 extension UIViewController {
 
     func hideKeyboardWhenTappedAround() {
@@ -245,10 +270,10 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return headingForTableViewCells.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return headingForTableViewCells.count
+        return 1
     }
     
     ///////////////////// to minimise the distance between two section in a tableview
@@ -268,25 +293,28 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        switch headingForTableViewCells[indexPath.section] {
-        case "Word:":
+        switch headingForTableViewCells[indexPath.row] {
+        case "Word":
             let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
-            wordCell?.headingLabel.text = "Word:"
+            wordCell?.headingLabel.text = "Word"
             wordCell?.wordTextView.tag = 0
+            activeTextField = wordCell?.wordTextView
             wordCell?.wordTextView.becomeFirstResponder()
             return wordCell ?? cell
             
-        case "Meaning:":
+        case "Meaning":
             let meaningCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
-            meaningCell?.headingLabel.text = "Meaning:"
+            meaningCell?.headingLabel.text = "Meaning"
             meaningCell?.wordTextView.tag = 1
+            activeTextField = meaningCell?.wordTextView
             meaningCell?.wordTextView.returnKeyType = UIReturnKeyType.default
             return meaningCell ?? cell
 
-        case "Source:":
+        case "Source":
             let sourceCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
-            sourceCell?.headingLabel.text = "Source:"
+            sourceCell?.headingLabel.text = "Source"
             sourceCell?.wordTextView.tag = 2
+            activeTextField = sourceCell?.wordTextView
             sourceCell?.wordTextView.returnKeyType = UIReturnKeyType.default
             return sourceCell ?? cell
 
@@ -319,27 +347,29 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var headingLabel: UILabel!
     
     func textViewDidBeginEditing(_ textView: UITextView) {
+        
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        textView.textColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
+
         if textView.text == "" {
             textView.text = "Type here"
-            textView.textColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+            textView.textColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if textView.tag == 0 {
             if text == "\n" {
-                textView.resignFirstResponder()
-                return false
+               return false
             }
         }
         return true
     }
+    
     func textViewDidChange(_ textView: UITextView) {
         
         if textView.tag == 0{

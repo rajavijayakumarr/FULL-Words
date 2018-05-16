@@ -38,11 +38,11 @@ class WordsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
+        let greenColor =  #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
-        self.navigationController?.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 1)
         
         let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
         do {
@@ -68,7 +68,7 @@ class WordsTableViewController: UITableViewController {
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
         this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
+        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
         this.addButtonUIButton.layer.isOpaque = true
         this.addButtonUIButton.layer.cornerRadius = this.addButtonUIButton.frame.width / 2
         this.addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
@@ -89,10 +89,10 @@ class WordsTableViewController: UITableViewController {
         cell.addedWord = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
         cell.addedBy = userName!
         cell.viewOfAddedWordsCell.layer.cornerRadius = 5
-        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 0.5, radius: 1)
+        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
         
         cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
-        cell.meaningLabel.text = "      " + (wordsOfUserValues[indexPath.section].meaningOfWord ?? "")
+        cell.meaningLabel.text = wordsOfUserValues[indexPath.section].meaningOfWord
         cell.meaningOfTheWord = wordsOfUserValues[indexPath.section].meaningOfWord
         return cell
     }
@@ -159,7 +159,6 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
-    
 }
 
 
