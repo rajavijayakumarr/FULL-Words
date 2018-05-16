@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
@@ -132,6 +133,15 @@ class SettingsTableViewController: UITableViewController {
                             userValues.set(nil, forKey: USER_NAME)
                             userValues.set(nil, forKey: EMAIL_ID)
                             userValues.set(false, forKey: USER_LOGGED_IN)
+                            
+                            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WordDetails")
+                            let request = NSBatchDeleteRequest(fetchRequest: fetch)
+
+                            do {
+                                _ = try PersistenceService.context.execute(request)
+                            } catch {
+                                print("cannot delete core data values")
+                            }
                             
                             MBProgressHUD.hide(for: self.view, animated: true)
                             
