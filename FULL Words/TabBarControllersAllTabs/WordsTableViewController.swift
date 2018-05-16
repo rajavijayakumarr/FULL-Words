@@ -64,7 +64,7 @@ class WordsTableViewController: UITableViewController {
     
     func addButtonCustomization() {
         this.addButtonUIButton = UIButton(type: .custom)
-        this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 5/6, y: self.view.frame.maxY * 5/6, width: 50, height: 50)
+        this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 4.9/6, y: self.view.frame.maxY * 5/6, width: 50, height: 50)
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
         this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)

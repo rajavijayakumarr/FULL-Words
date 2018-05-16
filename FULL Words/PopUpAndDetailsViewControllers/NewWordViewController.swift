@@ -36,13 +36,11 @@ class NewWordViewController: UIViewController {
     
     @IBOutlet weak var navigationBarX: UINavigationBar!
     @IBOutlet weak var navigationBarItem: UINavigationItem!
-    @IBOutlet var scrollView: UIScrollView!
     
     var saveBarButtonPressed: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.hideKeyboardWhenTappedAround()
-        self.scrollView.delegate = self
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
@@ -63,28 +61,31 @@ class NewWordViewController: UIViewController {
     }
     @objc func keyboardWillBeHidden(_ aNotification: NSNotification) {
         let contentInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        addWordsTableView.contentInset = contentInsets
+        addWordsTableView.scrollIndicatorInsets = contentInsets
     }
     @objc func keyboardWillBeShown(_ aNotification: NSNotification ) {
         let info = aNotification.userInfo
         let kbSize = (info![UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size
         
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: (kbSize?.height)!, right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        addWordsTableView.contentInset = contentInsets
+        addWordsTableView.scrollIndicatorInsets = contentInsets
         
         var aRect = self.view.frame
         aRect.size.height -= (kbSize?.height)!
         
         if aRect.contains((activeTextField?.frame.origin)!) {
-            self.scrollView.scrollRectToVisible((activeTextField?.frame)!, animated: true)
+            self.addWordsTableView.scrollRectToVisible((activeTextField?.frame)!, animated: true)
         }
     }
     
     @objc func changeTableHeight() {
+        UIView.setAnimationsEnabled(false)
         addWordsTableView.beginUpdates()
         addWordsTableView.endUpdates()
+        UIView.setAnimationsEnabled(true)
+        addWordsTableView.scrollToRow(at: addWordsTableView.indexPath(for:addWordsTableView.visibleCells.last!)!, at: UITableViewScrollPosition.bottom, animated: true)
     }
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
