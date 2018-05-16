@@ -38,6 +38,11 @@ class NewWordViewController: UIViewController {
     @IBOutlet weak var navigationBarItem: UINavigationItem!
     
     var saveBarButtonPressed: UIBarButtonItem!
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.hideKeyboardWhenTappedAround()
@@ -81,6 +86,8 @@ class NewWordViewController: UIViewController {
     }
     
     @objc func changeTableHeight() {
+        // the begin updates and end updates is being declared for the tableview to stop jumping and returning when the bottom point exceeds
+        // to more than the maximum specified point
         UIView.setAnimationsEnabled(false)
         addWordsTableView.beginUpdates()
         addWordsTableView.endUpdates()
@@ -131,15 +138,15 @@ class NewWordViewController: UIViewController {
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         let title = "Missing fields" ; var messange = ""; var hasValue = true
         if NewWordViewController.nameOfTheWord == "" {
-            messange = "Word field cannot be blank!"
+            messange = "Word field is be blank!"
             hasValue = false
         }
         else if NewWordViewController.meaningOfTheWord == ""  {
-            messange = "Meaning field cannot be blank!"
+            messange = "Meaning field is be blank!"
             hasValue = false
         }
         else if NewWordViewController.sourceOfTheWord == ""  {
-            messange = "Source field cannot be blank!"
+            messange = "Source field is be blank!"
             hasValue = false
         }
         guard hasValue else {

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
-        if userValues.bool(forKey: USER_LOGGED_IN) {
+            if userValues.bool(forKey: USER_LOGGED_IN) {
             
             let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
             let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String

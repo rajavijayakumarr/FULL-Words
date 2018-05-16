@@ -17,13 +17,13 @@ class WordsTableViewController: UITableViewController {
     var userName: String?
     var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = 100
+        tableView.estimatedRowHeight = 100
 
         let name = NSNotification.Name.init(rawValue: newWOrdAdded)
         NotificationCenter.default.addObserver(self, selector: #selector(self.newWordAdded), name: name, object: nil)
@@ -33,11 +33,13 @@ class WordsTableViewController: UITableViewController {
         super.viewWillDisappear(true)
         this.addButtonUIButton.removeFromSuperview()
     }
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
+        self.navigationController?.navigationBar.barStyle = .default
         let greenColor =  #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
@@ -64,7 +66,7 @@ class WordsTableViewController: UITableViewController {
     
     func addButtonCustomization() {
         this.addButtonUIButton = UIButton(type: .custom)
-        this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 4.9/6, y: self.view.frame.maxY * 5/6, width: 50, height: 50)
+        this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 4.9/6, y: self.view.frame.maxY * 4.9/6, width: 50, height: 50)
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
         this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
@@ -111,10 +113,10 @@ class WordsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 100
     }
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 100
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        tableView.deselectRow(at: indexPath, animated: true)

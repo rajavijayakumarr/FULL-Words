@@ -80,11 +80,10 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
 //        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
-        cell?.contentLabel.text = "      "
         switch headingFotTheTableViewCells[indexPath.section] {
         case nameOfWord:
             cell?.headingLabel.text = nameOfWord
-            cell?.contentLabel.text?.append(meaningOfWord ?? "")
+            cell?.contentLabel.text = meaningOfWord
             cell?.contentLabel.isUserInteractionEnabled = true
             cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
             cell?.contentLabel.becomeFirstResponder()
@@ -184,19 +183,9 @@ class CopyableUILabel: UILabel {
     }
     @objc func openURLforMenuItem() {
         let webviewInstance = UIWebView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        removeBlankSpaces(&text!)
         if let urlRequest = URL(string: text!) {
             webviewInstance.loadRequest(URLRequest(url: urlRequest))
         }
     }
-    
-    func removeBlankSpaces(_ string: inout String) {
-        while string.hasPrefix(" ") {
-            if string.hasPrefix(" ") {
-                string.removeFirst()
-            }
-        }
-    }
-    
 }
 

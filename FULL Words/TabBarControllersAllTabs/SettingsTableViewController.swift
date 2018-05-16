@@ -32,7 +32,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-
+        self.navigationController?.navigationBar.barStyle = .blackOpaque
         let whiteColor =  #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = whiteColor
         self.navigationController?.navigationBar.barTintColor = whiteColor
@@ -48,6 +48,7 @@ class SettingsTableViewController: UITableViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+        UINavigationBar.appearance().barStyle = .default
     }
 
     override func didReceiveMemoryWarning() {
