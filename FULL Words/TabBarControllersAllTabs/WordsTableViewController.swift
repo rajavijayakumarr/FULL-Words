@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreData
+import Alamofire
+import SwiftyJSON
+import MBProgressHUD
 
 
 class WordsTableViewController: UITableViewController {
@@ -15,14 +18,19 @@ class WordsTableViewController: UITableViewController {
     
     static var addButtonUIButton: UIButton!
     var userName: String?
+    var userLoggedIn: Bool?
     var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if userValues.bool(forKey: USER_LOGGED_IN) {
-            
+        if let userLoggedIn = userLoggedIn {
+            if  userLoggedIn {
+                getTheWordsAddedByTheUserFromServer()
+            } else {
+                addTheWordsToThePersistantContainer()
+            }
         }
         
         tableView.delegate = self
@@ -44,24 +52,13 @@ class WordsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        tableView.reloadData()
         self.navigationController?.navigationBar.barStyle = .default
         let greenColor =  #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 1) as Any]
-        self.navigationController?.view.tintColor = #colorLiteral(red: 0.4472236633, green: 0.5693702102, blue: 0.6141017079, alpha: 1)
-        
-        let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
-        do {
-           wordsOfUserValues = try PersistenceService.context.fetch(fetchRequest)
-        } catch {
-            
-        }
-        
-  
-        if let selection: IndexPath = tableView.indexPathForSelectedRow{
-            tableView.deselectRow(at: selection, animated: true)
-        }
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
         navigationController?.visibleViewController?.navigationItem.title = "Words"
 
         let window = UIApplication.shared.keyWindow
@@ -74,8 +71,8 @@ class WordsTableViewController: UITableViewController {
         this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 4.9/6, y: self.view.frame.maxY * 4.9/6, width: 50, height: 50)
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        this.addButtonUIButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
+        this.addButtonUIButton.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.9044587016, green: 0.2473695874, blue: 0.223312825, alpha: 1)
         this.addButtonUIButton.layer.isOpaque = true
         this.addButtonUIButton.layer.cornerRadius = this.addButtonUIButton.frame.width / 2
         this.addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
@@ -136,10 +133,66 @@ class WordsTableViewController: UITableViewController {
         self.navigationController?.pushViewController(wordsViewController!, animated: true)
         
     }
+    
+    func addTheWordsToThePersistantContainer() {
+        let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "dateUpdated", ascending: false, selector: nil)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        do {
+            wordsOfUserValues = try PersistenceService.context.fetch(fetchRequest)
+        } catch {
+        }
+    }
+    
+    func getTheWordsAddedByTheUserFromServer() {
+        
+        let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
+        let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
+        var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS)!)
+        requestForGettingUserWOrds.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        requestForGettingUserWOrds.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestForGettingUserWOrds.httpMethod = "GET"
+        
+        Alamofire.request(requestForGettingUserWOrds).responseJSON { (responseData) in
+            if responseData.error == nil  {
+                print("*******************************************************")
+                print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+                let responseJSON_Data = JSON(responseData.data!)
+                if responseJSON_Data["response"].boolValue {
+                    let arrayOfUserWords = responseJSON_Data["data"]["words"].arrayValue
+                    for wordValues in arrayOfUserWords {
+                        let wordDetails = WordDetails(context: PersistenceService.context)
+                        wordDetails.dateAdded = wordValues["createdAt"].doubleValue
+                        wordDetails.dateUpdated = wordValues["updatedAt"].doubleValue
+                        wordDetails.nameOfWord = wordValues["word"].stringValue
+                        wordDetails.sourceOfWord = wordValues["src"].stringValue
+                        wordDetails.meaningOfWord = wordValues["desc"].stringValue
+                        wordDetails.wordAddedBy = self.userName
+                        wordDetails.userId = wordValues["userId"].stringValue
+                        PersistenceService.saveContext()
+                    }
+                    self.addTheWordsToThePersistantContainer()
+                    self.tableView.reloadData()
+                    
+                } else {
+                    let message = responseJSON_Data["msg"].stringValue
+                    let error = responseJSON_Data["error"].stringValue
+                    let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                let alert = UIAlertController(title: "error", message: "Something went wrong while fetching the user words", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 extension WordsTableViewController {
     @objc func newWordAdded() {
+        addTheWordsToThePersistantContainer()
         tableView.reloadData()
     }
 }

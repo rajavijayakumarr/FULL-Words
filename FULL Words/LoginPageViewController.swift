@@ -20,6 +20,7 @@ let TOKEN_URL = "https://access.anywhereworks.com/o/oauth2/v1/token"
 
 let USER_DETAILS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
 let FULL_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
+let FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS = "https://full-learn.appspot.com/api/v1/words/user/me?limit=10&cursor="
 let FEEDS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/feed"
 
 let REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
@@ -172,6 +173,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                 let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
                 toTabBarViewControler?.userName = firstName + " " + lastName
                 toTabBarViewControler?.emailId = emailId
+                toTabBarViewControler?.userLoggedIn = true
                 
                 if let toTabBarViewControler = toTabBarViewControler {
                     //            self.changeLoadingLabel(lableToShowInLoading: "Loading . . .")

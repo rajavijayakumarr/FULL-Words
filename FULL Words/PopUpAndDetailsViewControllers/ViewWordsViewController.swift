@@ -90,7 +90,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
             
         case "Source:":
             cell?.headingLabel.text = "Source:"
-            cell?.contentLabel.text?.append(sourceOfWord ?? "")
+            cell?.contentLabel.text = sourceOfWord
 //            if verifyUrl(urlString: sourceOfWord) {
 //                cell?.contentLabel.addGestureRecognizer(longPressGestureWithURL)
 //            } else {
@@ -102,7 +102,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
 
         case "Added By:":
             cell?.headingLabel.text = "Added By:"
-            cell?.contentLabel.text?.append(wordAddedBy ?? "")
+            cell?.contentLabel.text = wordAddedBy
 
         default:
             break

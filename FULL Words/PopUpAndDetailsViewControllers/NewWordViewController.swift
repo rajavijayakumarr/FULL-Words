@@ -125,7 +125,7 @@ class NewWordViewController: UIViewController {
         
         if NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues {
             let alert = UIAlertController(title: "Word not Saved", message: "Are you sure you want to close?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {_ in
+            alert.addAction(UIAlertAction(title: "Close", style: .destructive, handler: {_ in
                 self.dismiss(animated: true, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: {_ in
@@ -157,7 +157,7 @@ class NewWordViewController: UIViewController {
         }
         
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        spinnerView.label.text = "Uploading word"
+        spinnerView.label.text = "UploadingWord"
         
         let addedWord = NewWordViewController.nameOfTheWord
         let wordMeaning = NewWordViewController.meaningOfTheWord
@@ -176,6 +176,8 @@ class NewWordViewController: UIViewController {
                 Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
                     if responseData.error == nil {
 //                        let dataContainingUserDetails = JSON(responseData.data!)
+                        print("**************************************")
+                        print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                         let receivedWordValues = JSON(responseData.data!)
                         if receivedWordValues["response"].boolValue {
                             let wordsDetails = WordDetails(context: PersistenceService.context)
@@ -187,6 +189,7 @@ class NewWordViewController: UIViewController {
                             wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
                             wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
                             PersistenceService.saveContext()
+                            spinnerView.label.text = "PostingFeed"
                             self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
                             
                             MBProgressHUD.hide(for: self.view, animated: true)
@@ -194,10 +197,9 @@ class NewWordViewController: UIViewController {
                             self.present(alert, animated: true, completion: nil)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 alert.dismiss(animated: true, completion: {
-                                    self.dismiss(animated: true, completion: {
-                                        let name = NSNotification.Name.init(self.newWOrdAdded)
-                                        NotificationCenter.default.post(name: name, object: nil)
-                                    })
+                                    self.dismiss(animated: true, completion: nil)
+                                    let name = NSNotification.Name.init(self.newWOrdAdded)
+                                    NotificationCenter.default.post(name: name, object: nil)
                                 })
                             }
                         } else {
@@ -360,13 +362,13 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
+        textView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
 
         if textView.text == "" {
             textView.text = "Type here"
-            textView.textColor = #colorLiteral(red: 0.4420010448, green: 0.5622541308, blue: 0.6140280962, alpha: 1)
+            textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

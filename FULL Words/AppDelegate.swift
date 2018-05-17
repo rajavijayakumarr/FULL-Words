@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
             viewController?.userName = userValues.value(forKey: USER_NAME) as? String
             viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
+            viewController?.userLoggedIn = false
             if let viewController = viewController {
                 let newNavigationController = CustomNavigationController()
                 let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
@@ -79,9 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 newNavigationController.navigationBar.barTintColor = greenColor
                 newNavigationController.navigationBar.isTranslucent = false
                 newNavigationController.viewControllers = [viewController]
-                newNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1) as Any]
+                newNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) as Any]
                 newNavigationController.navigationBar.backItem?.backBarButtonItem?.style = UIBarButtonItemStyle.plain
-                newNavigationController.view.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
+                newNavigationController.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
                 self.window?.rootViewController = newNavigationController
                 self.window?.makeKeyAndVisible()
             }
