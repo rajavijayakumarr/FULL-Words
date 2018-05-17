@@ -6,9 +6,10 @@
         <attribute name="meaningOfWord" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nameOfWord" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sourceOfWord" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wordAddedBy" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="WordDetails" positionX="-270" positionY="54" width="126" height="135"/>
+        <element name="WordDetails" positionX="-270" positionY="54" width="126" height="150"/>
     </elements>
 </model>

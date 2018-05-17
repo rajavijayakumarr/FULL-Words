@@ -16,9 +16,9 @@
 		CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE19226B20874E8A000D7676 /* LaunchScreen.storyboard */; };
 		CE19227820874E8A000D7676 /* FULL_WordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19227720874E8A000D7676 /* FULL_WordsTests.swift */; };
 		CE19228320874E8A000D7676 /* FULL_WordsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */; };
-		CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */; };
-		CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */; };
 		CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FA823209B37720022D4D5 /* PersistenceService.swift */; };
+		CE48B6FB20AD4163001B8660 /* WordDetails+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE48B6F920AD4163001B8660 /* WordDetails+CoreDataClass.swift */; };
+		CE48B6FC20AD4163001B8660 /* WordDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE48B6FA20AD4163001B8660 /* WordDetails+CoreDataProperties.swift */; };
 		CE550E14208F37B900DA10DF /* dashboardicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E10208F37B500DA10DF /* dashboardicon@2x.png */; };
 		CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E13208F37B800DA10DF /* dashboardicon.png */; };
 		CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE550E1C208F3AB500DA10DF /* wordsIcon.png */; };
@@ -83,9 +83,9 @@
 		CE19227E20874E8A000D7676 /* FULL WordsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FULL WordsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE19228220874E8A000D7676 /* FULL_WordsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FULL_WordsUITests.swift; sourceTree = "<group>"; };
 		CE19228420874E8A000D7676 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
-		CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE3FA823209B37720022D4D5 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		CE48B6F920AD4163001B8660 /* WordDetails+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CE48B6FA20AD4163001B8660 /* WordDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WordDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE550E10208F37B500DA10DF /* dashboardicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dashboardicon@2x.png"; sourceTree = "<group>"; };
 		CE550E13208F37B800DA10DF /* dashboardicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dashboardicon.png; sourceTree = "<group>"; };
 		CE550E1C208F3AB500DA10DF /* wordsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wordsIcon.png; sourceTree = "<group>"; };
@@ -261,8 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				CE3FA823209B37720022D4D5 /* PersistenceService.swift */,
-				CE2E04F420A4291A00620AE3 /* WordDetails+CoreDataClass.swift */,
-				CE2E04F520A4291B00620AE3 /* WordDetails+CoreDataProperties.swift */,
+				CE48B6F920AD4163001B8660 /* WordDetails+CoreDataClass.swift */,
+				CE48B6FA20AD4163001B8660 /* WordDetails+CoreDataProperties.swift */,
 				CE19226620874E88000D7676 /* FULL_Words.xcdatamodeld */,
 			);
 			path = CoreDataFiles;
@@ -509,14 +509,14 @@
 				CE19226820874E88000D7676 /* FULL_Words.xcdatamodeld in Sources */,
 				CE19226220874E88000D7676 /* LoginPageViewController.swift in Sources */,
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
+				CE48B6FC20AD4163001B8660 /* WordDetails+CoreDataProperties.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */,
 				CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */,
-				CE2E04F620A4291B00620AE3 /* WordDetails+CoreDataClass.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
+				CE48B6FB20AD4163001B8660 /* WordDetails+CoreDataClass.swift in Sources */,
 				CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */,
-				CE2E04F720A4291B00620AE3 /* WordDetails+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,7 +663,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -690,15 +690,19 @@
 			baseConfigurationReference = 2989921C5B281EAA63B8087F /* Pods-FULL Words.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75GBEJC733;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = U6EUGX9769;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.anywhere.fullwords;
+				PRODUCT_BUNDLE_IDENTIFIER = co.anywhere.fullwords;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "73cbf749-9b13-4816-806e-46bfb2f1b36b";
+				PROVISIONING_PROFILE_SPECIFIER = "FullWords Dev_Provision_Profile";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -709,15 +713,19 @@
 			baseConfigurationReference = 6D0AC2CCE57343C04670EA22 /* Pods-FULL Words.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75GBEJC733;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = U6EUGX9769;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.anywhere.fullwords;
+				PRODUCT_BUNDLE_IDENTIFIER = co.anywhere.fullwords;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c017060c-32bf-487b-915d-8404ab47e188";
+				PROVISIONING_PROFILE_SPECIFIER = "FullWords Dist_Provisioning_Profile";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

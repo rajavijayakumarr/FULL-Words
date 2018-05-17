@@ -20,6 +20,11 @@ class WordsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if userValues.bool(forKey: USER_LOGGED_IN) {
+            
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100

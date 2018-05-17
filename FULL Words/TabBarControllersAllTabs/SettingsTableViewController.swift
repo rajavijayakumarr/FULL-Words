@@ -108,7 +108,7 @@ class SettingsTableViewController: UITableViewController {
                 tableView.deselectRow(at: selection, animated: true)
             }
         case 2:                                  //Logout
-            let alert = UIAlertController(title: nil, message: "Are you sure?", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: nil, message: "Are you sure want to signout?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 
                 let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)

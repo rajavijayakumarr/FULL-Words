@@ -182,6 +182,7 @@ class NewWordViewController: UIViewController {
                             wordsDetails.dateUpdated = receivedWordValues["data"]["word"]["updatedAt"].doubleValue
                             wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
                             wordsDetails.wordAddedBy = self.userName
+                            wordsDetails.userId = receivedWordValues["data"]["word"]["userId"].stringValue
                             wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
                             wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
                             wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
@@ -230,7 +231,7 @@ class NewWordViewController: UIViewController {
     }
     
     func updateTheFeedInAnywhereWorks(Word word: String, Meaning meaning: String, Source source: String) {
-        let content = "Here is the new word I found, \n\n*Word*: \(word)\n*Meaning*: \(meaning)\n*Source*: \(source)\n\n#fullwords"
+        let content = "Hey! Here is the new word I found. \n\n*Word*: \(word)\n*Meaning*: \(meaning)\n*Source*: \(source)\n#fullwords"
         
         var requestForPostingFeed = URLRequest(url: URL(string: FEEDS_SCOPE_URL)!)
         requestForPostingFeed.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]

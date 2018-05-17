@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -337,7 +336,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="50.666666666666664"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello world" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKp-hf-jQ5">
-                                                    <rect key="frame" x="4" y="4" width="83" height="43"/>
+                                                    <rect key="frame" x="10" y="4" width="83" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="185" id="4pW-ub-5WU"/>
                                                     </constraints>
@@ -346,7 +345,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello world" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TIi-aE-bMW">
-                                                    <rect key="frame" x="195" y="4" width="215" height="42"/>
+                                                    <rect key="frame" x="189" y="4" width="215" height="42"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="215" id="MIJ-tH-TYd"/>
                                                     </constraints>
@@ -362,9 +361,9 @@
                                                 <constraint firstAttribute="bottom" secondItem="xKp-hf-jQ5" secondAttribute="bottom" constant="3.6699999999999999" id="QlA-vU-zR2"/>
                                                 <constraint firstItem="xKp-hf-jQ5" firstAttribute="top" secondItem="ndk-HK-wIC" secondAttribute="top" constant="4" id="csv-pX-fOZ"/>
                                                 <constraint firstAttribute="bottom" secondItem="TIi-aE-bMW" secondAttribute="bottom" constant="4" id="rzO-06-uJn"/>
-                                                <constraint firstItem="xKp-hf-jQ5" firstAttribute="leading" secondItem="ndk-HK-wIC" secondAttribute="leading" constant="4" id="wvn-jB-p35"/>
+                                                <constraint firstItem="xKp-hf-jQ5" firstAttribute="leading" secondItem="ndk-HK-wIC" secondAttribute="leading" constant="10" id="wvn-jB-p35"/>
                                                 <constraint firstItem="TIi-aE-bMW" firstAttribute="leading" relation="lessThanOrEqual" secondItem="xKp-hf-jQ5" secondAttribute="trailing" constant="236" id="x3Q-cO-l5D"/>
-                                                <constraint firstAttribute="trailing" secondItem="TIi-aE-bMW" secondAttribute="trailing" constant="4" id="yue-fm-9ky"/>
+                                                <constraint firstAttribute="trailing" secondItem="TIi-aE-bMW" secondAttribute="trailing" constant="10" id="yue-fm-9ky"/>
                                             </constraints>
                                         </view>
                                     </subviews>

@@ -157,6 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
                 print("****************************************************************************************")
                 print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
+                print("\(dataContainingUserDetails["data"]["user"]["id"].stringValue)")
                 guard firstName != "" && lastName != "" && emailId != "" else {
                     return
                 }
