@@ -2,7 +2,7 @@
 //  WordDetails+CoreDataProperties.swift
 //  
 //
-//  Created by User on 10/05/18.
+//  Created by User on 17/05/18.
 //
 //
 
@@ -17,10 +17,11 @@ extension WordDetails {
     }
 
     @NSManaged public var dateAdded: Double
+    @NSManaged public var dateUpdated: Double
     @NSManaged public var meaningOfWord: String?
     @NSManaged public var nameOfWord: String?
     @NSManaged public var sourceOfWord: String?
     @NSManaged public var wordAddedBy: String?
-    @NSManaged public var dateUpdated: Double
+    @NSManaged public var userId: String?
 
 }
