@@ -136,6 +136,9 @@ class NewWordViewController: UIViewController {
         }
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.nameOfTheWord!)
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaningOfTheWord!)
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.sourceOfTheWord!)
         let title = "Missing fields" ; var messange = ""; var hasValue = true
         if NewWordViewController.nameOfTheWord == "" {
             messange = "Word field is be blank!"
@@ -171,7 +174,7 @@ class NewWordViewController: UIViewController {
         let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
         requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
         requestForPostingWord.httpMethod = "POST"
-        requestForPostingWord.timeoutInterval = 6
+        requestForPostingWord.timeoutInterval = 60
         
                 Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
                     if responseData.error == nil {
@@ -335,11 +338,6 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
       return cell
     }
 }
-//use this to make the screen go up when the keyboard pops up
-//type anything here inside this extension
-
-extension NewWordViewController: UIScrollViewDelegate {
-}
 
 // for the uitextview to display in the storyboard
 extension NewWordViewController {
@@ -351,6 +349,13 @@ extension NewWordViewController {
             return
         }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+    }
+    
+    //function to remove the meaning if it contains only speces in prefixes
+    func removeBlankSpaceIfPresentAtPrefix(_ string: inout String) {
+        while string.hasPrefix(" ") || string.hasPrefix("\n") {
+            string.removeFirst()
+        }
     }
 }
 class WordTableViewCell: UITableViewCell, UITextViewDelegate {

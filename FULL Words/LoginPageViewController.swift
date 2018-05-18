@@ -94,7 +94,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         data.append("&grant_type=authorization_code".data(using: .utf8)!)
         requestForGettingToken.httpBody = data
         requestForGettingToken.httpMethod = "POST"
-        requestForGettingToken.timeoutInterval = 6
+        requestForGettingToken.timeoutInterval = 60
         
         print(String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue)) as Any)
 
@@ -145,33 +145,36 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
         requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingUserDate.httpMethod = "GET"
-        requestForGettingUserDate.timeoutInterval = 6
+        requestForGettingUserDate.timeoutInterval = 60
         
         Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
             if responseData.error == nil {
                 var dataContainingUserDetails = JSON(responseData.data!)
                 print("****************************************************************************************")
                 let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
-                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
+                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].string
                 let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
                 print("****************************************************************************************")
-                print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
-                guard firstName != "" && lastName != "" && emailId != "" else {
+                print("firstname: \(firstName)\nsecondname: \(lastName ?? "")\nemailId: \(emailId)")
+                // do not add the lastName to the guard statement because some person may or maynot have a second name and they could not login into the account
+                //bug 1
+                guard firstName != "" && emailId != "" else {
                     let alert = UIAlertController(title: "Something went wrong!", message: "Try again", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     return
                 }
                 
                 
-                userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                userValues.set(firstName + " " + (lastName ?? "") , forKey: USER_NAME)
                 userValues.set(emailId, forKey: EMAIL_ID)
                 userValues.set(true, forKey: USER_LOGGED_IN)
                 
                 
                 
                 let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
-                toTabBarViewControler?.userName = firstName + " " + lastName
+                toTabBarViewControler?.userName = firstName + (lastName != "" ? " " + (lastName ?? ""): "")
                 toTabBarViewControler?.emailId = emailId
                 toTabBarViewControler?.userLoggedIn = true
                 

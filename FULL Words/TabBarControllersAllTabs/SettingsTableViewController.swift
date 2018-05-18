@@ -33,12 +33,12 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.navigationController?.navigationBar.barStyle = .blackOpaque
-        let whiteColor =  #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        self.navigationController?.navigationBar.barStyle = .default
+        let whiteColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = whiteColor
         self.navigationController?.navigationBar.barTintColor = whiteColor
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) as Any]
-        self.navigationController?.view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
+        self.navigationController?.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
         
         self.navigationController?.visibleViewController?.navigationItem.title = "Settings"
         if let selection: IndexPath = tableView.indexPathForSelectedRow{
@@ -49,7 +49,7 @@ class SettingsTableViewController: UITableViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        UINavigationBar.appearance().barStyle = .default
+        UINavigationBar.appearance().barStyle = .blackOpaque
     }
 
     override func didReceiveMemoryWarning() {
@@ -117,7 +117,7 @@ class SettingsTableViewController: UITableViewController {
                 let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
                 var requestForRevokingToken = URLRequest(url: URL(string: "https://access.anywhereworks.com/o/oauth2/revoke?token=\(accessToken)")!)
                 requestForRevokingToken.httpMethod = "GET"
-                requestForRevokingToken.timeoutInterval = 6
+                requestForRevokingToken.timeoutInterval = 60
                 
                 Alamofire.request(requestForRevokingToken).responseJSON { (responseData) in
                     if responseData.error == nil  {

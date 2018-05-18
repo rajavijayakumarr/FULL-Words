@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,21 +20,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FULL Words" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjJ-bq-jpA">
-                                <rect key="frame" x="20" y="124.99999999999999" width="374" height="57.333333333333329"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="57.329999999999998" id="C9I-ea-hgx"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="144" width="374" height="31.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="FullWordsLogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MZ3-8X-Vv6">
-                                <rect key="frame" x="141" y="208" width="132" height="132"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="132" id="KOe-hE-QXz"/>
-                                    <constraint firstAttribute="width" constant="132" id="aEJ-uc-OeF"/>
-                                </constraints>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9k-zD-COI" customClass="UIButton">
                                 <rect key="frame" x="68" y="578" width="278.33333333333331" height="39"/>
                                 <subviews>
@@ -64,17 +54,23 @@
                                     <action selector="loginWithAdaptvantButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f7s-dJ-ymf"/>
                                 </connections>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="FullWordsLogo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MZ3-8X-Vv6">
+                                <rect key="frame" x="137" y="200.33333333333331" width="140" height="136"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="V8g-kz-hPV"/>
+                                    <constraint firstAttribute="width" constant="140" id="aGR-0D-hux"/>
+                                    <constraint firstAttribute="width" secondItem="MZ3-8X-Vv6" secondAttribute="height" multiplier="35:34" id="g2A-Md-1G8"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MZ3-8X-Vv6" firstAttribute="firstBaseline" secondItem="zjJ-bq-jpA" secondAttribute="baseline" constant="32.333333333333314" id="8ck-GF-3td"/>
-                            <constraint firstItem="X9k-zD-COI" firstAttribute="top" relation="lessThanOrEqual" secondItem="MZ3-8X-Vv6" secondAttribute="bottom" constant="238" id="9EQ-qm-Pzg"/>
-                            <constraint firstItem="LBV-Nc-IMU" firstAttribute="trailing" secondItem="zjJ-bq-jpA" secondAttribute="trailing" constant="20" id="GSZ-um-HWY"/>
-                            <constraint firstItem="zjJ-bq-jpA" firstAttribute="leading" secondItem="LBV-Nc-IMU" secondAttribute="leading" constant="20" id="VrZ-rm-XjQ"/>
-                            <constraint firstItem="zjJ-bq-jpA" firstAttribute="top" relation="lessThanOrEqual" secondItem="LBV-Nc-IMU" secondAttribute="top" constant="125" id="ipv-wY-R3S"/>
-                            <constraint firstItem="MZ3-8X-Vv6" firstAttribute="centerX" secondItem="AEX-Fh-b5S" secondAttribute="centerX" id="rvo-16-iBW"/>
-                            <constraint firstItem="MZ3-8X-Vv6" firstAttribute="centerY" secondItem="AEX-Fh-b5S" secondAttribute="centerY" constant="-62" id="sRf-x2-ICk"/>
+                            <constraint firstItem="zjJ-bq-jpA" firstAttribute="top" secondItem="LBV-Nc-IMU" secondAttribute="top" constant="144" id="34x-Ux-kOe"/>
+                            <constraint firstItem="LBV-Nc-IMU" firstAttribute="trailing" secondItem="zjJ-bq-jpA" secondAttribute="trailing" constant="20" id="6eJ-pm-KdX"/>
+                            <constraint firstItem="MZ3-8X-Vv6" firstAttribute="top" secondItem="zjJ-bq-jpA" secondAttribute="bottom" constant="25" id="9Jy-kh-D37"/>
+                            <constraint firstItem="zjJ-bq-jpA" firstAttribute="leading" secondItem="LBV-Nc-IMU" secondAttribute="leading" constant="20" id="Zcc-dG-vmh"/>
+                            <constraint firstItem="X9k-zD-COI" firstAttribute="leading" secondItem="MZ3-8X-Vv6" secondAttribute="trailing" constant="-209" id="dfC-58-xMN"/>
                             <constraint firstItem="X9k-zD-COI" firstAttribute="centerX" secondItem="AEX-Fh-b5S" secondAttribute="centerX" id="vtX-O4-bFV"/>
                             <constraint firstItem="LBV-Nc-IMU" firstAttribute="bottom" secondItem="X9k-zD-COI" secondAttribute="bottom" constant="55" id="xzH-jP-IBS"/>
                         </constraints>
@@ -216,15 +212,15 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-pK-qF2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-pK-qF2">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" red="0.44200104480000002" green="0.56225413079999997" blue="0.61402809619999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="wordsTableViewCells" rowHeight="125" id="aDd-O8-rQ4" customClass="WordTableViewCell" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="125"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aDd-O8-rQ4" id="Xos-uP-TSg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="124.66666666666667"/>
@@ -274,7 +270,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                         <connections>
                                             <outlet property="headingLabel" destination="yHj-l8-6D9" id="eGy-Db-L7p"/>
                                             <outlet property="wordTextView" destination="ryI-MW-BWy" id="s3k-WE-lW0"/>
