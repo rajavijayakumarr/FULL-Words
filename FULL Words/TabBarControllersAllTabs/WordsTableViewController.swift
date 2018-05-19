@@ -27,7 +27,8 @@ class WordsTableViewController: UITableViewController {
         
         if let userLoggedIn = userLoggedIn {
             if  userLoggedIn {
-                getTheWordsAddedByTheUserFromServer()
+                MBProgressHUD.showAdded(to: self.view, animated: true)
+                getTheWordsAddedByTheUserFromServer("first request")
             } else {
                 addTheWordsToThePersistantContainer()
             }
@@ -54,7 +55,7 @@ class WordsTableViewController: UITableViewController {
         super.viewDidAppear(true)
         tableView.reloadData()
         self.navigationController?.navigationBar.barStyle = .default
-        let greenColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let greenColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = greenColor
         self.navigationController?.navigationBar.barTintColor = greenColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
@@ -144,11 +145,17 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
-    func getTheWordsAddedByTheUserFromServer() {
+    func getTheWordsAddedByTheUserFromServer(_ cursorValue: String) {
         
+        var cursorValue = cursorValue
+        
+        if cursorValue != ""{
         let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
         let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
-        var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS)!)
+            var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + (cursorValue == "first request" ? "" : cursorValue ))!)
+            print("*************************************************")
+            print(FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + cursorValue)
+            print("*************************************************")
         requestForGettingUserWOrds.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingUserWOrds.setValue("application/json", forHTTPHeaderField: "Content-Type")
         requestForGettingUserWOrds.httpMethod = "GET"
@@ -158,8 +165,10 @@ class WordsTableViewController: UITableViewController {
                 print("*******************************************************")
                 print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                 let responseJSON_Data = JSON(responseData.data!)
+                cursorValue = responseJSON_Data["data"]["cursor"].stringValue
                 if responseJSON_Data["response"].boolValue {
                     let arrayOfUserWords = responseJSON_Data["data"]["words"].arrayValue
+                    print(cursorValue)
                     for wordValues in arrayOfUserWords {
                         let wordDetails = WordDetails(context: PersistenceService.context)
                         wordDetails.dateAdded = wordValues["createdAt"].doubleValue
@@ -172,7 +181,12 @@ class WordsTableViewController: UITableViewController {
                         PersistenceService.saveContext()
                     }
                     self.addTheWordsToThePersistantContainer()
-                    self.tableView.reloadData()
+                    UIView.transition(with: self.tableView,
+                                      duration: 0.35,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.tableView.reloadData() })
+               //     self.tableView.reloadData()
+                    self.getTheWordsAddedByTheUserFromServer(cursorValue)
                     
                 } else {
                     let message = responseJSON_Data["msg"].stringValue
@@ -187,17 +201,21 @@ class WordsTableViewController: UITableViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-    }
+        } else {
+            MBProgressHUD.hide(for: self.view, animated: true)
+            print("progress indicator did stop")
+        }
+        
+}
 }
 
 extension WordsTableViewController {
     @objc func newWordAdded() {
         addTheWordsToThePersistantContainer()
-        tableView.reloadData()
-    }
+        
+        UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+        }
 }
-
-
 
 /// class created for the custome cells in the table view
 class AddedWordsCells: UITableViewCell {
