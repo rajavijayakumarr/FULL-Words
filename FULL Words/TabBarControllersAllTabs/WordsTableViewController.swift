@@ -19,6 +19,7 @@ class WordsTableViewController: UITableViewController {
     static var addButtonUIButton: UIButton!
     var userName: String?
     var userLoggedIn: Bool?
+    var spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
     
@@ -26,8 +27,11 @@ class WordsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         if let userLoggedIn = userLoggedIn {
+
             if  userLoggedIn {
-                MBProgressHUD.showAdded(to: self.view, animated: true)
+                let rightBarButton = UIBarButtonItem(customView: spinnerView)
+                self.navigationController?.visibleViewController?.navigationItem.setRightBarButton(rightBarButton, animated: true)
+                spinnerView.startAnimating()
                 getTheWordsAddedByTheUserFromServer("first request")
             } else {
                 addTheWordsToThePersistantContainer()
@@ -90,15 +94,15 @@ class WordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.addedWordLabel.text = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
-        cell.addedWord = wordsOfUserValues[indexPath.section].nameOfWord?.capitalizingFirstLetter()
+        cell.addedWordLabel.text = wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.addedWord = wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
         cell.addedBy = userName!
         cell.viewOfAddedWordsCell.layer.cornerRadius = 5
         cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
         
-        cell.sourceForTheWord = wordsOfUserValues[indexPath.section].sourceOfWord
-        cell.meaningLabel.text = wordsOfUserValues[indexPath.section].meaningOfWord
-        cell.meaningOfTheWord = wordsOfUserValues[indexPath.section].meaningOfWord
+        cell.sourceForTheWord = wordsOfUserValues[indexPath.item].sourceOfWord
+        cell.meaningLabel.text = wordsOfUserValues[indexPath.item].meaningOfWord
+        cell.meaningOfTheWord = wordsOfUserValues[indexPath.item].meaningOfWord
         return cell
     }
     
@@ -106,13 +110,13 @@ class WordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return wordsOfUserValues.count
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 
-        return 1
+        return wordsOfUserValues.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -194,16 +198,23 @@ class WordsTableViewController: UITableViewController {
                     let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
+                    self.navigationItem.setRightBarButton(nil, animated: true)
+                    self.spinnerView.stopAnimating()
+                    self.spinnerView.removeFromSuperview()
                 }
             } else {
                 let alert = UIAlertController(title: "error", message: "Something went wrong while fetching the user words", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
+                self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
+                self.spinnerView.stopAnimating()
+                self.spinnerView.removeFromSuperview()
             }
         }
         } else {
-            MBProgressHUD.hide(for: self.view, animated: true)
-            print("progress indicator did stop")
+            self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
+            self.spinnerView.stopAnimating()
+            self.spinnerView.removeFromSuperview()
         }
         
 }
@@ -238,5 +249,3 @@ extension String {
         self = self.capitalizingFirstLetter()
     }
 }
-
-

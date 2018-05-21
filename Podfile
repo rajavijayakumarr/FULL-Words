@@ -6,6 +6,7 @@ target 'FULL Words' do
   pod 'Alamofire', '~> 4.7'
   pod 'MBProgressHUD', '~> 1.1.0'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'Firebase/Core'
   use_frameworks!
 
   # Pods for FULL Words
