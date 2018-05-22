@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Alamofire
 import SwiftyJSON
+import MBProgressHUD
 
 
 @UIApplicationMain
@@ -27,43 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
             let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
             
-            if !self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)  {
-                print("this might not happen for now and this will probably dont get printed")
-                var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
-                
-                var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-                data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
-                data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
-                data.append("&grant_type=refresh_token".data(using: .utf8)!)
-                requestForGettingToken.httpBody = data
-                requestForGettingToken.httpMethod = "POST"
-                
-                Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
-                    if responseData.error == nil{
-                        print(responseData)
-                        var dataContainingTokens = JSON(responseData.data!)
-                        let accessToken = dataContainingTokens["access_token"].stringValue
-                        let tokenType = dataContainingTokens["token_type"].stringValue
-                        
-                        print("****************************************************************************************")
-                        print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                        userValues.set(accessToken, forKey: ACCESS_TOKEN)
-                        userValues.set(tokenType, forKey: TOKEN_TYPE)
-                        userValues.set(true, forKey: USER_LOGGED_IN)
-                        
-                        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
-                        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-                        requestForGettingUserDate.httpMethod = "GET"
-                        //                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType, request_For_Getting_Token: requestForGettingToken)
-                        print(self.getTheUserValues(access_Token: accessToken, token_Type: tokenType))
-                        
-                    }
-                }
-            } else {
-                print("the function that you have just typed is cancelled")
-                print("this is the correct expected app behavior")
-            }
-            
+            _ = self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)
             //before this all the receiving and sending occurs and use befoer this to implement the loading screen
             //this is where the new view controller will be displayed
             
@@ -135,6 +100,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //for autologin
     
+    func refreshingAccessToken(access_token accessToken: String, token_Type tokenType: String) {
+        print("This is most important and it is the function that is responsible for refreshing the access token")
+        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
+        var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&grant_type=refresh_token".data(using: .utf8)!)
+        requestForGettingToken.httpBody = data
+        requestForGettingToken.httpMethod = "POST"
+        
+        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+            if responseData.error == nil{
+                print(responseData)
+                var dataContainingTokens = JSON(responseData.data!)
+                let accessToken = dataContainingTokens["access_token"].stringValue
+                let tokenType = dataContainingTokens["token_type"].stringValue
+                
+                print("****************************************************************************************")
+                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                userValues.set(accessToken, forKey: ACCESS_TOKEN)
+                userValues.set(tokenType, forKey: TOKEN_TYPE)
+                userValues.set(true, forKey: USER_LOGGED_IN)
+                
+                var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
+                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+                requestForGettingUserDate.httpMethod = "GET"
+                
+                Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+                    if responseData.error == nil {
+                        
+                        var dataContainingUserDetails = JSON(responseData.data!)
+                        guard dataContainingUserDetails["ok"].boolValue else {
+                            let error = dataContainingUserDetails["error"].stringValue
+                            let message = dataContainingUserDetails["msg"].stringValue
+                            print(error + ":" + message)
+                            return
+                        }
+                        print("************************************************************************************")
+                        let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
+                        let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
+                        let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                        print("************************************************************************************")
+                        print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
+                        print("\(dataContainingUserDetails["data"]["user"]["id"].stringValue)")
+                        guard firstName != "" && lastName != "" && emailId != "" else {
+                            return
+                        }
+                        
+                        userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                        userValues.set(emailId, forKey: EMAIL_ID)
+                        userValues.set(true, forKey: USER_LOGGED_IN)
+                    }
+                }
+            }
+        }
+    }
     
     func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Bool {
         
@@ -150,6 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var dataContainingUserDetails = JSON(responseData.data!)
                 guard dataContainingUserDetails["ok"].boolValue else {
                     successInGettingValues = false
+                    self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
                     return
                 }
                 print("****************************************************************************************")
@@ -168,10 +190,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 userValues.set(true, forKey: USER_LOGGED_IN)
                 successInGettingValues = true
             } else {
-                successInGettingValues = false
+                self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
             }
         }
-        
         return successInGettingValues
     }
 }
