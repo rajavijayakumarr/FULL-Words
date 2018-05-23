@@ -121,6 +121,7 @@ class SettingsTableViewController: UITableViewController {
             feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
             feedBackViewController.rightButtonTitleColor = UIColor.white
             feedBackViewController.statusBarStyle = .lightContent
+            feedBackViewController.userName = userName ?? ""
             let date = NSDate()
             feedBackViewController.appInfo = ["DeviceID": "\(UIDevice.current.identifierForVendor?.uuidString ?? "")",
                                               "Bundle ID": "\(Bundle.main.bundleIdentifier ?? "")",
