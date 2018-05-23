@@ -117,17 +117,21 @@ class SettingsTableViewController: UITableViewController {
             guard let feedBackViewController = FeedbackViewController.initialize(loopToDoKey: "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgKDVsuyPCgw", feedbackCardTitle: "FULLWords iOS feedback") else {
                 return
             }
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd, hh:mm a z"
+            let myString = formatter.string(from: Date())
+            
             feedBackViewController.navBarColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
             feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
             feedBackViewController.rightButtonTitleColor = UIColor.white
             feedBackViewController.statusBarStyle = .lightContent
             feedBackViewController.userName = userName ?? ""
-            let date = NSDate()
             feedBackViewController.appInfo = ["DeviceID": "\(UIDevice.current.identifierForVendor?.uuidString ?? "")",
                                               "Bundle ID": "\(Bundle.main.bundleIdentifier ?? "")",
                                               "App version": "\(VERSION_OF_THE_APPLICATION)",
                                               "Login ID": "\(emailId ?? "")",
-                                              "Current date and time": "\(date.description)"]
+                                              "Current date and time": myString]
             self.present(feedBackViewController, animated: true, completion: nil)
             break
             
