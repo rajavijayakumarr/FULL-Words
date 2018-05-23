@@ -22,6 +22,8 @@ let FULL_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
 let FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS = "https://full-learn.appspot.com/api/v1/words/user/me?limit=10&cursor="
 let FEEDS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/feed"
 
+let SCOPES_TO_BE_ADDED = "awapis.identity+awapis.feeds.write"
+
 let REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
 let ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
 let TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
@@ -56,7 +58,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
     }
 
     @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
-        let url = CODE_URL+"?response_type=code&client_id="+CLIENT_ID+"&access_type=offline&scope=awapis.identity+awapis.feeds.write&redirect_uri="+REDIRECT_URL+"&approval_prompt=force"
+        let url = CODE_URL+"?response_type=code&client_id="+CLIENT_ID+"&access_type=offline&scope=\(SCOPES_TO_BE_ADDED)&redirect_uri="+REDIRECT_URL+"&approval_prompt=force"
         
         self.safariViewController = SFSafariViewController(url: URL(string: url)!)
         self.safariViewController?.delegate = self

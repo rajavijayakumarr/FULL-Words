@@ -262,7 +262,7 @@ class NewWordViewController: UIViewController {
         wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
         wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
         PersistenceService.saveContext()
-        spinnerView.label.text = "Adding Word"
+        spinnerView.label.text = "Adding Word..."
         self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
         
         MBProgressHUD.hide(for: self.view, animated: true)

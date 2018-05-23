@@ -15,9 +15,14 @@ import FullFeedback
 
 
 class SettingsTableViewController: UITableViewController {
-    let VERSION_OF_THE_APPLICATION = "v 1.0 (1)"
+    let VERSION_OF_THE_APPLICATION: String = {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return version
+        }
+        return "(unknown)"
+    }()
     
-    let settingsMenu = ["Profile", "Build & Version No:", "Feedback", "Sign Out"]
+    let settingsMenu = ["Profile", "Version No:", "Feedback", "Sign Out"]
     
     var userName: String?
     var emailId: String?
@@ -86,7 +91,7 @@ class SettingsTableViewController: UITableViewController {
             cell.infoLabel.textColor = UIColor.gray
             
             
-        case "Build & Version No:":
+        case "Version No:":
             cell.accessoryType = .none
             cell.nameLabel.text = settingsMenu[indexPath.section]
             cell.infoLabel.text = VERSION_OF_THE_APPLICATION

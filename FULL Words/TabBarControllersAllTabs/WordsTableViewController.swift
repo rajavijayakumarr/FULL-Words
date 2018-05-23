@@ -12,15 +12,23 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 
-let CURSOR_VALUE = "CURSOR_VALUE"
+let STARTING_TIME_VALUE = "STARTING_TIME_VALUE"
+let ENDING_TIME_VALUE = "ENDING_TIME_VALUE"
 
 class WordsTableViewController: UITableViewController {
     typealias this = WordsTableViewController
+   
+    
+    var refreshController: UIRefreshControl? = {
+        let refreshController = UIRefreshControl()
+        refreshController.addTarget(self, action: #selector(pullToRefreshHandler), for: UIControlEvents.valueChanged)
+        refreshController.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        return refreshController
+    }()
     
     static var addButtonUIButton: UIButton!
     open var userName: String?
     var userLoggedIn: Bool?
-    var spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     var wordsOfUserValues = [WordDetails]()
     let newWOrdAdded = "newWordAddedForWOrds"
     
@@ -30,9 +38,10 @@ class WordsTableViewController: UITableViewController {
         if let userLoggedIn = userLoggedIn {
 
             if  userLoggedIn {
-                let rightBarButton = UIBarButtonItem(customView: spinnerView)
-                self.navigationController?.visibleViewController?.navigationItem.setRightBarButton(rightBarButton, animated: true)
-                getTheWordsAddedByTheUserFromServer("first request") { [weak self] (success, error) in
+                //spinner view
+                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+                spinnerView.label.text = "Loading..."
+                getTheWordsAddedByTheUserFromServer() { [weak self] (success, error, _) in
                     guard let strongSelf = self else {return}
                     
                     if success {
@@ -43,8 +52,9 @@ class WordsTableViewController: UITableViewController {
                                               options: .transitionCrossDissolve,
                                               animations: { strongSelf.tableView.reloadData() })
                         }
+                    } else {
+                        MBProgressHUD.hide(for: strongSelf.view, animated: true)
                     }
-                    
                 }
             } else {
                 addTheWordsToThePersistantContainer()
@@ -55,7 +65,9 @@ class WordsTableViewController: UITableViewController {
         tableView.dataSource = self
         tableView.rowHeight = 100
         tableView.estimatedRowHeight = 100
-
+        if let refreshController = refreshController {
+            tableView.addSubview(refreshController)
+        }
         let name = NSNotification.Name.init(rawValue: newWOrdAdded)
         NotificationCenter.default.addObserver(self, selector: #selector(self.newWordAdded), name: name, object: nil)
         addButtonCustomization()
@@ -118,23 +130,22 @@ class WordsTableViewController: UITableViewController {
         cell.meaningOfTheWord = wordsOfUserValues[indexPath.item].meaningOfWord
         return cell
     }
-    
+
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        //Change 10.0 to adjust the distance from bottom
-//        guard let userLoggedIn = userLoggedIn else {
-//            return
-//        }
-//        guard userLoggedIn else {
-//            return
-//        }
-        if maximumOffset - currentOffset <= 80.0 {
-            getTheWordsAddedByTheUserFromServer(userValues.string(forKey: CURSOR_VALUE) ?? "") { [weak self] (success, error) in
+        print("current offset: " + "\(currentOffset)")
+        if maximumOffset - currentOffset <= self.view.bounds.height * 1/4 {
+            //spinner
+            print("called when the user drags to the botton")
+            print(maximumOffset - currentOffset)
+            getTheWordsAddedByTheUserFromServer(toTime: userValues.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
                 guard let strongSelf = self else {return}
                 
                 if success {
+                    guard jsonData?.count != 0 else {
+                        return
+                    }
                     DispatchQueue.main.async {
                         strongSelf.addTheWordsToThePersistantContainer()
                         UIView.transition(with: strongSelf.tableView,
@@ -167,7 +178,6 @@ class WordsTableViewController: UITableViewController {
         return 100
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
         let wordsCell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
   
         let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? ViewWordsViewController
@@ -190,22 +200,64 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
-    func getTheWordsAddedByTheUserFromServer(_ cursorValue: String,_ completionBlock: @escaping (_ success: Bool, _ error: NSError?) -> ()) {
-        guard cursorValue != "" else {
-            self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
-            self.spinnerView.stopAnimating()
-            self.spinnerView.removeFromSuperview()
-            let error = NSError(domain: "cursor returned with no values", code: 0, userInfo: nil)
-            completionBlock(false, error)
+    @objc func pullToRefreshHandler() {
+        guard let lastAddedValue = wordsOfUserValues.first else {
             return
         }
-        spinnerView.startAnimating()
-        var cursorValue = cursorValue
+        let firstValueTime = lastAddedValue.dateAdded + 1
+        getTheWordsAddedByTheUserFromServer(fromTime: firstValueTime) { [weak self] (success, error, jsonArray) in
+            guard let strongSelf = self else {return}
+            var jArray = jsonArray
+            if success {
+                strongSelf.refreshController?.endRefreshing()
+                DispatchQueue.main.async {
+                    strongSelf.addTheWordsToThePersistantContainer()
+                    strongSelf.tableView.reloadData()
+                    strongSelf.refreshController?.endRefreshing()
+                }
+                if var countOfWords = jArray?.count {
+                    while countOfWords == 10 {
+                        var endTime: Double = 0.0
+                        for wordValues in jArray! {
+                            endTime = wordValues["updatedAt"].doubleValue
+                        }
+                        strongSelf.getTheWordsAddedByTheUserFromServer(fromTime: firstValueTime, toTime: endTime) { (s, e, j) in
+                            if s {
+                                DispatchQueue.main.async {
+                                    strongSelf.addTheWordsToThePersistantContainer()
+                                    strongSelf.tableView.reloadData()
+                                    strongSelf.refreshController?.endRefreshing()
+                                    jArray = j
+                                    countOfWords = j?.count ?? 0
+                                }
+                            } else {
+                                strongSelf.refreshController?.endRefreshing()
+                                let alert = UIAlertController(title: "Couldn't refresh words!", message: "try again!", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                                    strongSelf.refreshController?.endRefreshing()
+                                }))
+                                strongSelf.present(alert, animated: true)
+                            }
+                        }
+                    }
+                }
+            } else {
+                strongSelf.refreshController?.endRefreshing()
+                let alert = UIAlertController(title: "Couldn't refresh words!", message: "try again!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                strongSelf.present(alert, animated: true)
+            }
+        }
+    }
+    
+    func getTheWordsAddedByTheUserFromServer(fromTime firstWordDate: Double = 1, toTime lastWordDate: Double = Double(Date().timeIntervalSince1970) * 1000 , _ completionBlock: @escaping (_ success: Bool, _ error: NSError?, _ message: [JSON]?) -> ()) {
+//        spinnerview
         let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
         let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
-            var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + (cursorValue == "first request" ? "" : cursorValue ))!)
+        
+            var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + "&endTime=\(Int(lastWordDate))" + "&startTime=\(Int(firstWordDate))")!)
             print("*************************************************")
-            print(FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + cursorValue)
+            print(FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + "&endTime=\(Int(lastWordDate))" + "&startTime=\(firstWordDate)")
             print("*************************************************")
         requestForGettingUserWOrds.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
         requestForGettingUserWOrds.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -216,11 +268,9 @@ class WordsTableViewController: UITableViewController {
                 print("*******************************************************")
                 print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                 let responseJSON_Data = JSON(responseData.data!)
-                cursorValue = responseJSON_Data["data"]["cursor"].stringValue
                
                 if responseJSON_Data["response"].boolValue {
                     let arrayOfUserWords = responseJSON_Data["data"]["words"].arrayValue
-                    print(cursorValue)
                     for wordValues in arrayOfUserWords {
                         let wordDetails = WordDetails(context: PersistenceService.context)
                         wordDetails.dateAdded = wordValues["createdAt"].doubleValue
@@ -231,29 +281,47 @@ class WordsTableViewController: UITableViewController {
                         wordDetails.wordAddedBy = self.userName
                         wordDetails.userId = wordValues["userId"].stringValue
                         PersistenceService.saveContext()
+                        userValues.set(wordValues["createdAt"].doubleValue, forKey: ENDING_TIME_VALUE)
                     }
-                    completionBlock(true, nil)
-                    userValues.set(cursorValue, forKey: CURSOR_VALUE)
+                    completionBlock(true, nil, responseJSON_Data["data"]["words"].arrayValue)
+                    self.refreshController?.endRefreshing()
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                    //spinner
                 } else {
                     let message = responseJSON_Data["msg"].stringValue
                     let error = responseJSON_Data["error"].stringValue
-                    completionBlock(false, NSError(domain: error, code: 2, userInfo: nil))
+                    completionBlock(false, NSError(domain: error, code: 2, userInfo: nil), nil)
                     let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        self.refreshController?.endRefreshing()
+                    }))
                     self.present(alert, animated: true, completion: nil)
-                    self.navigationItem.setRightBarButton(nil, animated: true)
-                    self.spinnerView.stopAnimating()
-                    self.spinnerView.removeFromSuperview()
-                    
+                    //spinner
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
             } else {
-                completionBlock(false, NSError(domain: "something went wrong", code: 3, userInfo: nil))
-                let alert = UIAlertController(title: "error", message: "Something went wrong while fetching the user words", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
-                self.spinnerView.stopAnimating()
-                self.spinnerView.removeFromSuperview()
+                
+                var title = "", message = ""
+                //spinner
+                MBProgressHUD.hide(for: self.view, animated: true)
+                self.refreshController?.endRefreshing()
+                switch responseData.result {
+                case .failure(let error):
+                    if error._code == NSURLErrorTimedOut {
+                        title = "Server timed out!"
+                        message = "try again"
+                    } else {
+                        title = "Netword error!"
+                        message = "Check your internet connection and try again"
+                    }
+                default: break
+                }
+                print(title)
+                print(message)
+                //spinner
+                MBProgressHUD.hide(for: self.view, animated: true)
+                self.refreshController?.endRefreshing()
+                completionBlock(false, NSError(domain: title + ": " + message, code: 3, userInfo: nil), nil)
             }
         }
     }
