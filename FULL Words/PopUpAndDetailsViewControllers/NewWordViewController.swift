@@ -167,9 +167,6 @@ class NewWordViewController: UIViewController {
         let sourceOfTheWord = NewWordViewController.sourceOfTheWord
         
         var requestForPostingWord = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL)!)
-//        requestForPostingWord.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        requestForPostingWord.setValue("Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!, forHTTPHeaderField: "Authorization")
-
         requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]
         let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
         requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
@@ -183,35 +180,46 @@ class NewWordViewController: UIViewController {
                         print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                         let receivedWordValues = JSON(responseData.data!)
                         if receivedWordValues["response"].boolValue {
-                            let wordsDetails = WordDetails(context: PersistenceService.context)
-                            wordsDetails.dateUpdated = receivedWordValues["data"]["word"]["updatedAt"].doubleValue
-                            wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
-                            wordsDetails.wordAddedBy = self.userName
-                            wordsDetails.userId = receivedWordValues["data"]["word"]["userId"].stringValue
-                            wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
-                            wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
-                            wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
-                            PersistenceService.saveContext()
-                            spinnerView.label.text = "PostingFeed"
-                            self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
+                            self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
+                        } else if receivedWordValues["error"].stringValue == "unauthorized_request" {
                             
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                            let alert = UIAlertController(title: "Success!", message: "Word added to stream!!", preferredStyle: .alert)
-                            self.present(alert, animated: true, completion: nil)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                alert.dismiss(animated: true, completion: {
-                                    self.dismiss(animated: true, completion: nil)
-                                    let name = NSNotification.Name.init(self.newWOrdAdded)
-                                    NotificationCenter.default.post(name: name, object: nil)
-                                })
+                            print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
+                            var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
+                            var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+                            data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+                            data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+                            data.append("&grant_type=refresh_token".data(using: .utf8)!)
+                            requestForGettingToken.httpBody = data
+                            requestForGettingToken.httpMethod = "POST"
+                            
+                            Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+                                if responseData.error == nil{
+                                    print(responseData)
+                                    var dataContainingTokens = JSON(responseData.data!)
+                                    let accessToken = dataContainingTokens["access_token"].stringValue
+                                    let tokenType = dataContainingTokens["token_type"].stringValue
+                                    
+                                    print("****************************************************************************************")
+                                    print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                                    userValues.set(accessToken, forKey: ACCESS_TOKEN)
+                                    userValues.set(tokenType, forKey: TOKEN_TYPE)
+                                    userValues.set(true, forKey: USER_LOGGED_IN)
+                                    
+                                    Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
+                                        if responseData.error != nil {
+                                            let receivedWordValues = JSON(responseData.data!)
+                                            if receivedWordValues["response"].boolValue {
+                                                self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
+                                            } else {
+                                                self.handleOtherErrors(fromData: receivedWordValues)
+                                            }
+                                            
+                                        }
+                                    }
+                                }
                             }
                         } else {
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                            let error = receivedWordValues["error"].stringValue
-                            let message = receivedWordValues["msg"].stringValue
-                            let alert = UIAlertController(title: error, message: message, preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
+                            self.handleOtherErrors(fromData: receivedWordValues)
                         }
                     }  else {
                         var title = "", message = ""
@@ -230,9 +238,44 @@ class NewWordViewController: UIViewController {
                         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                         self.present(alert, animated: true, completion: nil)
-                    }
-
                 }
+        }
+    }
+    
+    func handleOtherErrors(fromData receivedWordValues: JSON) {
+        MBProgressHUD.hide(for: self.view, animated: true)
+        let error = receivedWordValues["error"].stringValue
+        let message = receivedWordValues["msg"].stringValue
+        let alert = UIAlertController(title: error, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func receiveAndSave(from receivedWordValues: JSON, loadingScreen spinnerView: MBProgressHUD) {
+        
+        let wordsDetails = WordDetails(context: PersistenceService.context)
+        wordsDetails.dateUpdated = receivedWordValues["data"]["word"]["updatedAt"].doubleValue
+        wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
+        wordsDetails.wordAddedBy = self.userName
+        wordsDetails.userId = receivedWordValues["data"]["word"]["userId"].stringValue
+        wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
+        wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
+        wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
+        PersistenceService.saveContext()
+        spinnerView.label.text = "Adding Word"
+        self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
+        
+        MBProgressHUD.hide(for: self.view, animated: true)
+        let alert = UIAlertController(title: "Success!", message: "Word added!", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true, completion: {
+                self.dismiss(animated: true, completion: nil)
+                let name = NSNotification.Name.init(self.newWOrdAdded)
+                NotificationCenter.default.post(name: name, object: nil)
+            })
+        }
+        
     }
     
     func updateTheFeedInAnywhereWorks(Word word: String, Meaning meaning: String, Source source: String) {
@@ -387,7 +430,6 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        
         if textView.tag == 0{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
             NewWordViewController.nameOfTheWord = wordTextView.text

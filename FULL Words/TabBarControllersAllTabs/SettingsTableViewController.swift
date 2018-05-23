@@ -11,12 +11,13 @@ import CoreData
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import FullFeedback
 
 
 class SettingsTableViewController: UITableViewController {
     let VERSION_OF_THE_APPLICATION = "v 1.0 (1)"
     
-    let settingsMenu = ["Profile", "Build & Version No:", "Sign Out"]
+    let settingsMenu = ["Profile", "Build & Version No:", "Feedback", "Sign Out"]
     
     var userName: String?
     var emailId: String?
@@ -72,6 +73,11 @@ class SettingsTableViewController: UITableViewController {
             cell.nameLabel.text = settingsMenu[indexPath.section]
             cell.nameLabel.font = cell.nameLabel.font.withSize(15)
             cell.infoLabel.text = ""
+        
+        case "Feedback":
+            cell.accessoryType = .disclosureIndicator
+            cell.nameLabel.text = settingsMenu[indexPath.section]
+            cell.infoLabel.text = ""
             
         case "Profile":
             cell.accessoryType = .none
@@ -107,7 +113,24 @@ class SettingsTableViewController: UITableViewController {
             if let selection: IndexPath = tableView.indexPathForSelectedRow{
                 tableView.deselectRow(at: selection, animated: true)
             }
-        case 2:                                  //Logout
+        case 2:
+            guard let feedBackViewController = FeedbackViewController.initialize(loopToDoKey: "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgKDVsuyPCgw", feedbackCardTitle: "FULLWords iOS feedback") else {
+                return
+            }
+            feedBackViewController.navBarColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+            feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+            feedBackViewController.rightButtonTitleColor = UIColor.white
+            feedBackViewController.statusBarStyle = .lightContent
+            let date = NSDate()
+            feedBackViewController.appInfo = ["DeviceID": "\(UIDevice.current.identifierForVendor?.uuidString ?? "")",
+                                              "Bundle ID": "\(Bundle.main.bundleIdentifier ?? "")",
+                                              "App version": "\(VERSION_OF_THE_APPLICATION)",
+                                              "Login ID": "\(emailId ?? "")",
+                                              "Current date and time": "\(date.description)"]
+            self.present(feedBackViewController, animated: true, completion: nil)
+            break
+            
+        case 3:                                  //Logout
             let alert = UIAlertController(title: nil, message: "Are you sure want to signout?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
                 

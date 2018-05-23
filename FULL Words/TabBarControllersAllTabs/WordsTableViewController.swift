@@ -12,12 +12,13 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 
+let CURSOR_VALUE = "CURSOR_VALUE"
 
 class WordsTableViewController: UITableViewController {
     typealias this = WordsTableViewController
     
     static var addButtonUIButton: UIButton!
-    var userName: String?
+    open var userName: String?
     var userLoggedIn: Bool?
     var spinnerView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     var wordsOfUserValues = [WordDetails]()
@@ -31,8 +32,20 @@ class WordsTableViewController: UITableViewController {
             if  userLoggedIn {
                 let rightBarButton = UIBarButtonItem(customView: spinnerView)
                 self.navigationController?.visibleViewController?.navigationItem.setRightBarButton(rightBarButton, animated: true)
-                spinnerView.startAnimating()
-                getTheWordsAddedByTheUserFromServer("first request")
+                getTheWordsAddedByTheUserFromServer("first request") { [weak self] (success, error) in
+                    guard let strongSelf = self else {return}
+                    
+                    if success {
+                        DispatchQueue.main.async {
+                            strongSelf.addTheWordsToThePersistantContainer()
+                            UIView.transition(with: strongSelf.tableView,
+                                              duration: 0.35,
+                                              options: .transitionCrossDissolve,
+                                              animations: { strongSelf.tableView.reloadData() })
+                        }
+                    }
+                    
+                }
             } else {
                 addTheWordsToThePersistantContainer()
             }
@@ -106,6 +119,34 @@ class WordsTableViewController: UITableViewController {
         return cell
     }
     
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        //Change 10.0 to adjust the distance from bottom
+//        guard let userLoggedIn = userLoggedIn else {
+//            return
+//        }
+//        guard userLoggedIn else {
+//            return
+//        }
+        if maximumOffset - currentOffset <= 80.0 {
+            getTheWordsAddedByTheUserFromServer(userValues.string(forKey: CURSOR_VALUE) ?? "") { [weak self] (success, error) in
+                guard let strongSelf = self else {return}
+                
+                if success {
+                    DispatchQueue.main.async {
+                        strongSelf.addTheWordsToThePersistantContainer()
+                        UIView.transition(with: strongSelf.tableView,
+                                          duration: 0.35,
+                                          options: .transitionCrossDissolve,
+                                          animations: { strongSelf.tableView.reloadData() })
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -149,11 +190,17 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
-    func getTheWordsAddedByTheUserFromServer(_ cursorValue: String) {
-        
+    func getTheWordsAddedByTheUserFromServer(_ cursorValue: String,_ completionBlock: @escaping (_ success: Bool, _ error: NSError?) -> ()) {
+        guard cursorValue != "" else {
+            self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
+            self.spinnerView.stopAnimating()
+            self.spinnerView.removeFromSuperview()
+            let error = NSError(domain: "cursor returned with no values", code: 0, userInfo: nil)
+            completionBlock(false, error)
+            return
+        }
+        spinnerView.startAnimating()
         var cursorValue = cursorValue
-        
-        if cursorValue != ""{
         let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
         let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
             var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + (cursorValue == "first request" ? "" : cursorValue ))!)
@@ -170,6 +217,7 @@ class WordsTableViewController: UITableViewController {
                 print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                 let responseJSON_Data = JSON(responseData.data!)
                 cursorValue = responseJSON_Data["data"]["cursor"].stringValue
+               
                 if responseJSON_Data["response"].boolValue {
                     let arrayOfUserWords = responseJSON_Data["data"]["words"].arrayValue
                     print(cursorValue)
@@ -184,25 +232,22 @@ class WordsTableViewController: UITableViewController {
                         wordDetails.userId = wordValues["userId"].stringValue
                         PersistenceService.saveContext()
                     }
-                    self.addTheWordsToThePersistantContainer()
-                    UIView.transition(with: self.tableView,
-                                      duration: 0.35,
-                                      options: .transitionCrossDissolve,
-                                      animations: { self.tableView.reloadData() })
-               //     self.tableView.reloadData()
-                    self.getTheWordsAddedByTheUserFromServer(cursorValue)
-                    
+                    completionBlock(true, nil)
+                    userValues.set(cursorValue, forKey: CURSOR_VALUE)
                 } else {
                     let message = responseJSON_Data["msg"].stringValue
                     let error = responseJSON_Data["error"].stringValue
+                    completionBlock(false, NSError(domain: error, code: 2, userInfo: nil))
                     let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                     self.navigationItem.setRightBarButton(nil, animated: true)
                     self.spinnerView.stopAnimating()
                     self.spinnerView.removeFromSuperview()
+                    
                 }
             } else {
+                completionBlock(false, NSError(domain: "something went wrong", code: 3, userInfo: nil))
                 let alert = UIAlertController(title: "error", message: "Something went wrong while fetching the user words", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -211,13 +256,7 @@ class WordsTableViewController: UITableViewController {
                 self.spinnerView.removeFromSuperview()
             }
         }
-        } else {
-            self.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
-            self.spinnerView.stopAnimating()
-            self.spinnerView.removeFromSuperview()
-        }
-        
-}
+    }
 }
 
 extension WordsTableViewController {
@@ -249,3 +288,4 @@ extension String {
         self = self.capitalizingFirstLetter()
     }
 }
+

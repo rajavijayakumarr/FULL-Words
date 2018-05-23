@@ -171,6 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var dataContainingUserDetails = JSON(responseData.data!)
                 guard dataContainingUserDetails["ok"].boolValue else {
                     successInGettingValues = false
+                    print("access token revoked refreshing...")
                     self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
                     return
                 }
@@ -181,15 +182,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("****************************************************************************************")
                 print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
                 print("\(dataContainingUserDetails["data"]["user"]["id"].stringValue)")
-                guard firstName != "" && lastName != "" && emailId != "" else {
+                guard firstName != "" && emailId != "" else {
                     return
                 }
                 
-                userValues.set(firstName + " " + lastName , forKey: USER_NAME)
+                userValues.set(firstName + " " + (lastName != "" ? lastName:"") , forKey: USER_NAME)
                 userValues.set(emailId, forKey: EMAIL_ID)
                 userValues.set(true, forKey: USER_LOGGED_IN)
                 successInGettingValues = true
             } else {
+                print("something went wrong refreshing access token")
                 self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
             }
         }
