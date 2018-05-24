@@ -26,7 +26,7 @@ class SettingsTableViewController: UITableViewController {
     
     var userName: String?
     var emailId: String?
-    var pickedDaysToLearn: Int = 2
+    var wordsToLearnPerDay: Int = 2
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +40,9 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.navigationController?.navigationBar.barStyle = .default
-        let whiteColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        self.navigationController?.navigationBar.backgroundColor = whiteColor
-        self.navigationController?.navigationBar.barTintColor = whiteColor
+        let color =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.navigationController?.navigationBar.backgroundColor = color
+        self.navigationController?.navigationBar.barTintColor = color
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
         self.navigationController?.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
         
@@ -119,102 +119,11 @@ class SettingsTableViewController: UITableViewController {
                 tableView.deselectRow(at: selection, animated: true)
             }
         case 2:
-            guard let feedBackViewController = FeedbackViewController.initialize(loopToDoKey: "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgKDVsuyPCgw", feedbackCardTitle: "FULLWords iOS feedback") else {
-                return
-            }
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd, hh:mm a z"
-            let myString = formatter.string(from: Date())
-            
-            feedBackViewController.navBarColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
-            feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
-            feedBackViewController.rightButtonTitleColor = UIColor.white
-            feedBackViewController.statusBarStyle = .lightContent
-            feedBackViewController.userName = userName ?? ""
-            feedBackViewController.appInfo = ["DeviceID": "\(UIDevice.current.identifierForVendor?.uuidString ?? "")",
-                                              "Bundle ID": "\(Bundle.main.bundleIdentifier ?? "")",
-                                              "App version": "\(VERSION_OF_THE_APPLICATION)",
-                                              "Login ID": "\(emailId ?? "")",
-                                              "Current date and time": myString]
-            self.present(feedBackViewController, animated: true, completion: nil)
-            break
-            
+           showFeedBackViewController()
         case 3:                                  //Logout
             let alert = UIAlertController(title: nil, message: "Are you sure want to signout?", preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Sign Out", comment: ""), style: .destructive, handler:{ _ in
-                
-                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
-                spinnerView.label.text = "Logging out"
-                //revoking the access token
-                let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
-                var requestForRevokingToken = URLRequest(url: URL(string: "https://access.anywhereworks.com/o/oauth2/revoke?token=\(accessToken)")!)
-                requestForRevokingToken.httpMethod = "GET"
-                requestForRevokingToken.timeoutInterval = 60
-                
-                Alamofire.request(requestForRevokingToken).responseJSON { (responseData) in
-                    if responseData.error == nil  {
-                        let responseJSON_Data = JSON(responseData.data!)
-                        if responseJSON_Data["ok"].boolValue {
-                            //this is should be implemented after the user is successfully logged out and implement the loading screen here
-                            
-                            print(responseJSON_Data["ok"].boolValue)
-                            
-                            userValues.set(nil, forKey: REFRESH_TOKEN)
-                            userValues.set(nil, forKey: ACCESS_TOKEN)
-                            userValues.set(nil, forKey: TOKEN_TYPE)
-                            userValues.set(nil, forKey: USER_NAME)
-                            userValues.set(nil, forKey: EMAIL_ID)
-                            userValues.set(false, forKey: USER_LOGGED_IN)
-                            
-                            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WordDetails")
-                            let request = NSBatchDeleteRequest(fetchRequest: fetch)
-
-                            do {
-                                _ = try PersistenceService.context.execute(request)
-                            } catch {
-                                print("cannot delete core data values")
-                            }
-                            
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                            
-                            let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? LoginPageViewController
-                            self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
-                            self.navigationController?.popToRootViewController(animated: true)
-                        } else {
-                            //this is where the token revolke process is not working as it should be
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                            let alert = UIAlertController(title: "Could not Logout", message: "try again", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-                                if let selection = tableView.indexPathForSelectedRow {
-                                    tableView.deselectRow(at: selection, animated: true)
-                                }
-                            }))
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                    }  else {
-                        var title = "", message = ""
-                        MBProgressHUD.hide(for: self.view, animated: true)
-                        switch responseData.result {
-                        case .failure(let error):
-                            if error._code == NSURLErrorTimedOut {
-                                title = "Server timed out!"
-                                message = "try again"
-                            } else {
-                                title = "Netword error!"
-                                message = "Check your internet connection and try again"
-                            }
-                        default: break
-                        }
-                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {_ in
-                            if let selection = tableView.indexPathForSelectedRow {
-                            tableView.deselectRow(at: selection, animated: true)
-                            }
-                        }))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
+                self.revokeTheAccessToken()
             }))
             
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
@@ -241,7 +150,111 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
-
+    
+    //function that handles the feedbackviewcontroller
+    func showFeedBackViewController() {
+        
+        guard let feedBackViewController = FeedbackViewController.initialize(loopToDoKey: "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgKDVsuyPCgw", feedbackCardTitle: "FULLWords iOS feedback") else {
+            return
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd, hh:mm a z"
+        let myString = formatter.string(from: Date())
+        
+        feedBackViewController.navBarColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        feedBackViewController.rightButtonTitleColor = UIColor.white
+        feedBackViewController.statusBarStyle = .lightContent
+        feedBackViewController.userName = userName ?? ""
+        feedBackViewController.appInfo = ["DeviceID": "\(UIDevice.current.identifierForVendor?.uuidString ?? "")",
+            "Bundle ID": "\(Bundle.main.bundleIdentifier ?? "")",
+            "App version": "\(VERSION_OF_THE_APPLICATION)",
+            "Login ID": "\(emailId ?? "")",
+            "Current date and time": myString]
+        self.present(feedBackViewController, animated: true, completion: nil)
+    }
+    
+    //function to delete all the core data files
+    func deleteCoreDataFiles() {
+        //this is to delete the coredata files
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WordDetails")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            _ = try PersistenceService.context.execute(request)
+        } catch {
+            print("cannot delete core data values")
+        }
+    }
+    
+    //function to set the default values if the user logs out
+    func setDefaultValuesToAllUserDefaults() {
+        userDefaultsObject.set(nil, forKey: REFRESH_TOKEN)
+        userDefaultsObject.set(nil, forKey: ACCESS_TOKEN)
+        userDefaultsObject.set(nil, forKey: TOKEN_TYPE)
+        userDefaultsObject.set(nil, forKey: USER_NAME)
+        userDefaultsObject.set(nil, forKey: EMAIL_ID)
+        userDefaultsObject.set(false, forKey: IS_USER_LOGGED_IN)
+    }
+    
+    //function to revoke the access token
+    func revokeTheAccessToken() {
+        let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        spinnerView.label.text = "Logging out"
+        
+        //revoking the access token
+        let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
+        var urlRequest = URLRequest(url: URL(string: "https://access.anywhereworks.com/o/oauth2/revoke?token=\(accessToken)")!)
+        urlRequest.httpMethod = "GET"
+        urlRequest.timeoutInterval = 60
+        
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
+            if responseData.error == nil  {
+                let responseJSON_Data = JSON(responseData.data!)
+                if responseJSON_Data["ok"].boolValue {
+                    
+                    //this is should be implemented after the user is successfully logged out and implement the loading screen here
+                    self.setDefaultValuesToAllUserDefaults()
+                    self.deleteCoreDataFiles()
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                    
+                    let myVC = self.storyboard?.instantiateViewController(withIdentifier: "loginpageviewconroller") as? LoginPageViewController
+                    self.navigationController?.viewControllers.insert((myVC! as UIViewController), at: (self.navigationController?.viewControllers.startIndex)!)
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    //this is where the token revolke process is not working as it should be
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                    let alert = UIAlertController(title: "Could not Logout", message: "try again", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        if let selection = self.tableView.indexPathForSelectedRow {
+                            self.tableView.deselectRow(at: selection, animated: true)
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }  else {
+                var title = "", message = ""
+                MBProgressHUD.hide(for: self.view, animated: true)
+                switch responseData.result {
+                case .failure(let error):
+                    if error._code == NSURLErrorTimedOut {
+                        title = "Server timed out!"
+                        message = "try again"
+                    } else {
+                        title = "Netword error!"
+                        message = "Check your internet connection and try again"
+                    }
+                default: break
+                }
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {_ in
+                    if let selection = self.tableView.indexPathForSelectedRow {
+                        self.tableView.deselectRow(at: selection, animated: true)
+                    }
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 ///custome table view cell for the version lable and the profile lable

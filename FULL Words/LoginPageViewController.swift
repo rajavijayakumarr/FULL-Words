@@ -11,25 +11,26 @@ import SafariServices
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+
 let CLIENT_ID = "29354-dad2dd8a5dda745be5e6faea2a155d77"
 let CLIENT_SECRET = "iOsdmGZj-8Tydm0sJ8l6N6dWCZ_e0uZQ5LTy2KfT"
 let REDIRECT_URL = "com.FULL.FULL-Words://"
 let CODE_URL = "https://access.anywhereworks.com/o/oauth2/auth"
 let TOKEN_URL = "https://access.anywhereworks.com/o/oauth2/v1/token"
 
-let USER_DETAILS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/user/me"
-let FULL_WORDS_SCOPE_URL = "https://full-learn.appspot.com/api/v1/words"
-let FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS = "https://full-learn.appspot.com/api/v1/words/user/me?limit=10&cursor="
-let FEEDS_SCOPE_URL = "https://api.anywhereworks.com/api/v1/feed"
+let USER_DETAILS_URL = "https://api.anywhereworks.com/api/v1/user/me"
+let FULL_WORDS_API_URL = "https://full-learn.appspot.com/api/v1/words"
+let FULL_WORDS_ME_API = "https://full-learn.appspot.com/api/v1/words/user/me?limit=10&cursor="
+let FEEDS_URL = "https://api.anywhereworks.com/api/v1/feed"
 
-let SCOPES_TO_BE_ADDED = "awapis.identity+awapis.feeds.write"
+let SCOPES = "awapis.identity+awapis.feeds.write"
 
 let REFRESH_TOKEN = "ADAPTIVIEWU_REFRESH_TOKEN"
 let ACCESS_TOKEN = "ADAPTIVIEWU_ACCESS_TOKEN"
 let TOKEN_TYPE = "ADAPTIVIEWU_TOKEN_TYPE"
-let UNIQUE_STATE_TOKEN_VERIFY = "validated_token"
-let USER_LOGGED_IN = "USER_LOGGED_IN"
-let userValues = UserDefaults.standard
+let UNIQUE_STATE_TOKEN = "validated_token"
+let IS_USER_LOGGED_IN = "USER_LOGGED_IN"
+let userDefaultsObject = UserDefaults.standard
 
 let USER_NAME = "USER_NAME"
 let EMAIL_ID = "EMAIL_ID"
@@ -57,19 +58,17 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    @IBAction func loginWithAdaptvantButtonClicked(_ sender: UIButton) {
-        let url = CODE_URL+"?response_type=code&client_id="+CLIENT_ID+"&access_type=offline&scope=\(SCOPES_TO_BE_ADDED)&redirect_uri="+REDIRECT_URL+"&approval_prompt=force"
-        
+    @IBAction func loginButtonClicked(_ sender: UIButton) {
+        let url = CODE_URL+"?response_type=code&client_id="+CLIENT_ID+"&access_type=offline&scope=\(SCOPES)&redirect_uri="+REDIRECT_URL+"&approval_prompt=force"
         self.safariViewController = SFSafariViewController(url: URL(string: url)!)
         self.safariViewController?.delegate = self
         self.present(self.safariViewController!, animated: true, completion: nil)
-        
     }
     
     @objc func safariLogin(notification: NSNotification) {
 
         let url = notification.object as? URL
-        let authenticationCode = self.getTheAuthenticationCode(from: url)
+        let authenticationCode = self.getAuthenticationCode(from: url)
         guard authenticationCode != nil || authenticationCode == "access_denied" else {
             let alert = UIAlertController(title: "User cancelled", message: "Try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
@@ -79,43 +78,41 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         
    //     self.showLoadingView()
         
-        let spinningActivity = MBProgressHUD.showAdded(to: self.view, animated: true)
-        spinningActivity.label.text = "Signing in"
+        let loadingView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingView.label.text = "Signing in"
         
         
         print(url?.absoluteString ?? "nothing")
         print(authenticationCode!)
         
-        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
+        var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
         
         var data:Data = "code=\(authenticationCode ?? "none")".data(using: .utf8)!
         data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
         data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
         data.append("&redirect_uri=\(REDIRECT_URL)".data(using: .utf8)!)
         data.append("&grant_type=authorization_code".data(using: .utf8)!)
-        requestForGettingToken.httpBody = data
-        requestForGettingToken.httpMethod = "POST"
-        requestForGettingToken.timeoutInterval = 60
+        urlRequestForToken.httpBody = data
+        urlRequestForToken.httpMethod = "POST"
+        urlRequestForToken.timeoutInterval = 60
         
         print(String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue)) as Any)
-
-        
-        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+        Alamofire.request(urlRequestForToken).responseJSON { (responseData) in
             if responseData.error == nil{
-                var dataContainingTokens = JSON(responseData.data!)
-                let accessToken = dataContainingTokens["access_token"].stringValue
-                let refreshToken = dataContainingTokens["refresh_token"].stringValue
-                let tokenType = dataContainingTokens["token_type"].stringValue
+                var JSONdata = JSON(responseData.data!)
+                let accessToken = JSONdata["access_token"].stringValue
+                let refreshToken = JSONdata["refresh_token"].stringValue
+                let tokenType = JSONdata["token_type"].stringValue
                 
                 print("****************************************************************************************")
                 print("accessToken: \(accessToken)\nrefreshToken: \(refreshToken)")
-                userValues.set(refreshToken, forKey: REFRESH_TOKEN)
-                userValues.set(accessToken, forKey: ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: TOKEN_TYPE)
+                userDefaultsObject.set(refreshToken, forKey: REFRESH_TOKEN)
+                userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
+                userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
                 
    //             self.changeLoadingLabel(lableToShowInLoading: "Loading . .")
                 
-                self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)
+                self.getUserDetails(access_Token: accessToken, token_Type: tokenType)
                 
             }  else {
                 var title = "", message = ""
@@ -141,20 +138,20 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         })
     }
     
-    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Void {
+    func getUserDetails(access_Token accessToken: String, token_Type tokenType: String) -> Void {
         
-        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
-        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-        requestForGettingUserDate.httpMethod = "GET"
-        requestForGettingUserDate.timeoutInterval = 60
+        var urlRequestForUserDetails = URLRequest(url: URL(string: USER_DETAILS_URL)!)
+        urlRequestForUserDetails.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        urlRequestForUserDetails.httpMethod = "GET"
+        urlRequestForUserDetails.timeoutInterval = 60
         
-        Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+        Alamofire.request(urlRequestForUserDetails).responseJSON { (responseData) in
             if responseData.error == nil {
-                var dataContainingUserDetails = JSON(responseData.data!)
+                var JSONdata = JSON(responseData.data!)
                 print("****************************************************************************************")
-                let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
-                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].string
-                let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                let firstName = JSONdata["data"]["user"]["firstName"].stringValue
+                let lastName = JSONdata["data"]["user"]["lastName"].string
+                let emailId = JSONdata["data"]["user"]["login"].stringValue
                 print("****************************************************************************************")
                 print("firstname: \(firstName)\nsecondname: \(lastName ?? "")\nemailId: \(emailId)")
                 // do not add the lastName to the guard statement because some person may or maynot have a second name and they could not login into the account
@@ -168,21 +165,20 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
                 }
                 
                 
-                userValues.set(firstName + " " + (lastName ?? "") , forKey: USER_NAME)
-                userValues.set(emailId, forKey: EMAIL_ID)
-                userValues.set(true, forKey: USER_LOGGED_IN)
+                userDefaultsObject.set(firstName + " " + (lastName ?? "") , forKey: USER_NAME)
+                userDefaultsObject.set(emailId, forKey: EMAIL_ID)
+                userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
                 
                 
                 
-                let toTabBarViewControler = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
-                toTabBarViewControler?.userName = firstName + (lastName != "" ? " " + (lastName ?? ""): "")
-                toTabBarViewControler?.emailId = emailId
-                toTabBarViewControler?.userLoggedIn = true
+                let tabBarViewController = self.storyboard?.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
+                tabBarViewController?.userName = firstName + (lastName != "" ? " " + (lastName ?? ""): "")
+                tabBarViewController?.emailId = emailId
+                tabBarViewController?.isUserAlreadyLoggedIn = true
                 
-                if let toTabBarViewControler = toTabBarViewControler {
-                    //            self.changeLoadingLabel(lableToShowInLoading: "Loading . . .")
+                if let tabBarViewController = tabBarViewController {
                     MBProgressHUD.hide(for: self.view, animated: true)
-                    self.navigationController?.pushViewController(toTabBarViewControler, animated: true)
+                    self.navigationController?.pushViewController(tabBarViewController, animated: true)
                 }
             }  else {
                 
@@ -206,7 +202,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
         }
     }
 
-    func getTheAuthenticationCode(from url:URL?) -> String? {
+    func getAuthenticationCode(from url:URL?) -> String? {
 
         let stringUrl:String! = url?.absoluteString
         let index = stringUrl?.index(after: stringUrl?.index(of: "=") ?? (stringUrl?.startIndex)!)
@@ -231,48 +227,3 @@ class CustomNavigationController: UINavigationController, UINavigationController
         viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 }
-
-// MARK:UINavigationControllerDelegate
-
-
-// spinner view done in uiviewcontroller to provide the spinner to be available across all the view controller
-// provided as a static method to be able to implement directly
-// if you dont want this type of the view just add it to the view controller and use it for there itself
-
-extension UIViewController {
-    class func displaySpinner(onView : UIView, toDisplayString : String? = nil) -> UIView {
-        let spinnerView = UIView.init(frame: onView.bounds)
-         let displayLabel: UILabel = UILabel(frame: CGRect(x: spinnerView.bounds.midX, y: spinnerView.frame.midY, width: 350, height: 60))
-        displayLabel.center = spinnerView.center
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-
-        if let displayText = toDisplayString {
-            displayLabel.font = UIFont(name: "Avenir-Light", size: 35)
-            displayLabel.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.8472549229)
-            displayLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.8472549229)
-            displayLabel.textAlignment = .center
-            displayLabel.text = displayText
-            displayLabel.backgroundColor = UIColor.clear
-        }
-        
-        
-        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
-        ai.startAnimating()
-        ai.center = CGPoint(x: spinnerView.bounds.midX, y: spinnerView.bounds.midY + 60)
-        DispatchQueue.main.async {
-            spinnerView.addSubview(ai)
-            if let _ = toDisplayString {
-                spinnerView.addSubview(displayLabel)
-            }
-            onView.addSubview(spinnerView)
-        }
-        return spinnerView
-    }
-    
-    class func removeSpinner(spinner :UIView) {
-        DispatchQueue.main.async {
-            spinner.removeFromSuperview()
-        }
-    }
-}
-

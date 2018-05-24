@@ -19,36 +19,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var navigationController: UINavigationController?
-    var viewController: UserPageTabController?
+    var tabBarController: UserPageTabController?
 
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
-            if userValues.bool(forKey: USER_LOGGED_IN) {
-            let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
-            let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
+            if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN) {
+            let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
+            let tokenType = userDefaultsObject.value(forKey: TOKEN_TYPE) as! String
             
-            _ = self.getTheUserValues(access_Token: accessToken, token_Type: tokenType)
+            _ = self.getUserValues(access_Token: accessToken, token_Type: tokenType)
             //before this all the receiving and sending occurs and use befoer this to implement the loading screen
             //this is where the new view controller will be displayed
             
-            viewController = UserPageTabController()
+            tabBarController = UserPageTabController()
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            viewController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
-            viewController?.userName = userValues.value(forKey: USER_NAME) as? String
-            viewController?.emailId = userValues.value(forKey: EMAIL_ID) as? String
-            viewController?.userLoggedIn = false
-            if let viewController = viewController {
-                let newNavigationController = CustomNavigationController()
-                let greenColor =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
-                newNavigationController.navigationBar.backgroundColor = greenColor
-                newNavigationController.navigationBar.barTintColor = greenColor
-                newNavigationController.navigationBar.isTranslucent = false
-                newNavigationController.viewControllers = [viewController]
-                newNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) as Any]
-                newNavigationController.navigationBar.backItem?.backBarButtonItem?.style = UIBarButtonItemStyle.plain
-                newNavigationController.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
-                self.window?.rootViewController = newNavigationController
+            tabBarController = storyBoard.instantiateViewController(withIdentifier: "userTabBarViewController") as? UserPageTabController
+            tabBarController?.userName = userDefaultsObject.value(forKey: USER_NAME) as? String
+            tabBarController?.emailId = userDefaultsObject.value(forKey: EMAIL_ID) as? String
+            tabBarController?.isUserAlreadyLoggedIn = false
+            if let viewController = tabBarController {
+                let navigationController = CustomNavigationController()
+                let color =  #colorLiteral(red: 0.344810009, green: 0.7177901864, blue: 0.6215276122, alpha: 1)
+                navigationController.navigationBar.backgroundColor = color
+                navigationController.navigationBar.barTintColor = color
+                navigationController.navigationBar.isTranslucent = false
+                navigationController.viewControllers = [viewController]
+                navigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) as Any]
+                navigationController.navigationBar.backItem?.backBarButtonItem?.style = UIBarButtonItemStyle.plain
+                navigationController.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+                self.window?.rootViewController = navigationController
                 self.window?.makeKeyAndVisible()
             }
         
@@ -100,102 +100,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //for autologin
     
-    func refreshingAccessToken(access_token accessToken: String, token_Type tokenType: String) {
+    func refreshAccessTokens(access_token accessToken: String, token_Type tokenType: String) {
         print("This is most important and it is the function that is responsible for refreshing the access token")
-        var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
-        var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        var urlRequest = URLRequest(url: URL(string: TOKEN_URL)!)
+        var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
         data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
         data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
         data.append("&grant_type=refresh_token".data(using: .utf8)!)
-        requestForGettingToken.httpBody = data
-        requestForGettingToken.httpMethod = "POST"
+        urlRequest.httpBody = data
+        urlRequest.httpMethod = "POST"
         
-        Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
             if responseData.error == nil{
                 print(responseData)
-                var dataContainingTokens = JSON(responseData.data!)
-                let accessToken = dataContainingTokens["access_token"].stringValue
-                let tokenType = dataContainingTokens["token_type"].stringValue
+                var data = JSON(responseData.data!)
+                let accessToken = data["access_token"].stringValue
+                let tokenType = data["token_type"].stringValue
                 
                 print("****************************************************************************************")
                 print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                userValues.set(accessToken, forKey: ACCESS_TOKEN)
-                userValues.set(tokenType, forKey: TOKEN_TYPE)
-                userValues.set(true, forKey: USER_LOGGED_IN)
+                userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
+                userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
+                userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
                 
-                var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
-                requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-                requestForGettingUserDate.httpMethod = "GET"
+                var userDataRequest = URLRequest(url: URL(string: USER_DETAILS_URL)!)
+                userDataRequest.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+                userDataRequest.httpMethod = "GET"
                 
-                Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+                Alamofire.request(userDataRequest).responseJSON { (responseData) in
                     if responseData.error == nil {
                         
-                        var dataContainingUserDetails = JSON(responseData.data!)
-                        guard dataContainingUserDetails["ok"].boolValue else {
-                            let error = dataContainingUserDetails["error"].stringValue
-                            let message = dataContainingUserDetails["msg"].stringValue
+                        var data = JSON(responseData.data!)
+                        guard data["ok"].boolValue else {
+                            let error = data["error"].stringValue
+                            let message = data["msg"].stringValue
                             print(error + ":" + message)
                             return
                         }
                         print("************************************************************************************")
-                        let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
-                        let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
-                        let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                        let firstName = data["data"]["user"]["firstName"].stringValue
+                        let lastName = data["data"]["user"]["lastName"].stringValue
+                        let emailId = data["data"]["user"]["login"].stringValue
                         print("************************************************************************************")
                         print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
-                        print("\(dataContainingUserDetails["data"]["user"]["id"].stringValue)")
+                        print("\(data["data"]["user"]["id"].stringValue)")
                         guard firstName != "" && lastName != "" && emailId != "" else {
                             return
                         }
                         
-                        userValues.set(firstName + " " + lastName , forKey: USER_NAME)
-                        userValues.set(emailId, forKey: EMAIL_ID)
-                        userValues.set(true, forKey: USER_LOGGED_IN)
+                        userDefaultsObject.set(firstName + " " + lastName , forKey: USER_NAME)
+                        userDefaultsObject.set(emailId, forKey: EMAIL_ID)
+                        userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
                     }
                 }
             }
         }
     }
     
-    func getTheUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Bool {
+    func getUserValues(access_Token accessToken: String, token_Type tokenType: String) -> Bool {
         
-        var successInGettingValues = true
+        var success = true
         
-        var requestForGettingUserDate = URLRequest(url: URL(string: USER_DETAILS_SCOPE_URL)!)
-        requestForGettingUserDate.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-        requestForGettingUserDate.httpMethod = "GET"
+        var urlRequest = URLRequest(url: URL(string: USER_DETAILS_URL)!)
+        urlRequest.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        urlRequest.httpMethod = "GET"
         
-        Alamofire.request(requestForGettingUserDate).responseJSON { (responseData) in
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
             if responseData.error == nil {
                 
-                var dataContainingUserDetails = JSON(responseData.data!)
-                guard dataContainingUserDetails["ok"].boolValue else {
-                    successInGettingValues = false
+                var JSONdata = JSON(responseData.data!)
+                guard JSONdata["ok"].boolValue else {
+                    success = false
                     print("access token revoked refreshing...")
-                    self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
+                    self.refreshAccessTokens(access_token: accessToken, token_Type: tokenType)
                     return
                 }
                 print("****************************************************************************************")
-                let firstName = dataContainingUserDetails["data"]["user"]["firstName"].stringValue
-                let lastName = dataContainingUserDetails["data"]["user"]["lastName"].stringValue
-                let emailId = dataContainingUserDetails["data"]["user"]["login"].stringValue
+                let firstName = JSONdata["data"]["user"]["firstName"].stringValue
+                let lastName = JSONdata["data"]["user"]["lastName"].stringValue
+                let emailId = JSONdata["data"]["user"]["login"].stringValue
                 print("****************************************************************************************")
                 print("firstname: \(firstName)\nsecondname: \(lastName)\nemailId: \(emailId)")
-                print("\(dataContainingUserDetails["data"]["user"]["id"].stringValue)")
+                print("\(JSONdata["data"]["user"]["id"].stringValue)")
                 guard firstName != "" && emailId != "" else {
                     return
                 }
                 
-                userValues.set(firstName + " " + (lastName != "" ? lastName:"") , forKey: USER_NAME)
-                userValues.set(emailId, forKey: EMAIL_ID)
-                userValues.set(true, forKey: USER_LOGGED_IN)
-                successInGettingValues = true
+                userDefaultsObject.set(firstName + " " + (lastName != "" ? lastName:"") , forKey: USER_NAME)
+                userDefaultsObject.set(emailId, forKey: EMAIL_ID)
+                userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                success = true
             } else {
                 print("something went wrong refreshing access token")
-                self.refreshingAccessToken(access_token: accessToken, token_Type: tokenType)
+                self.refreshAccessTokens(access_token: accessToken, token_Type: tokenType)
             }
         }
-        return successInGettingValues
+        return success
     }
 }
 

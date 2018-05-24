@@ -11,24 +11,21 @@ import SwiftyJSON
 import Alamofire
 import MBProgressHUD
 
+// All these are notification names that adds observer and will be posted using these string constants
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
 let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
-
-let CHANGE_TABLEVIEWCELL_LENGTH = "CHANGE_TABLEVIEWCELL_LENGTH"
+let RESIZE_TABLEVIEWCELL = "CHANGE_TABLEVIEWCELL_LENGTH"
 let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
-
-// this is just an example commit i made to check for the merge request
 
 class NewWordViewController: UIViewController {
     
-
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Word", "Meaning", "Source"]
-    static var ifUserPressedCancelAfterGivingWOrdValues = false
+    static var userPressedCancel = false
 
-    static var nameOfTheWord: String? = ""
-    static var meaningOfTheWord: String? = ""
-    static var sourceOfTheWord: String? = ""
+    static var word: String? = ""
+    static var meaning: String? = ""
+    static var source: String? = ""
     
     @IBOutlet weak var addWordsTableView: UITableView!
     var activeTextField: UITextView?
@@ -45,7 +42,6 @@ class NewWordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.hideKeyboardWhenTappedAround()
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
@@ -53,16 +49,18 @@ class NewWordViewController: UIViewController {
         saveBarButtonPressed = UIBarButtonItem(title: "Add",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
-//        saveBarButtonPressed.isEnabled = false
-        registerForKeyboardNotification()
-        NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
+        registerForAllNotification()
     }
 
-    func registerForKeyboardNotification() {
+    func registerForAllNotification() {
+        // for keyboard popup and going down
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+        
+        // for other notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
     }
     @objc func keyboardWillBeHidden(_ aNotification: NSNotification) {
         let contentInsets = UIEdgeInsets.zero
@@ -86,8 +84,8 @@ class NewWordViewController: UIViewController {
     }
     
     @objc func changeTableHeight() {
-        // the begin updates and end updates is being declared for the tableview to stop jumping and returning when the bottom point exceeds
-        // to more than the maximum specified point
+        /* the begin updates and end updates is being declared for the tableview to stop jumping and returning when the bottom point exceeds
+           to more than the maximum specified point */
         UIView.setAnimationsEnabled(false)
         addWordsTableView.beginUpdates()
         addWordsTableView.endUpdates()
@@ -96,24 +94,21 @@ class NewWordViewController: UIViewController {
     }
     @objc func saveButtonValidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        saveBarButtonPressed.isEnabled = true
-        
     }
     @objc func saveButtonInvalidated() {
         saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
-//        saveBarButtonPressed.isEnabled = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
+        NewWordViewController.userPressedCancel = false
         super.viewWillAppear(true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NewWordViewController.nameOfTheWord = ""
-        NewWordViewController.sourceOfTheWord = ""
-        NewWordViewController.meaningOfTheWord = ""
+        NewWordViewController.word = ""
+        NewWordViewController.source = ""
+        NewWordViewController.meaning = ""
         saveBarButtonPressed = nil
         self.view.endEditing(true)
     }
@@ -123,7 +118,7 @@ class NewWordViewController: UIViewController {
     }
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         
-        if NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues {
+        if NewWordViewController.userPressedCancel {
             let alert = UIAlertController(title: "Word not Saved", message: "Are you sure you want to close?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .destructive, handler: {_ in
                 self.dismiss(animated: true, completion: nil)
@@ -136,19 +131,19 @@ class NewWordViewController: UIViewController {
         }
     }
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.nameOfTheWord!)
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaningOfTheWord!)
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.sourceOfTheWord!)
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.word!)
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaning!)
+        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.source!)
         let title = "Missing fields" ; var messange = ""; var hasValue = true
-        if NewWordViewController.nameOfTheWord == "" {
+        if NewWordViewController.word == "" {
             messange = "Word field is be blank!"
             hasValue = false
         }
-        else if NewWordViewController.meaningOfTheWord == ""  {
+        else if NewWordViewController.meaning == ""  {
             messange = "Meaning field is be blank!"
             hasValue = false
         }
-        else if NewWordViewController.sourceOfTheWord == ""  {
+        else if NewWordViewController.source == ""  {
             messange = "Source field is be blank!"
             hasValue = false
         }
@@ -158,87 +153,90 @@ class NewWordViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             return
         }
-        
+        self.addWordToServer()
+    }
+    
+    func addWordToServer() {
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
         spinnerView.label.text = "UploadingWord"
         
-        let addedWord = NewWordViewController.nameOfTheWord
-        let wordMeaning = NewWordViewController.meaningOfTheWord
-        let sourceOfTheWord = NewWordViewController.sourceOfTheWord
+        let word = NewWordViewController.word
+        let meaning = NewWordViewController.meaning
+        let source = NewWordViewController.source
         
-        var requestForPostingWord = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL)!)
-        requestForPostingWord.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]
-        let dataToSend = ["word": addedWord, "desc": wordMeaning, "src": sourceOfTheWord]
-        requestForPostingWord.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
-        requestForPostingWord.httpMethod = "POST"
-        requestForPostingWord.timeoutInterval = 60
+        var urlRequest = URLRequest(url: URL(string: FULL_WORDS_API_URL)!)
+        urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userDefaultsObject.value(forKey: ACCESS_TOKEN) as? String)!]
+        let dataToSend = ["word": word, "desc": meaning, "src": source]
+        urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
+        urlRequest.httpMethod = "POST"
+        urlRequest.timeoutInterval = 60
         
-                Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
-                    if responseData.error == nil {
-//                        let dataContainingUserDetails = JSON(responseData.data!)
-                        print("**************************************")
-                        print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
-                        let receivedWordValues = JSON(responseData.data!)
-                        if receivedWordValues["response"].boolValue {
-                            self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
-                        } else if receivedWordValues["error"].stringValue == "unauthorized_request" {
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
+            if responseData.error == nil {
+                //                        let dataContainingUserDetails = JSON(responseData.data!)
+                print("**************************************")
+                print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+                let JSONdata = JSON(responseData.data!)
+                if JSONdata["response"].boolValue {
+                    self.receiveAndSave(from: JSONdata, loadingScreen: spinnerView)
+                } else if JSONdata["error"].stringValue == "unauthorized_request" {
+                    
+                    print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
+                    var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
+                    var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+                    data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+                    data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+                    data.append("&grant_type=refresh_token".data(using: .utf8)!)
+                    urlRequestForToken.httpBody = data
+                    urlRequestForToken.httpMethod = "POST"
+                    
+                    Alamofire.request(urlRequestForToken).responseJSON { (responseData) in
+                        if responseData.error == nil{
+                            print(responseData)
+                            var dataContainingTokens = JSON(responseData.data!)
+                            let accessToken = dataContainingTokens["access_token"].stringValue
+                            let tokenType = dataContainingTokens["token_type"].stringValue
                             
-                            print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
-                            var requestForGettingToken = URLRequest(url: URL(string: TOKEN_URL)!)
-                            var data:Data = "refresh_token=\(userValues.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-                            data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
-                            data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
-                            data.append("&grant_type=refresh_token".data(using: .utf8)!)
-                            requestForGettingToken.httpBody = data
-                            requestForGettingToken.httpMethod = "POST"
+                            print("****************************************************************************************")
+                            print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                            userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
+                            userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
+                            userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
                             
-                            Alamofire.request(requestForGettingToken).responseJSON { (responseData) in
-                                if responseData.error == nil{
-                                    print(responseData)
-                                    var dataContainingTokens = JSON(responseData.data!)
-                                    let accessToken = dataContainingTokens["access_token"].stringValue
-                                    let tokenType = dataContainingTokens["token_type"].stringValue
-                                    
-                                    print("****************************************************************************************")
-                                    print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                                    userValues.set(accessToken, forKey: ACCESS_TOKEN)
-                                    userValues.set(tokenType, forKey: TOKEN_TYPE)
-                                    userValues.set(true, forKey: USER_LOGGED_IN)
-                                    
-                                    Alamofire.request(requestForPostingWord).responseJSON { (responseData) in
-                                        if responseData.error != nil {
-                                            let receivedWordValues = JSON(responseData.data!)
-                                            if receivedWordValues["response"].boolValue {
-                                                self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
-                                            } else {
-                                                self.handleOtherErrors(fromData: receivedWordValues)
-                                            }
-                                            
-                                        }
+                            Alamofire.request(urlRequest).responseJSON { (responseData) in
+                                if responseData.error != nil {
+                                    let receivedWordValues = JSON(responseData.data!)
+                                    if receivedWordValues["response"].boolValue {
+                                        self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
+                                    } else {
+                                        self.handleOtherErrors(fromData: receivedWordValues)
                                     }
+                                    
                                 }
                             }
-                        } else {
-                            self.handleOtherErrors(fromData: receivedWordValues)
                         }
-                    }  else {
-                        var title = "", message = ""
-                        MBProgressHUD.hide(for: self.view, animated: true)
-                        switch responseData.result {
-                        case .failure(let error):
-                            if error._code == NSURLErrorTimedOut {
-                                title = "Server timed out!"
-                                message = "try again"
-                            } else {
-                                title = "Netword error!"
-                                message = "Check your internet connection and try again"
-                            }
-                        default: break
-                        }
-                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
+                    }
+                } else {
+                    self.handleOtherErrors(fromData: JSONdata)
                 }
+            }  else {
+                var title = "", message = ""
+                MBProgressHUD.hide(for: self.view, animated: true)
+                switch responseData.result {
+                case .failure(let error):
+                    if error._code == NSURLErrorTimedOut {
+                        title = "Server timed out!"
+                        message = "try again"
+                    } else {
+                        title = "Netword error!"
+                        message = "Check your internet connection and try again"
+                    }
+                default: break
+                }
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -251,19 +249,19 @@ class NewWordViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func receiveAndSave(from receivedWordValues: JSON, loadingScreen spinnerView: MBProgressHUD) {
+    func receiveAndSave(from JSONdata: JSON, loadingScreen spinnerView: MBProgressHUD) {
         
         let wordsDetails = WordDetails(context: PersistenceService.context)
-        wordsDetails.dateUpdated = receivedWordValues["data"]["word"]["updatedAt"].doubleValue
-        wordsDetails.dateAdded = receivedWordValues["data"]["word"]["createdAt"].doubleValue
+        wordsDetails.dateUpdated = JSONdata["data"]["word"]["updatedAt"].doubleValue
+        wordsDetails.dateAdded = JSONdata["data"]["word"]["createdAt"].doubleValue
         wordsDetails.wordAddedBy = self.userName
-        wordsDetails.userId = receivedWordValues["data"]["word"]["userId"].stringValue
-        wordsDetails.nameOfWord = receivedWordValues["data"]["word"]["word"].stringValue
-        wordsDetails.meaningOfWord = receivedWordValues["data"]["word"]["desc"].stringValue
-        wordsDetails.sourceOfWord = receivedWordValues["data"]["word"]["src"].stringValue
+        wordsDetails.userId = JSONdata["data"]["word"]["userId"].stringValue
+        wordsDetails.nameOfWord = JSONdata["data"]["word"]["word"].stringValue
+        wordsDetails.meaningOfWord = JSONdata["data"]["word"]["desc"].stringValue
+        wordsDetails.sourceOfWord = JSONdata["data"]["word"]["src"].stringValue
         PersistenceService.saveContext()
         spinnerView.label.text = "Adding Word..."
-        self.updateTheFeedInAnywhereWorks(Word: receivedWordValues["data"]["word"]["word"].stringValue, Meaning: receivedWordValues["data"]["word"]["desc"].stringValue, Source: receivedWordValues["data"]["word"]["src"].stringValue)
+        self.updateTheFeedInAnywhereWorks(Word: JSONdata["data"]["word"]["word"].stringValue, Meaning: JSONdata["data"]["word"]["desc"].stringValue, Source: JSONdata["data"]["word"]["src"].stringValue)
         
         MBProgressHUD.hide(for: self.view, animated: true)
         let alert = UIAlertController(title: "Success!", message: "Word added!", preferredStyle: .alert)
@@ -275,19 +273,18 @@ class NewWordViewController: UIViewController {
                 NotificationCenter.default.post(name: name, object: nil)
             })
         }
-        
     }
     
     func updateTheFeedInAnywhereWorks(Word word: String, Meaning meaning: String, Source source: String) {
         let content = "Hey! Here is the new word I found. \n\n*Word*: \(word)\n*Meaning*: \(meaning)\n*Source*: \(source)\n#fullwords"
         
-        var requestForPostingFeed = URLRequest(url: URL(string: FEEDS_SCOPE_URL)!)
-        requestForPostingFeed.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userValues.value(forKey: ACCESS_TOKEN) as? String)!]
+        var urlRequest = URLRequest(url: URL(string: FEEDS_URL)!)
+        urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userDefaultsObject.value(forKey: ACCESS_TOKEN) as? String)!]
         let dataToSend = ["content": content, "type": "update"]
-        requestForPostingFeed.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
-        requestForPostingFeed.httpMethod = "POST"
+        urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
+        urlRequest.httpMethod = "POST"
         
-        Alamofire.request(requestForPostingFeed).responseJSON { (responseData) in
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
             if responseData.error == nil {
                 print(responseData as Any)
             } else {
@@ -387,7 +384,7 @@ extension NewWordViewController {
     
     static func chechAndEnableAddButton() {
         
-        guard NewWordViewController.nameOfTheWord != "", NewWordViewController.meaningOfTheWord != "", NewWordViewController.sourceOfTheWord != "" else {
+        guard NewWordViewController.word != "", NewWordViewController.meaning != "", NewWordViewController.source != "" else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
             return
         }
@@ -431,24 +428,24 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         if textView.tag == 0{
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
-            NewWordViewController.nameOfTheWord = wordTextView.text
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
+            NewWordViewController.word = wordTextView.text
             if !(textView.text == "") {
-                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = true
+                NewWordViewController.userPressedCancel = true
             } else {
-                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
+                NewWordViewController.userPressedCancel = false
             }
         } else if textView.tag == 1 {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
-            NewWordViewController.meaningOfTheWord = wordTextView.text
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
+            NewWordViewController.meaning = wordTextView.text
             if !(textView.text == "") {
-                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = true
+                NewWordViewController.userPressedCancel = true
             } else {
-                NewWordViewController.ifUserPressedCancelAfterGivingWOrdValues = false
+                NewWordViewController.userPressedCancel = false
             }
         } else if textView.tag == 2{
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANGE_TABLEVIEWCELL_LENGTH), object: nil)
-            NewWordViewController.sourceOfTheWord = wordTextView.text
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
+            NewWordViewController.source = wordTextView.text
         }
         NewWordViewController.chechAndEnableAddButton()
     }

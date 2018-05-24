@@ -13,9 +13,9 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
    
     
     @IBOutlet weak var wordDetailsTableView: UITableView!
-    var nameOfWord: String?
-    var meaningOfWord: String?
-    var sourceOfWord: String?
+    var word: String?
+    var meaning: String?
+    var source: String?
     var wordAddedBy: String?
 
     var headingFotTheTableViewCells = ["", "Source:", "Added By:"]
@@ -27,23 +27,21 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         wordDetailsTableView.estimatedRowHeight = UITableViewAutomaticDimension
         
         headingFotTheTableViewCells.removeFirst()
-        headingFotTheTableViewCells.insert(nameOfWord ?? "", at: headingFotTheTableViewCells.startIndex)
+        headingFotTheTableViewCells.insert(word ?? "", at: headingFotTheTableViewCells.startIndex)
         wordDetailsTableView.delegate = self
         wordDetailsTableView.dataSource = self
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(true)
         if let selection: IndexPath = wordDetailsTableView.indexPathForSelectedRow{
             wordDetailsTableView.deselectRow(at: selection, animated: true)
         }
         wordDetailsTableView.reloadData()
         self.navigationController?.visibleViewController?.navigationItem.title = "Word Details"
-    self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.title = ""
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -81,21 +79,16 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
 //        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
         switch headingFotTheTableViewCells[indexPath.section] {
-        case nameOfWord:
-            cell?.headingLabel.text = nameOfWord
-            cell?.contentLabel.text = meaningOfWord
+        case word:
+            cell?.headingLabel.text = word
+            cell?.contentLabel.text = meaning
             cell?.contentLabel.isUserInteractionEnabled = true
             cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
             cell?.contentLabel.becomeFirstResponder()
             
         case "Source:":
             cell?.headingLabel.text = "Source:"
-            cell?.contentLabel.text = sourceOfWord
-//            if verifyUrl(urlString: sourceOfWord) {
-//                cell?.contentLabel.addGestureRecognizer(longPressGestureWithURL)
-//            } else {
-//                cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
-//            }
+            cell?.contentLabel.text = source
             cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
             cell?.contentLabel.isUserInteractionEnabled = true
             cell?.contentLabel.becomeFirstResponder()

@@ -17,8 +17,6 @@ let ENDING_TIME_VALUE = "ENDING_TIME_VALUE"
 
 class WordsTableViewController: UITableViewController {
     typealias this = WordsTableViewController
-   
-    
     var refreshController: UIRefreshControl? = {
         let refreshController = UIRefreshControl()
         refreshController.addTarget(self, action: #selector(pullToRefreshHandler), for: UIControlEvents.valueChanged)
@@ -28,25 +26,24 @@ class WordsTableViewController: UITableViewController {
     
     static var addButtonUIButton: UIButton!
     open var userName: String?
-    var userLoggedIn: Bool?
-    var wordsOfUserValues = [WordDetails]()
-    let newWOrdAdded = "newWordAddedForWOrds"
+    var isUserAlreadyLoggedIn: Bool?
+    var words = [WordDetails]()
     
+    //this is the name of the notification that will reload the table data if any new word is added in the newWordViewController
+    let wordAdded = "newWordAddedForWOrds"
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let userLoggedIn = userLoggedIn {
-
+        if let userLoggedIn = isUserAlreadyLoggedIn {
             if  userLoggedIn {
                 //spinner view
                 let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
                 spinnerView.label.text = "Loading..."
-                getTheWordsAddedByTheUserFromServer() { [weak self] (success, error, _) in
+                getWords() { [weak self] (success, error, _) in
                     guard let strongSelf = self else {return}
-                    
                     if success {
                         DispatchQueue.main.async {
-                            strongSelf.addTheWordsToThePersistantContainer()
+                            strongSelf.fetchWordsFromCoreData()
                             UIView.transition(with: strongSelf.tableView,
                                               duration: 0.35,
                                               options: .transitionCrossDissolve,
@@ -57,7 +54,7 @@ class WordsTableViewController: UITableViewController {
                     }
                 }
             } else {
-                addTheWordsToThePersistantContainer()
+                fetchWordsFromCoreData()
             }
         }
         
@@ -68,7 +65,7 @@ class WordsTableViewController: UITableViewController {
         if let refreshController = refreshController {
             tableView.addSubview(refreshController)
         }
-        let name = NSNotification.Name.init(rawValue: newWOrdAdded)
+        let name = NSNotification.Name.init(rawValue: wordAdded)
         NotificationCenter.default.addObserver(self, selector: #selector(self.newWordAdded), name: name, object: nil)
         addButtonCustomization()
     }
@@ -119,15 +116,15 @@ class WordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.addedWordLabel.text = wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
-        cell.addedWord = wordsOfUserValues[indexPath.item].nameOfWord?.capitalizingFirstLetter()
-        cell.addedBy = userName!
-        cell.viewOfAddedWordsCell.layer.cornerRadius = 5
-        cell.viewOfAddedWordsCell.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
+        cell.wordLabel.text = words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.word = words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.wordAddedBy = userName!
+        cell.cardView.layer.cornerRadius = 5
+        cell.cardView.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
         
-        cell.sourceForTheWord = wordsOfUserValues[indexPath.item].sourceOfWord
-        cell.meaningLabel.text = wordsOfUserValues[indexPath.item].meaningOfWord
-        cell.meaningOfTheWord = wordsOfUserValues[indexPath.item].meaningOfWord
+        cell.source = words[indexPath.item].sourceOfWord
+        cell.meaningLabel.text = words[indexPath.item].meaningOfWord
+        cell.meaning = words[indexPath.item].meaningOfWord
         return cell
     }
 
@@ -139,7 +136,9 @@ class WordsTableViewController: UITableViewController {
             //spinner
             print("called when the user drags to the botton")
             print(maximumOffset - currentOffset)
-            getTheWordsAddedByTheUserFromServer(toTime: userValues.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
+            
+            // here the words will be loaded whenever the user is going to hit the bottom of the tableview
+            getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
                 guard let strongSelf = self else {return}
                 
                 if success {
@@ -147,7 +146,7 @@ class WordsTableViewController: UITableViewController {
                         return
                     }
                     DispatchQueue.main.async {
-                        strongSelf.addTheWordsToThePersistantContainer()
+                        strongSelf.fetchWordsFromCoreData()
                         UIView.transition(with: strongSelf.tableView,
                                           duration: 0.35,
                                           options: .transitionCrossDissolve,
@@ -168,7 +167,7 @@ class WordsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 
-        return wordsOfUserValues.count
+        return words.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -181,37 +180,37 @@ class WordsTableViewController: UITableViewController {
         let wordsCell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
   
         let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "viewWordsController") as? ViewWordsViewController
-        wordsViewController?.nameOfWord = wordsCell?.addedWord
-        wordsViewController?.meaningOfWord = wordsCell?.meaningOfTheWord
-        wordsViewController?.sourceOfWord = wordsCell?.sourceForTheWord
-        wordsViewController?.wordAddedBy = wordsCell?.addedBy
+        wordsViewController?.word = wordsCell?.word
+        wordsViewController?.meaning = wordsCell?.meaning
+        wordsViewController?.source = wordsCell?.source
+        wordsViewController?.wordAddedBy = wordsCell?.wordAddedBy
         
         self.navigationController?.pushViewController(wordsViewController!, animated: true)
         
     }
     
-    func addTheWordsToThePersistantContainer() {
+    func fetchWordsFromCoreData() {
         let fetchRequest: NSFetchRequest<WordDetails> = WordDetails.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "dateUpdated", ascending: false, selector: nil)
         fetchRequest.sortDescriptors = [sortDescriptor]
         do {
-            wordsOfUserValues = try PersistenceService.context.fetch(fetchRequest)
+            words = try PersistenceService.context.fetch(fetchRequest)
         } catch {
         }
     }
     
     @objc func pullToRefreshHandler() {
-        guard let lastAddedValue = wordsOfUserValues.first else {
+        guard let latestWordAdded = words.first else {
             return
         }
-        let firstValueTime = lastAddedValue.dateAdded + 1
-        getTheWordsAddedByTheUserFromServer(fromTime: firstValueTime) { [weak self] (success, error, jsonArray) in
+        let latestWordAddedTime = latestWordAdded.dateAdded + 1
+        getWords(fromTime: latestWordAddedTime) { [weak self] (success, error, jsonArray) in
             guard let strongSelf = self else {return}
             var jArray = jsonArray
             if success {
                 strongSelf.refreshController?.endRefreshing()
                 DispatchQueue.main.async {
-                    strongSelf.addTheWordsToThePersistantContainer()
+                    strongSelf.fetchWordsFromCoreData()
                     strongSelf.tableView.reloadData()
                     strongSelf.refreshController?.endRefreshing()
                 }
@@ -221,10 +220,10 @@ class WordsTableViewController: UITableViewController {
                         for wordValues in jArray! {
                             endTime = wordValues["updatedAt"].doubleValue
                         }
-                        strongSelf.getTheWordsAddedByTheUserFromServer(fromTime: firstValueTime, toTime: endTime) { (s, e, j) in
+                        strongSelf.getWords(fromTime: latestWordAddedTime, toTime: endTime) { (s, e, j) in
                             if s {
                                 DispatchQueue.main.async {
-                                    strongSelf.addTheWordsToThePersistantContainer()
+                                    strongSelf.fetchWordsFromCoreData()
                                     strongSelf.tableView.reloadData()
                                     strongSelf.refreshController?.endRefreshing()
                                     jArray = j
@@ -250,38 +249,38 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
-    func getTheWordsAddedByTheUserFromServer(fromTime firstWordDate: Double = 1, toTime lastWordDate: Double = Double(Date().timeIntervalSince1970) * 1000 , _ completionBlock: @escaping (_ success: Bool, _ error: NSError?, _ message: [JSON]?) -> ()) {
+    func getWords(fromTime firstWordDate: Double = 1, toTime lastWordDate: Double = Double(Date().timeIntervalSince1970) * 1000 , _ completionBlock: @escaping (_ success: Bool, _ error: NSError?, _ message: [JSON]?) -> ()) {
 //        spinnerview
-        let accessToken = userValues.value(forKey: ACCESS_TOKEN) as! String
-        let tokenType = userValues.value(forKey: TOKEN_TYPE) as! String
+        let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
+        let tokenType = userDefaultsObject.value(forKey: TOKEN_TYPE) as! String
         
-            var requestForGettingUserWOrds = URLRequest(url: URL(string: FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + "&endTime=\(Int(lastWordDate))" + "&startTime=\(Int(firstWordDate))")!)
+            var urlRequest = URLRequest(url: URL(string: FULL_WORDS_ME_API + "&endTime=\(Int(lastWordDate))" + "&startTime=\(Int(firstWordDate))")!)
             print("*************************************************")
-            print(FULL_WORDS_SCOPE_URL_TO_GET_ALL_WORDS + "&endTime=\(Int(lastWordDate))" + "&startTime=\(firstWordDate)")
+            print(FULL_WORDS_ME_API + "&endTime=\(Int(lastWordDate))" + "&startTime=\(firstWordDate)")
             print("*************************************************")
-        requestForGettingUserWOrds.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
-        requestForGettingUserWOrds.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestForGettingUserWOrds.httpMethod = "GET"
+        urlRequest.setValue(tokenType + " " + accessToken, forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpMethod = "GET"
         
-        Alamofire.request(requestForGettingUserWOrds).responseJSON { (responseData) in
+        Alamofire.request(urlRequest).responseJSON { (responseData) in
             if responseData.error == nil  {
                 print("*******************************************************")
                 print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
                 let responseJSON_Data = JSON(responseData.data!)
                
                 if responseJSON_Data["response"].boolValue {
-                    let arrayOfUserWords = responseJSON_Data["data"]["words"].arrayValue
-                    for wordValues in arrayOfUserWords {
+                    let arrayOfJSON = responseJSON_Data["data"]["words"].arrayValue
+                    for JSONwordData in arrayOfJSON {
                         let wordDetails = WordDetails(context: PersistenceService.context)
-                        wordDetails.dateAdded = wordValues["createdAt"].doubleValue
-                        wordDetails.dateUpdated = wordValues["updatedAt"].doubleValue
-                        wordDetails.nameOfWord = wordValues["word"].stringValue
-                        wordDetails.sourceOfWord = wordValues["src"].stringValue
-                        wordDetails.meaningOfWord = wordValues["desc"].stringValue
+                        wordDetails.dateAdded = JSONwordData["createdAt"].doubleValue
+                        wordDetails.dateUpdated = JSONwordData["updatedAt"].doubleValue
+                        wordDetails.nameOfWord = JSONwordData["word"].stringValue
+                        wordDetails.sourceOfWord = JSONwordData["src"].stringValue
+                        wordDetails.meaningOfWord = JSONwordData["desc"].stringValue
                         wordDetails.wordAddedBy = self.userName
-                        wordDetails.userId = wordValues["userId"].stringValue
+                        wordDetails.userId = JSONwordData["userId"].stringValue
                         PersistenceService.saveContext()
-                        userValues.set(wordValues["createdAt"].doubleValue, forKey: ENDING_TIME_VALUE)
+                        userDefaultsObject.set(JSONwordData["createdAt"].doubleValue, forKey: ENDING_TIME_VALUE)
                     }
                     completionBlock(true, nil, responseJSON_Data["data"]["words"].arrayValue)
                     self.refreshController?.endRefreshing()
@@ -329,21 +328,20 @@ class WordsTableViewController: UITableViewController {
 
 extension WordsTableViewController {
     @objc func newWordAdded() {
-        addTheWordsToThePersistantContainer()
-        
+        fetchWordsFromCoreData()
         UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
         }
 }
 
 /// class created for the custome cells in the table view
 class AddedWordsCells: UITableViewCell {
-    @IBOutlet weak var addedWordLabel: UILabel!
+    @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var meaningLabel: UILabel!
-    @IBOutlet weak var viewOfAddedWordsCell: UIView!
-    var addedWord: String?
-    var meaningOfTheWord: String?
-    var addedBy: String?
-    var sourceForTheWord: String?
+    @IBOutlet weak var cardView: UIView!
+    var word: String?
+    var meaning: String?
+    var wordAddedBy: String?
+    var source: String?
 }
 
 /// to capitalize the first string

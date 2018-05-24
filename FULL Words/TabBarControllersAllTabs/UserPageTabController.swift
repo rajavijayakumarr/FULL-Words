@@ -12,7 +12,7 @@ class UserPageTabController: UITabBarController {
     
     var userName: String?
     var emailId: String?
-    var userLoggedIn: Bool?
+    var isUserAlreadyLoggedIn: Bool?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ class UserPageTabController: UITabBarController {
         
         if let userName = userName, let emailId = emailId {
             wordsTable?.userName = userName
-            wordsTable?.userLoggedIn = userLoggedIn
+            wordsTable?.isUserAlreadyLoggedIn = isUserAlreadyLoggedIn
             setting?.userName = userName
             setting?.emailId = emailId
            
