@@ -10,13 +10,13 @@ import UIKit
 
 class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-   
-    
     @IBOutlet weak var wordDetailsTableView: UITableView!
     var word: String?
     var meaning: String?
     var source: String?
     var wordAddedBy: String?
+    
+    var shareBarButton: UIBarButtonItem!
 
     var headingFotTheTableViewCells = ["", "Source:", "Added By:"]
     
@@ -31,6 +31,8 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         wordDetailsTableView.delegate = self
         wordDetailsTableView.dataSource = self
         
+        shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareBarButtonPressed))
+        self.navigationItem.setRightBarButton(shareBarButton, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,6 +41,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
             wordDetailsTableView.deselectRow(at: selection, animated: true)
         }
         wordDetailsTableView.reloadData()
+        
         self.navigationController?.visibleViewController?.navigationItem.title = "Word Details"
         self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
         self.navigationController?.navigationBar.backItem?.backBarButtonItem?.title = ""
@@ -134,6 +137,10 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
                 menuController.setMenuVisible(true, animated:true)
                 recognizerView.becomeFirstResponder()
             }
+    }
+    
+    @objc func shareBarButtonPressed() {
+        
     }
 }
 

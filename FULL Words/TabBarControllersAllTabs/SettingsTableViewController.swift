@@ -16,8 +16,9 @@ import FullFeedback
 
 class SettingsTableViewController: UITableViewController {
     let VERSION_OF_THE_APPLICATION: String = {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            return version
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String, let build = Bundle.main.infoDictionary!["CFBundleVersion"]
+        {
+            return version + " (\(build))"
         }
         return "(unknown)"
     }()
