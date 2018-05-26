@@ -15,6 +15,9 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     var meaning: String?
     var source: String?
     var wordAddedBy: String?
+    var dateAdded: Double?
+    var dateUpdated: Double?
+    var userId: String?
     
     var shareBarButton: UIBarButtonItem!
 
@@ -140,6 +143,11 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func shareBarButtonPressed() {
+        
+        let fullWordsString = "#fullwords"
+        let constructedStringToShare = "Hey, check out this new word that i've learnt, thought of sharing it with you.\n\nWord: \(word ?? "")\nMeaning: \(meaning ?? "")\nSource: \(source ?? "")\n\(fullWordsString)"
+        let activityViewController = UIActivityViewController(activityItems: [constructedStringToShare], applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
         
     }
 }

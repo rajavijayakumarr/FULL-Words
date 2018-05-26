@@ -85,6 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PersistenceService.saveContext()
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
         // just making sure we send the notification when the URL is opened in SFSafariViewController
         if let sourceApplication = options[.sourceApplication] {
             print("app delegate called", sourceApplication as Any)
@@ -95,6 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
         }
+        
         return true
     }
     

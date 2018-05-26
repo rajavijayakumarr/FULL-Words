@@ -27,7 +27,7 @@ class WordsTableViewController: UITableViewController {
     static var addButtonUIButton: UIButton!
     open var userName: String?
     var isUserAlreadyLoggedIn: Bool?
-    var words = [WordDetails]()
+    static var words = [WordDetails]()
     
     //this is the name of the notification that will reload the table data if any new word is added in the newWordViewController
     let wordAdded = "newWordAddedForWOrds"
@@ -116,26 +116,29 @@ class WordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.wordLabel.text = words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
-        cell.word = words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.wordLabel.text = WordsTableViewController.words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.word = WordsTableViewController.words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
         cell.wordAddedBy = userName!
         cell.cardView.layer.cornerRadius = 5
         cell.cardView.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
         
-        cell.source = words[indexPath.item].sourceOfWord
-        cell.meaningLabel.text = words[indexPath.item].meaningOfWord
-        cell.meaning = words[indexPath.item].meaningOfWord
+        cell.source = WordsTableViewController.words[indexPath.item].sourceOfWord
+        cell.meaningLabel.text = WordsTableViewController.words[indexPath.item].meaningOfWord
+        cell.meaning = WordsTableViewController.words[indexPath.item].meaningOfWord
+        
+        cell.dateAdded = WordsTableViewController.words[indexPath.item].dateAdded
+        cell.dateUpdated = WordsTableViewController.words[indexPath.item].dateUpdated
+        cell.userId = WordsTableViewController.words[indexPath.item].userId
         return cell
     }
-
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        print("current offset: " + "\(currentOffset)")
-        if maximumOffset - currentOffset <= self.view.bounds.height * 1/4 {
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // this is the element after which we have to load the non loaded data to the bottom of the table view
+        let thresholdElement = Int(WordsTableViewController.words.count * 3/4)
+        if indexPath.row == thresholdElement {
             //spinner
             print("called when the user drags to the botton")
-            print(maximumOffset - currentOffset)
+            print(thresholdElement)
             
             // here the words will be loaded whenever the user is going to hit the bottom of the tableview
             getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
@@ -156,6 +159,35 @@ class WordsTableViewController: UITableViewController {
             }
         }
     }
+
+//    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        let currentOffset = scrollView.contentOffset.y
+//        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+//        print("current offset: " + "\(currentOffset)")
+//        if maximumOffset - currentOffset <= self.view.bounds.height * 1/4 {
+//            //spinner
+//            print("called when the user drags to the botton")
+//            print(maximumOffset - currentOffset)
+//
+//            // here the words will be loaded whenever the user is going to hit the bottom of the tableview
+//            getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
+//                guard let strongSelf = self else {return}
+//
+//                if success {
+//                    guard jsonData?.count != 0 else {
+//                        return
+//                    }
+//                    DispatchQueue.main.async {
+//                        strongSelf.fetchWordsFromCoreData()
+//                        UIView.transition(with: strongSelf.tableView,
+//                                          duration: 0.35,
+//                                          options: .transitionCrossDissolve,
+//                                          animations: { strongSelf.tableView.reloadData() })
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     // MARK: - Table view data source
 
@@ -167,7 +199,7 @@ class WordsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 
-        return words.count
+        return WordsTableViewController.words.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -184,9 +216,34 @@ class WordsTableViewController: UITableViewController {
         wordsViewController?.meaning = wordsCell?.meaning
         wordsViewController?.source = wordsCell?.source
         wordsViewController?.wordAddedBy = wordsCell?.wordAddedBy
-        
+        wordsViewController?.dateAdded = wordsCell?.dateAdded
+        wordsViewController?.dateUpdated = wordsCell?.dateUpdated
+        wordsViewController?.userId = wordsCell?.userId
         self.navigationController?.pushViewController(wordsViewController!, animated: true)
         
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    //function that handles the swipe to share feature
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: "Share") { (action, sourceView, completionHandler) in
+            let fullWordsString = "#fullwords"
+            let cell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
+            let word = cell?.word ?? ""
+            let meaning = cell?.meaning ?? ""
+            let source = cell?.source ?? ""
+            let constructedStringToShare = "Hey, check out this new word that i've learnt, thought of sharing it with you.\n\nWord: \(word)\nMeaning: \(meaning)\nSource: \(source)\n\(fullWordsString)"
+            let activityViewController = UIActivityViewController(activityItems: [constructedStringToShare], applicationActivities: nil)
+            self.present(activityViewController, animated: true, completion: nil)
+            completionHandler(true)
+        }
+ 
+        let swipeActionConfig = UISwipeActionsConfiguration(actions: [share])
+        swipeActionConfig.performsFirstActionWithFullSwipe = true
+        return swipeActionConfig
     }
     
     func fetchWordsFromCoreData() {
@@ -194,13 +251,13 @@ class WordsTableViewController: UITableViewController {
         let sortDescriptor = NSSortDescriptor(key: "dateUpdated", ascending: false, selector: nil)
         fetchRequest.sortDescriptors = [sortDescriptor]
         do {
-            words = try PersistenceService.context.fetch(fetchRequest)
+            WordsTableViewController.words = try PersistenceService.context.fetch(fetchRequest)
         } catch {
         }
     }
     
     @objc func pullToRefreshHandler() {
-        guard let latestWordAdded = words.first else {
+        guard let latestWordAdded = WordsTableViewController.words.first else {
             return
         }
         let latestWordAddedTime = latestWordAdded.dateAdded + 1
@@ -326,6 +383,19 @@ class WordsTableViewController: UITableViewController {
     }
 }
 
+//this is the function that handles 3d touch events
+//extension WordsTableViewController: UIViewControllerPreviewingDelegate {
+//
+//    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+//
+//
+//    }
+//
+//    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+//
+//    }
+//}
+
 extension WordsTableViewController {
     @objc func newWordAdded() {
         fetchWordsFromCoreData()
@@ -342,6 +412,9 @@ class AddedWordsCells: UITableViewCell {
     var meaning: String?
     var wordAddedBy: String?
     var source: String?
+    var dateAdded: Double?
+    var dateUpdated: Double?
+    var userId: String?
 }
 
 /// to capitalize the first string
