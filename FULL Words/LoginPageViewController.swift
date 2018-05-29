@@ -68,6 +68,7 @@ class LoginPageViewController: UIViewController, UIScrollViewDelegate, SFSafariV
     @objc func safariLogin(notification: NSNotification) {
 
         let url = notification.object as? URL
+        //let string = 👍
         let authenticationCode = self.getAuthenticationCode(from: url)
         guard authenticationCode != nil || authenticationCode == "access_denied" else {
             let alert = UIAlertController(title: "User cancelled", message: "Try again", preferredStyle: .alert)

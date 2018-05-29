@@ -28,36 +28,17 @@ class WordsTableViewController: UITableViewController {
     open var userName: String?
     var isUserAlreadyLoggedIn: Bool?
     static var words = [WordDetails]()
+    var wordsByWeek: [Int: [WordDetails]] = [:]
+    
+    var sectionHeaders: (stringRep: [(from: String, to: String)], millis: [(from: TimeInterval, to: TimeInterval)]) = ([], [])
     
     //this is the name of the notification that will reload the table data if any new word is added in the newWordViewController
     let wordAdded = "newWordAddedForWOrds"
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let userLoggedIn = isUserAlreadyLoggedIn {
-            if  userLoggedIn {
-                //spinner view
-                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
-                spinnerView.label.text = "Loading..."
-                getWords() { [weak self] (success, error, _) in
-                    guard let strongSelf = self else {return}
-                    if success {
-                        DispatchQueue.main.async {
-                            strongSelf.fetchWordsFromCoreData()
-                            UIView.transition(with: strongSelf.tableView,
-                                              duration: 0.35,
-                                              options: .transitionCrossDissolve,
-                                              animations: { strongSelf.tableView.reloadData() })
-                        }
-                    } else {
-                        MBProgressHUD.hide(for: strongSelf.view, animated: true)
-                    }
-                }
-            } else {
-                fetchWordsFromCoreData()
-            }
-        }
-        
+        handleFetchingWords()
+        handleGettingWeekValues()
+        arrangeWordsByWeek()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
@@ -81,9 +62,9 @@ class WordsTableViewController: UITableViewController {
         super.viewDidAppear(true)
         tableView.reloadData()
         self.navigationController?.navigationBar.barStyle = .default
-        let greenColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        self.navigationController?.navigationBar.backgroundColor = greenColor
-        self.navigationController?.navigationBar.barTintColor = greenColor
+        let color = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.navigationController?.navigationBar.backgroundColor = color
+        self.navigationController?.navigationBar.barTintColor = color
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) as Any]
         self.navigationController?.view.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
         navigationController?.visibleViewController?.navigationItem.title = "Words"
@@ -91,6 +72,56 @@ class WordsTableViewController: UITableViewController {
         let window = UIApplication.shared.keyWindow
         window?.addSubview(this.addButtonUIButton)
 
+    }
+    
+    fileprivate func arrangeWordsByWeek() {
+        wordsByWeek = [:]
+        for (index, fromToMilliseconds) in sectionHeaders.millis.enumerated() {
+            wordsByWeek[index] = WordsTableViewController.words.filter { (word) -> Bool in
+                switch word.dateUpdated {
+                case fromToMilliseconds.from ... fromToMilliseconds.to : return true
+                default : return false
+                }
+            }
+        }
+    }
+    
+    fileprivate func handleGettingWeekValues() {
+        let fromDate = WordsTableViewController.words.last?.dateUpdated
+        let toDate = WordsTableViewController.words.first?.dateUpdated
+        print(fromDate as Any)
+        print(toDate as Any)
+        var value: (stringRep: [(from: String, to: String)], millis: [(from: TimeInterval, to: TimeInterval)]) = ([], [])
+        if let fromDate = fromDate, let toDate = toDate {
+            value = Date.totalNumberOfWeeksRoundOffByWeekends(From: fromDate, To: toDate)
+        }
+        sectionHeaders = value
+    }
+    
+    fileprivate func handleFetchingWords() {
+        if let userLoggedIn = isUserAlreadyLoggedIn {
+            if  userLoggedIn {
+                //spinner view
+                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+                spinnerView.label.text = "Loading..."
+                getWords() { [weak self] (success, error, _) in
+                    guard let strongSelf = self else {return}
+                    if success {
+                        DispatchQueue.main.async {
+                            strongSelf.fetchWordsFromCoreData()
+                            UIView.transition(with: strongSelf.tableView,
+                                              duration: 0.35,
+                                              options: .transitionCrossDissolve,
+                                              animations: { strongSelf.tableView.reloadData() })
+                        }
+                    } else {
+                        MBProgressHUD.hide(for: strongSelf.view, animated: true)
+                    }
+                }
+            } else {
+                fetchWordsFromCoreData()
+            }
+        }
     }
     
     func addButtonCustomization() {
@@ -116,25 +147,27 @@ class WordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "wordsofthetableviewcells", for: indexPath) as! AddedWordsCells
-        cell.wordLabel.text = WordsTableViewController.words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
-        cell.word = WordsTableViewController.words[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+
+        cell.wordLabel.text = wordsByWeek[indexPath.section]?[indexPath.item].nameOfWord?.capitalizingFirstLetter()
+        cell.word = wordsByWeek[indexPath.section]?[indexPath.item].nameOfWord?.capitalizingFirstLetter()
         cell.wordAddedBy = userName!
         cell.cardView.layer.cornerRadius = 5
         cell.cardView.dropShadow(color: .black, opacity: 0.3, radius: 0.5)
+    
+        cell.source = wordsByWeek[indexPath.section]?[indexPath.item].sourceOfWord
+        cell.meaningLabel.text = wordsByWeek[indexPath.section]?[indexPath.item].meaningOfWord
+        cell.meaning = wordsByWeek[indexPath.section]?[indexPath.item].meaningOfWord
         
-        cell.source = WordsTableViewController.words[indexPath.item].sourceOfWord
-        cell.meaningLabel.text = WordsTableViewController.words[indexPath.item].meaningOfWord
-        cell.meaning = WordsTableViewController.words[indexPath.item].meaningOfWord
+        cell.dateAdded = wordsByWeek[indexPath.section]?[indexPath.item].dateAdded
+        cell.dateUpdated = wordsByWeek[indexPath.section]?[indexPath.item].dateUpdated
+        cell.userId = wordsByWeek[indexPath.section]?[indexPath.item].userId
         
-        cell.dateAdded = WordsTableViewController.words[indexPath.item].dateAdded
-        cell.dateUpdated = WordsTableViewController.words[indexPath.item].dateUpdated
-        cell.userId = WordsTableViewController.words[indexPath.item].userId
         return cell
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // this is the element after which we have to load the non loaded data to the bottom of the table view
-        let thresholdElement = Int(WordsTableViewController.words.count * 3/4)
+        let thresholdElement = WordsTableViewController.words.count - 5
         if indexPath.row == thresholdElement {
             //spinner
             print("called when the user drags to the botton")
@@ -143,7 +176,7 @@ class WordsTableViewController: UITableViewController {
             // here the words will be loaded whenever the user is going to hit the bottom of the tableview
             getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
                 guard let strongSelf = self else {return}
-                
+
                 if success {
                     guard jsonData?.count != 0 else {
                         return
@@ -159,47 +192,21 @@ class WordsTableViewController: UITableViewController {
             }
         }
     }
-
-//    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        let currentOffset = scrollView.contentOffset.y
-//        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-//        print("current offset: " + "\(currentOffset)")
-//        if maximumOffset - currentOffset <= self.view.bounds.height * 1/4 {
-//            //spinner
-//            print("called when the user drags to the botton")
-//            print(maximumOffset - currentOffset)
-//
-//            // here the words will be loaded whenever the user is going to hit the bottom of the tableview
-//            getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
-//                guard let strongSelf = self else {return}
-//
-//                if success {
-//                    guard jsonData?.count != 0 else {
-//                        return
-//                    }
-//                    DispatchQueue.main.async {
-//                        strongSelf.fetchWordsFromCoreData()
-//                        UIView.transition(with: strongSelf.tableView,
-//                                          duration: 0.35,
-//                                          options: .transitionCrossDissolve,
-//                                          animations: { strongSelf.tableView.reloadData() })
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        print(sectionHeaders.stringRep.count)
+        return sectionHeaders.stringRep.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-
-        return WordsTableViewController.words.count
+        return wordsByWeek[section]?.count ?? 1
+    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionHeaders.stringRep[section].from + " - " + sectionHeaders.stringRep[section].to
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -399,6 +406,7 @@ class WordsTableViewController: UITableViewController {
 extension WordsTableViewController {
     @objc func newWordAdded() {
         fetchWordsFromCoreData()
+        arrangeWordsByWeek()
         UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
         }
 }

@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var navigationController: UINavigationController?
     var tabBarController: UserPageTabController?
-
-
+    
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
             if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN) {

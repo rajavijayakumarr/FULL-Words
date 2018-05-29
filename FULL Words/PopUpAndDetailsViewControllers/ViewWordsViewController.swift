@@ -28,7 +28,8 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
         wordDetailsTableView.rowHeight = UITableViewAutomaticDimension
         wordDetailsTableView.estimatedRowHeight = UITableViewAutomaticDimension
-        
+        // to remove the extra lines that is displayed other that for the cells
+        wordDetailsTableView.tableFooterView = UIView()
         headingFotTheTableViewCells.removeFirst()
         headingFotTheTableViewCells.insert(word ?? "", at: headingFotTheTableViewCells.startIndex)
         wordDetailsTableView.delegate = self
@@ -65,11 +66,11 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return headingFotTheTableViewCells.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return headingFotTheTableViewCells.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -84,7 +85,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
 //        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
-        switch headingFotTheTableViewCells[indexPath.section] {
+        switch headingFotTheTableViewCells[indexPath.item] {
         case word:
             cell?.headingLabel.text = word
             cell?.contentLabel.text = meaning
@@ -117,6 +118,8 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         return false
     }
+    
+    
     @objc private func longPressLabelWithURL (recognizer: UILongPressGestureRecognizer) {
         
         if let recognizerView = recognizer.view,
@@ -158,7 +161,6 @@ class WordDetailsTableViewCell: UITableViewCell {
     // identifire: tableViewForWordDetails
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
-    
 }
 
 ///to make a uiview drop a shadow in side bottom and top

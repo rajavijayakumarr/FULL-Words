@@ -38,6 +38,7 @@
 		CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */; };
 		CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */; };
 		CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */; };
+		CEF91B5E20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */; };
 		CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
 		EC103F9DC4EC784EDB04CCC4 /* Pods_FULL_Words.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */; };
@@ -105,6 +106,7 @@
 		CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peersicon@2x.png"; sourceTree = "<group>"; };
 		CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
+		CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctionsAndExtensions.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWordsViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -273,6 +275,7 @@
 			children = (
 				CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */,
 				CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */,
+				CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */,
 			);
 			path = PopUpAndDetailsViewControllers;
 			sourceTree = "<group>";
@@ -517,7 +520,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "# xcode-build-bump.sh\n# @desc Auto-increment the build number every time the project is run.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 6. Ensure that your starting build number is set to a whole integer and not a float (e.g. 1, not 1.0)\n# 7. Check the checkbox \"Run script only when installing\"\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+			shellScript = "# xcode-build-bump.sh\n# @desc Auto-increment the build number every time the project is run.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 6. Ensure that your starting build number is set to a whole integer and not a float (e.g. 1, not 1.0)\n# 7. Check the checkbox \"Run script only when installing\"\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 0.1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -535,6 +538,7 @@
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
+				CEF91B5E20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift in Sources */,
 				CE48B6FB20AD4163001B8660 /* WordDetails+CoreDataClass.swift in Sources */,
 				CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */,
 			);

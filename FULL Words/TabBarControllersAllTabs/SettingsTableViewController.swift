@@ -33,7 +33,7 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = 50
         tableView.estimatedRowHeight = 50
         
     }
@@ -146,7 +146,7 @@ class SettingsTableViewController: UITableViewController {
         return settingsMenu.count
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 50
     }
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
