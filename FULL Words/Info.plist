@@ -77,25 +77,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>FULL Words Document</string>
-			<key>UTTypeIdentifier</key>
-			<string>co.anywhere.fullwords.wrd</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>wrd</string>
-				<key>public.mime-type</key>
-				<string>application/FULLWords</string>
-			</dict>
-		</dict>
-	</array>
 </dict>
 </plist>
