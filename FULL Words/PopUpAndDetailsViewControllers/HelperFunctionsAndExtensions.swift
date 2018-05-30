@@ -4,17 +4,16 @@ import UIKit
 extension Date {
     static func totalNumberOfWeeksRoundOffByWeekends(From fromDate: TimeInterval, To toDate: TimeInterval) -> (stringRep: [(from: String, to: String)], millis: [(from: TimeInterval, to: TimeInterval)]){
         
-        let previousWeeken = Date(timeIntervalSince1970: fromDate).previous(.monday)
-        let nextWeekend = Date(timeIntervalSince1970: toDate).next(.sunday)
-        
+        let fromDateFD = Date(timeIntervalSince1970: fromDate/1000)
+        let cal = Calendar(identifier: .gregorian)
+        let newFromDate = cal.startOfDay(for: fromDateFD)
+
         var stringRep: [(from: String, to: String)] = []
         var millis: [(from: TimeInterval, to: TimeInterval)] = []
         
         let weekInMilliseconds: Double = 604800000
-        var fromdate = previousWeeken.timeIntervalSince1970
-        let to = nextWeekend.timeIntervalSince1970
-//        var fromdate = fromDate
-//        let to = toDate
+        var fromdate = Date.previousMonday(fromDate: newFromDate.timeIntervalSince1970 * 1000)
+        let to = Date.nextSunday(fromDate: toDate)
          while fromdate < to {
             let monthAndDateFrom = Date.dateAndMonthFormat(Date: Date(timeIntervalSince1970: fromdate/1000))
             // this is subratcted by 86400000 to display the dates like 17-23 24-31
@@ -50,80 +49,37 @@ extension Date {
         return (stringMonth, stringDate)
     }
     
-    static func today() -> Date {
-        return Date()
-    }
-    
-    func next(_ weekday: Weekday, considerToday: Bool = false) -> Date {
-        return get(.Next,
-                   weekday,
-                   considerToday: considerToday)
-    }
-    
-    func previous(_ weekday: Weekday, considerToday: Bool = false) -> Date {
-        return get(.Previous,
-                   weekday,
-                   considerToday: considerToday)
-    }
-    
-    func get(_ direction: SearchDirection,
-             _ weekDay: Weekday,
-             considerToday consider: Bool = false) -> Date {
+    static func previousMonday(fromDate date: TimeInterval) -> TimeInterval {
         
-        let dayName = weekDay.rawValue
-        
-        let weekdaysName = getWeekDaysInEnglish().map { $0.lowercased() }
-        
-        assert(weekdaysName.contains(dayName), "weekday symbol should be in form \(weekdaysName)")
-        
-        let searchWeekdayIndex = weekdaysName.index(of: dayName)! + 1
-        
-        let calendar = Calendar(identifier: .gregorian)
-        
-        if consider && calendar.component(.weekday, from: self) == searchWeekdayIndex {
-            return self
+        var dateD = Date(timeIntervalSince1970: date/1000)
+        print(dateD.description)
+        let calender = Calendar.current
+        var components = calender.component(.weekday, from: dateD)
+        while components != 2 {
+            var timeinterval = dateD.timeIntervalSince1970 * 1000
+            timeinterval -= 86400000
+            dateD = Date(timeIntervalSince1970: timeinterval/1000)
+            components = calender.component(.weekday, from: dateD)
         }
-        
-        var nextDateComponent = DateComponents()
-        nextDateComponent.weekday = searchWeekdayIndex
-        
-        
-        let date = calendar.nextDate(after: self,
-                                     matching: nextDateComponent,
-                                     matchingPolicy: .nextTime,
-                                     direction: direction.calendarSearchDirection)
-        
-        return date!
+        return dateD.timeIntervalSince1970 * 1000
+    }
+    
+    static func nextSunday(fromDate date: TimeInterval) -> TimeInterval {
+        var dateD = Date(timeIntervalSince1970: date/1000)
+        print(dateD.description)
+        let calender = Calendar.current
+        var components = calender.component(.weekday, from: dateD)
+        while components != 1 {
+            var timeinterval = dateD.timeIntervalSince1970 * 1000
+            timeinterval += 86400000
+            dateD = Date(timeIntervalSince1970: timeinterval/1000)
+            components = calender.component(.weekday, from: dateD)
+        }
+        return dateD.timeIntervalSince1970 * 1000
     }
     
 }
 
-// MARK: Helper methods
-extension Date {
-    func getWeekDaysInEnglish() -> [String] {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.locale = Locale(identifier: "en_US_POSIX")
-        return calendar.weekdaySymbols
-    }
-    
-    enum Weekday: String {
-        case monday, tuesday, wednesday, thursday, friday, saturday, sunday
-    }
-    
-    enum SearchDirection {
-        case Next
-        case Previous
-        
-        var calendarSearchDirection: Calendar.SearchDirection {
-            switch self {
-            case .Next:
-                return .forward
-            case .Previous:
-                return .backward
-            }
-        }
-    }
-}
 
 class HelperFunctionsAndExtensions: NSObject {
 

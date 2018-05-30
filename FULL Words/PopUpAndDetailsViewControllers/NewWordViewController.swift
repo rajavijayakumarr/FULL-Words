@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 import MBProgressHUD
+import Firebase
 
 // All these are notification names that adds observer and will be posted using these string constants
 let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
@@ -158,7 +159,7 @@ class NewWordViewController: UIViewController {
     
     func addWordToServer() {
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        spinnerView.label.text = "UploadingWord"
+        spinnerView.label.text = "Adding Word..."
         
         let word = NewWordViewController.word
         let meaning = NewWordViewController.meaning
@@ -241,6 +242,14 @@ class NewWordViewController: UIViewController {
     }
     
     func handleOtherErrors(fromData receivedWordValues: JSON) {
+        
+        //firebase reports - word adding method failed
+        if receivedWordValues["msg"].stringValue == "word already exists" {
+            Analytics.logEvent("wordExists", parameters: nil)
+        } else {
+            Analytics.logEvent("wordAdded_failed", parameters: nil)
+
+        }
         MBProgressHUD.hide(for: self.view, animated: true)
         let error = receivedWordValues["error"].stringValue
         let message = receivedWordValues["msg"].stringValue
@@ -264,6 +273,10 @@ class NewWordViewController: UIViewController {
         self.updateTheFeedInAnywhereWorks(Word: JSONdata["data"]["word"]["word"].stringValue, Meaning: JSONdata["data"]["word"]["desc"].stringValue, Source: JSONdata["data"]["word"]["src"].stringValue)
         
         MBProgressHUD.hide(for: self.view, animated: true)
+        
+        //firebase reports - word adding method success
+        Analytics.logEvent("wordAdded_success", parameters: nil)
+
         let alert = UIAlertController(title: "Success!", message: "Word added!", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -287,6 +300,9 @@ class NewWordViewController: UIViewController {
         Alamofire.request(urlRequest).responseJSON { (responseData) in
             if responseData.error == nil {
                 print(responseData as Any)
+                
+                //firebase reports - successfully posted AW feeds
+                Analytics.logEvent("postedAWFeed", parameters: nil)
             } else {
                 let alert = UIAlertController(title: "error", message: "cannot update feed", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

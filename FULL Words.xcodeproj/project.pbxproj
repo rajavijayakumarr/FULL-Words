@@ -30,6 +30,7 @@
 		CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */; };
 		CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D91208880D800C0377F /* UserPageTabController.swift */; };
 		CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE610D93208888BE00C0377F /* SettingsTableViewController.swift */; };
+		CE6A2E5E20BE83AC0075E50B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE6A2E5D20BE83AB0075E50B /* GoogleService-Info.plist */; };
 		CE85979920A1B15100FB6914 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979720A1B14F00FB6914 /* settings.png */; };
 		CE85979A20A1B15100FB6914 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979820A1B15000FB6914 /* settings@2x.png */; };
 		CE85979D20A1B26A00FB6914 /* learnicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979B20A1B26700FB6914 /* learnicon.png */; };
@@ -98,6 +99,7 @@
 		CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-UltralightItalic.otf"; sourceTree = "<group>"; };
 		CE610D91208880D800C0377F /* UserPageTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPageTabController.swift; sourceTree = "<group>"; };
 		CE610D93208888BE00C0377F /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		CE6A2E5D20BE83AB0075E50B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE85979720A1B14F00FB6914 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		CE85979820A1B15000FB6914 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		CE85979B20A1B26700FB6914 /* learnicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = learnicon.png; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				CE9D236B20A2C45F0043962B /* Images */,
 				CE19226920874E8A000D7676 /* Assets.xcassets */,
 				CE19226E20874E8A000D7676 /* Info.plist */,
+				CE6A2E5D20BE83AB0075E50B /* GoogleService-Info.plist */,
 			);
 			path = "FULL Words";
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				CE19226520874E88000D7676 /* Main.storyboard in Resources */,
 				CE85979D20A1B26A00FB6914 /* learnicon.png in Resources */,
 				CE550E1E208F3AB600DA10DF /* wordsIcon.png in Resources */,
+				CE6A2E5E20BE83AC0075E50B /* GoogleService-Info.plist in Resources */,
 				CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */,
 				CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */,

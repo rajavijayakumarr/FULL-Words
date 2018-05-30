@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
+            // here is where the firebase is being configured 
+            FirebaseApp.configure()
+        
             if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN) {
             let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
             let tokenType = userDefaultsObject.value(forKey: TOKEN_TYPE) as! String

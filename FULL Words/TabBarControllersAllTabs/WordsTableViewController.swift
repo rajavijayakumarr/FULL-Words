@@ -11,6 +11,7 @@ import CoreData
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import Firebase
 
 let STARTING_TIME_VALUE = "STARTING_TIME_VALUE"
 let ENDING_TIME_VALUE = "ENDING_TIME_VALUE"
@@ -102,13 +103,15 @@ class WordsTableViewController: UITableViewController {
         if let userLoggedIn = isUserAlreadyLoggedIn {
             if  userLoggedIn {
                 //spinner view
-                let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
+                let spinnerView = MBProgressHUD.showAdded(to: self.navigationController?.view ?? self.view, animated: true)
                 spinnerView.label.text = "Loading..."
                 getWords() { [weak self] (success, error, _) in
                     guard let strongSelf = self else {return}
                     if success {
                         DispatchQueue.main.async {
                             strongSelf.fetchWordsFromCoreData()
+                            strongSelf.handleGettingWeekValues()
+                            strongSelf.arrangeWordsByWeek()
                             UIView.transition(with: strongSelf.tableView,
                                               duration: 0.35,
                                               options: .transitionCrossDissolve,
@@ -167,22 +170,24 @@ class WordsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // this is the element after which we have to load the non loaded data to the bottom of the table view
-        let thresholdElement = WordsTableViewController.words.count - 5
-        if indexPath.row == thresholdElement {
+        
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        
+        if (indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex) {
             //spinner
             print("called when the user drags to the botton")
-            print(thresholdElement)
             
             // here the words will be loaded whenever the user is going to hit the bottom of the tableview
             getWords(toTime: userDefaultsObject.double(forKey: ENDING_TIME_VALUE) - 1) { [weak self] (success, error, jsonData) in
                 guard let strongSelf = self else {return}
-
                 if success {
                     guard jsonData?.count != 0 else {
                         return
                     }
                     DispatchQueue.main.async {
                         strongSelf.fetchWordsFromCoreData()
+                        strongSelf.arrangeWordsByWeek()
                         UIView.transition(with: strongSelf.tableView,
                                           duration: 0.35,
                                           options: .transitionCrossDissolve,
@@ -197,7 +202,6 @@ class WordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        print(sectionHeaders.stringRep.count)
         return sectionHeaders.stringRep.count
     }
 
@@ -206,6 +210,8 @@ class WordsTableViewController: UITableViewController {
         return wordsByWeek[section]?.count ?? 1
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {return "Current Week"}
+        if section == 1 {return "Last Week"}
         return sectionHeaders.stringRep[section].from + " - " + sectionHeaders.stringRep[section].to
     }
     
@@ -264,6 +270,10 @@ class WordsTableViewController: UITableViewController {
     }
     
     @objc func pullToRefreshHandler() {
+        
+        // firebase reports - tracks how many times the user pulls to refresh
+        Analytics.logEvent("pulledToRefresh", parameters: nil)
+        
         guard let latestWordAdded = WordsTableViewController.words.first else {
             return
         }
@@ -275,6 +285,7 @@ class WordsTableViewController: UITableViewController {
                 strongSelf.refreshController?.endRefreshing()
                 DispatchQueue.main.async {
                     strongSelf.fetchWordsFromCoreData()
+                    strongSelf.arrangeWordsByWeek()
                     strongSelf.tableView.reloadData()
                     strongSelf.refreshController?.endRefreshing()
                 }
@@ -348,7 +359,7 @@ class WordsTableViewController: UITableViewController {
                     }
                     completionBlock(true, nil, responseJSON_Data["data"]["words"].arrayValue)
                     self.refreshController?.endRefreshing()
-                    MBProgressHUD.hide(for: self.view, animated: true)
+                    MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                     //spinner
                 } else {
                     let message = responseJSON_Data["msg"].stringValue
@@ -360,13 +371,13 @@ class WordsTableViewController: UITableViewController {
                     }))
                     self.present(alert, animated: true, completion: nil)
                     //spinner
-                    MBProgressHUD.hide(for: self.view, animated: true)
+                    MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                 }
             } else {
                 
                 var title = "", message = ""
                 //spinner
-                MBProgressHUD.hide(for: self.view, animated: true)
+                MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                 self.refreshController?.endRefreshing()
                 switch responseData.result {
                 case .failure(let error):
@@ -382,7 +393,7 @@ class WordsTableViewController: UITableViewController {
                 print(title)
                 print(message)
                 //spinner
-                MBProgressHUD.hide(for: self.view, animated: true)
+                MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                 self.refreshController?.endRefreshing()
                 completionBlock(false, NSError(domain: title + ": " + message, code: 3, userInfo: nil), nil)
             }
