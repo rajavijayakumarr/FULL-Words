@@ -13,7 +13,7 @@ extension Date {
         
         let weekInMilliseconds: Double = 604800000
         var fromdate = Date.previousMonday(fromDate: newFromDate.timeIntervalSince1970 * 1000)
-        let to = Date.nextSunday(fromDate: toDate)
+        let to = Date.nextSunday(fromDate: Date().timeIntervalSince1970 * 1000)
          while fromdate < to {
             let monthAndDateFrom = Date.dateAndMonthFormat(Date: Date(timeIntervalSince1970: fromdate/1000))
             // this is subratcted by 86400000 to display the dates like 17-23 24-31

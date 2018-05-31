@@ -202,11 +202,13 @@ class WordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
+        print(sectionHeaders.stringRep.count)
         return sectionHeaders.stringRep.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(wordsByWeek[section]?.count as Any)
         return wordsByWeek[section]?.count ?? 1
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
