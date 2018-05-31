@@ -39,6 +39,10 @@
 		CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */; };
 		CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */; };
 		CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */; };
+		CEAA670120BFF33E001ACE50 /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA66FF20BFF33D001ACE50 /* Montserrat-Medium.otf */; };
+		CEAA670220BFF33E001ACE50 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */; };
+		CEAA670420C0055D001ACE50 /* MontserratAlternates-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */; };
+		CEAA670620C005EE001ACE50 /* MontserratAlternates-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */; };
 		CEF91B5E20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */; };
 		CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
@@ -108,6 +112,10 @@
 		CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peersicon@2x.png"; sourceTree = "<group>"; };
 		CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
+		CEAA66FF20BFF33D001ACE50 /* Montserrat-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.otf"; sourceTree = "<group>"; };
+		CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-Medium.otf"; sourceTree = "<group>"; };
+		CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-Bold.otf"; sourceTree = "<group>"; };
 		CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctionsAndExtensions.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWordsViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,10 +252,14 @@
 		CE9D236C20A2C4BC0043962B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */,
+				CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
 				CE610D862087606D00C0377F /* SF-Pro-Display-Ultralight.otf */,
 				CE610D882087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf */,
 				CE610D852087606B00C0377F /* SF-Pro-Text-Light.otf */,
+				CEAA66FF20BFF33D001ACE50 /* Montserrat-Medium.otf */,
+				CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -392,10 +404,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEAA670620C005EE001ACE50 /* MontserratAlternates-Bold.otf in Resources */,
 				CE550E1F208F3AB600DA10DF /* wordsIcon@2x.png in Resources */,
+				CEAA670120BFF33E001ACE50 /* Montserrat-Medium.otf in Resources */,
 				CE85979A20A1B15100FB6914 /* settings@2x.png in Resources */,
 				CE550E23208F41C000DA10DF /* adaptiveUImage.png in Resources */,
 				CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */,
+				CEAA670220BFF33E001ACE50 /* Montserrat-Regular.otf in Resources */,
 				CE85979920A1B15100FB6914 /* settings.png in Resources */,
 				CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */,
 				CE19226A20874E8A000D7676 /* Assets.xcassets in Resources */,
@@ -406,6 +421,7 @@
 				CE6A2E5E20BE83AC0075E50B /* GoogleService-Info.plist in Resources */,
 				CE610D8B2087606E00C0377F /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				CE610D8A2087606E00C0377F /* SF-Pro-Display-Ultralight.otf in Resources */,
+				CEAA670420C0055D001ACE50 /* MontserratAlternates-Medium.otf in Resources */,
 				CE610D892087606E00C0377F /* SF-Pro-Text-Light.otf in Resources */,
 				CE550E17208F37B900DA10DF /* dashboardicon.png in Resources */,
 				CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */,

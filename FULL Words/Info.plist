@@ -46,6 +46,10 @@
 		<string>SF-Pro-Display-Ultralight.otf</string>
 		<string>SF-Pro-Display-UltralightItalic.otf</string>
 		<string>SF-Pro-Text-Light.otf</string>
+		<string>Montserrat-Medium.otf</string>
+		<string>Montserrat-Regular.otf</string>
+		<string>MontserratAlternates-Medium.otf</string>
+		<string>MontserratAlternates-Bold.otf</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>

@@ -8,9 +8,8 @@
 
 import UIKit
 
-class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewWordsViewController: UIViewController {
     
-    @IBOutlet weak var wordDetailsTableView: UITableView!
     var word: String?
     var meaning: String?
     var source: String?
@@ -21,39 +20,29 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var shareBarButton: UIBarButtonItem!
 
-    var headingFotTheTableViewCells = ["", "Source:", "Added By:"]
+    
+    @IBOutlet weak var wordDetailsContainerView: UIView!
+    @IBOutlet weak var wordContainerView: UIView!
+    @IBOutlet weak var wordLabel: UILabel!
+    @IBOutlet weak var meaningLabel: UILabel!
+    @IBOutlet weak var sourceLabel: UILabel!
+    @IBOutlet weak var addedOnLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        wordDetailsTableView.rowHeight = UITableViewAutomaticDimension
-        wordDetailsTableView.estimatedRowHeight = UITableViewAutomaticDimension
-        // to remove the extra lines that is displayed other that for the cells
-        wordDetailsTableView.tableFooterView = UIView()
-        headingFotTheTableViewCells.removeFirst()
-        headingFotTheTableViewCells.insert(word ?? "", at: headingFotTheTableViewCells.startIndex)
-        wordDetailsTableView.delegate = self
-        wordDetailsTableView.dataSource = self
-        
+        prepareToDisplayWordDetails()
         shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareBarButtonPressed))
         self.navigationItem.setRightBarButton(shareBarButton, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if let selection: IndexPath = wordDetailsTableView.indexPathForSelectedRow{
-            wordDetailsTableView.deselectRow(at: selection, animated: true)
-        }
-        wordDetailsTableView.reloadData()
-        
-        self.navigationController?.visibleViewController?.navigationItem.title = "Word Details"
-        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(false, animated: false)
-        self.navigationController?.navigationBar.backItem?.backBarButtonItem?.title = ""
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        self.navigationController?.visibleViewController?.navigationItem.setHidesBackButton(true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,64 +50,22 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return headingFotTheTableViewCells.count
-    }
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    fileprivate func prepareToDisplayWordDetails() {
+        wordDetailsContainerView.layer.cornerRadius = 10
+        wordDetailsContainerView.clipsToBounds = true
+        wordLabel.text = word
+        meaningLabel.text = meaning
+        sourceLabel.text = source
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewForWordDetails", for: indexPath) as? WordDetailsTableViewCell
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabel(recognizer:)))
-//        let longPressGestureWithURL = UILongPressGestureRecognizer(target: self, action: #selector(longPressLabelWithURL(recognizer:)))
-        switch headingFotTheTableViewCells[indexPath.item] {
-        case word:
-            cell?.headingLabel.text = word
-            cell?.contentLabel.text = meaning
-            cell?.contentLabel.isUserInteractionEnabled = true
-            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
-            cell?.contentLabel.becomeFirstResponder()
-            
-        case "Source:":
-            cell?.headingLabel.text = "Source:"
-            cell?.contentLabel.text = source
-            cell?.contentLabel.addGestureRecognizer(longPressGestureRecognizer)
-            cell?.contentLabel.isUserInteractionEnabled = true
-            cell?.contentLabel.becomeFirstResponder()
-
-        case "Added By:":
-            cell?.headingLabel.text = "Added By:"
-            cell?.contentLabel.text = wordAddedBy
-
-        default:
-            break
-        }
-        
-        return cell!
+        let dateVar = Date(timeIntervalSince1970: (dateUpdated ?? 1000)/1000)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        addedOnLabel.text = "Added on \(dateFormatter.string(from: dateVar))"
     }
-    func verifyUrl (urlString: String?) -> Bool {
-        if let urlString = urlString {
-            if let url = NSURL(string: urlString) {
-                return UIApplication.shared.canOpenURL(url as URL)
-            }
-        }
-        return false
-    }
-    
     
     @objc private func longPressLabelWithURL (recognizer: UILongPressGestureRecognizer) {
         
@@ -156,12 +103,7 @@ class ViewWordsViewController: UIViewController, UITableViewDelegate, UITableVie
 }
 
 
-///custome tableviewcell for this table view
-class WordDetailsTableViewCell: UITableViewCell {
-    // identifire: tableViewForWordDetails
-    @IBOutlet weak var headingLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-}
+
 
 ///to make a uiview drop a shadow in side bottom and top
 extension UIView {
@@ -170,7 +112,6 @@ extension UIView {
         layer.masksToBounds = false
         layer.shadowColor = color.cgColor
         layer.shadowOpacity = opacity
-//        layer.shadowOffset = CGSize.zero
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = radius
     }

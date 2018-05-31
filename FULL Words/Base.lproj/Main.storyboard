@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fin-E4-ClK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fin-E4-ClK">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,6 +10,17 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.otf">
+            <string>Montserrat-Medium</string>
+        </array>
+        <array key="Montserrat-Regular.otf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="MontserratAlternates-Bold.otf">
+            <string>MontserratAlternates-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Login Page View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -396,70 +407,109 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RdX-gV-SFr">
-                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
-                                <viewLayoutGuide key="safeArea" id="PP3-Cd-GSr"/>
-                                <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="tableViewForWordDetails" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tableViewForWordDetails" rowHeight="67" id="j2z-Ee-nze" customClass="WordDetailsTableViewCell" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="67"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j2z-Ee-nze" id="cSg-S5-3p2">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="66.666666666666671"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading Label:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXR-lW-RlH" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="11" width="378" height="21"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Content Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVc-Fo-U6U" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
-                                                    <rect key="frame" x="25.000000000000007" y="42" width="101.66666666666669" height="13"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="AXR-lW-RlH" firstAttribute="leading" secondItem="cSg-S5-3p2" secondAttribute="leading" constant="16" id="5fC-Bc-gvx"/>
-                                                <constraint firstItem="AXR-lW-RlH" firstAttribute="top" secondItem="cSg-S5-3p2" secondAttribute="top" constant="11" id="AAy-u4-WHq"/>
-                                                <constraint firstItem="GVc-Fo-U6U" firstAttribute="leading" secondItem="cSg-S5-3p2" secondAttribute="leadingMargin" constant="5" id="Dnn-QP-GlC"/>
-                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="AXR-lW-RlH" secondAttribute="trailing" constant="20" id="Mgf-6V-qcX"/>
-                                                <constraint firstItem="GVc-Fo-U6U" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="cSg-S5-3p2" secondAttribute="trailingMargin" id="RNX-Q7-s9e"/>
-                                                <constraint firstItem="GVc-Fo-U6U" firstAttribute="top" secondItem="AXR-lW-RlH" secondAttribute="bottom" constant="10" id="rE3-uL-Dfj"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="GVc-Fo-U6U" secondAttribute="bottom" constant="1" id="v65-QP-MBi"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <viewLayoutGuide key="safeArea" id="cjj-0i-pUP"/>
-                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                        <connections>
-                                            <outlet property="contentLabel" destination="GVc-Fo-U6U" id="Zr9-sv-xt4"/>
-                                            <outlet property="headingLabel" destination="AXR-lW-RlH" id="KVn-ec-xKC"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nE-Ta-Bbp">
+                                <rect key="frame" x="13" y="93.666666666666686" width="389" height="564.33333333333326"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5cg-qc-cjO">
+                                        <rect key="frame" x="0.0" y="0.0" width="389" height="102"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79v-9e-aw5" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
+                                                <rect key="frame" x="164.33333333333334" y="37.999999999999986" width="61" height="27"/>
+                                                <fontDescription key="fontDescription" name="MontserratAlternates-Bold" family="Montserrat Alternates" pointSize="22"/>
+                                                <color key="textColor" red="0.093969427049160004" green="0.1893298327922821" blue="0.33613449335098267" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="79v-9e-aw5" firstAttribute="centerX" secondItem="5cg-qc-cjO" secondAttribute="centerX" id="BXS-Dq-tlx"/>
+                                            <constraint firstAttribute="height" constant="102" id="Phz-Fk-uoE"/>
+                                            <constraint firstItem="79v-9e-aw5" firstAttribute="centerY" secondItem="5cg-qc-cjO" secondAttribute="centerY" id="jlU-6V-F4M"/>
+                                            <constraint firstAttribute="width" constant="389" id="oCk-oC-VEF"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SYNONYM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAe-gX-HQ5">
+                                        <rect key="frame" x="25" y="124.99999999999999" width="79" height="17.333333333333329"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" red="0.41556078195571899" green="0.51121866703033447" blue="0.62919473648071289" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOURCE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucC-A0-jbl">
+                                        <rect key="frame" x="25.000000000000004" y="192" width="61.333333333333343" height="17.333333333333343"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Added on " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpT-tH-4M4">
+                                        <rect key="frame" x="21.999999999999993" y="275.33333333333331" width="88.333333333333314" height="18.666666666666686"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
+                                        <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word meaning" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVk-YS-Zsd" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
+                                        <rect key="frame" x="24.999999999999993" y="151" width="125.33333333333331" height="21"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                        <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word source" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLu-vs-suL" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
+                                        <rect key="frame" x="25.000000000000007" y="218.33333333333331" width="104.66666666666669" height="21"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                        <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97325140237808228" green="0.98136454820632935" blue="0.9989960789680481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="ucC-A0-jbl" firstAttribute="top" secondItem="tVk-YS-Zsd" secondAttribute="bottom" constant="20" id="14H-25-U9L"/>
+                                    <constraint firstItem="5cg-qc-cjO" firstAttribute="top" secondItem="9nE-Ta-Bbp" secondAttribute="top" id="5cI-Im-VHn"/>
+                                    <constraint firstItem="mLu-vs-suL" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="BJA-bj-Uro"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mLu-vs-suL" secondAttribute="trailing" constant="62" id="Bhv-d4-X4R"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="LpT-tH-4M4" secondAttribute="trailing" constant="278.67000000000002" id="J52-SN-3Cz"/>
+                                    <constraint firstItem="tVk-YS-Zsd" firstAttribute="top" secondItem="DAe-gX-HQ5" secondAttribute="bottom" constant="8.6666666666666856" id="KLg-vT-i7R"/>
+                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="LpT-tH-4M4" secondAttribute="bottom" constant="270.32999999999998" id="MIf-0h-uMF"/>
+                                    <constraint firstItem="DAe-gX-HQ5" firstAttribute="top" secondItem="5cg-qc-cjO" secondAttribute="bottom" constant="22.999999999999986" id="QTE-Tc-5we"/>
+                                    <constraint firstItem="LpT-tH-4M4" firstAttribute="top" secondItem="mLu-vs-suL" secondAttribute="bottom" constant="36" id="T01-Tf-sBf"/>
+                                    <constraint firstItem="mLu-vs-suL" firstAttribute="top" secondItem="ucC-A0-jbl" secondAttribute="bottom" constant="8.9999999999999716" id="ZvT-Q1-XsY"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tVk-YS-Zsd" secondAttribute="trailing" constant="62" id="aZ0-VV-1Oq"/>
+                                    <constraint firstItem="tVk-YS-Zsd" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="c8C-ZJ-Sqf"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ucC-A0-jbl" secondAttribute="trailing" constant="302.67000000000002" id="f8V-fD-eqe"/>
+                                    <constraint firstItem="DAe-gX-HQ5" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="fS6-48-2bA"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="DAe-gX-HQ5" secondAttribute="trailing" constant="285" id="hda-zP-Lqj"/>
+                                    <constraint firstAttribute="trailing" secondItem="5cg-qc-cjO" secondAttribute="trailing" id="ir8-ng-2MV"/>
+                                    <constraint firstItem="5cg-qc-cjO" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" id="uAj-DD-SRN"/>
+                                    <constraint firstItem="ucC-A0-jbl" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="vzx-OQ-Okm"/>
+                                    <constraint firstItem="LpT-tH-4M4" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="22" id="wGi-K6-CKm"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iql-Rz-M4B">
+                                <rect key="frame" x="18.333333333333336" y="28.666666666666671" width="19.333333333333336" height="22"/>
+                                <state key="normal" image="BackButton"/>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="sv6-NE-oYk" eventType="touchUpInside" id="Jcr-py-IiE"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                        <color key="backgroundColor" red="0.29041624069213867" green="0.56456547975540161" blue="0.88558632135391235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="RdX-gV-SFr" firstAttribute="trailing" secondItem="GRF-PB-xK4" secondAttribute="trailing" id="H3E-2F-ZyR"/>
-                            <constraint firstItem="RdX-gV-SFr" firstAttribute="leading" secondItem="GRF-PB-xK4" secondAttribute="leading" id="Nd0-X1-MYi"/>
-                            <constraint firstItem="RdX-gV-SFr" firstAttribute="bottom" secondItem="GRF-PB-xK4" secondAttribute="bottom" id="ZYP-gW-Ure"/>
-                            <constraint firstItem="RdX-gV-SFr" firstAttribute="top" secondItem="xqa-xs-PAm" secondAttribute="top" id="cFb-8z-Cna"/>
+                            <constraint firstItem="9nE-Ta-Bbp" firstAttribute="leading" secondItem="xqa-xs-PAm" secondAttribute="leading" constant="13" id="33f-yB-EwB"/>
+                            <constraint firstItem="Iql-Rz-M4B" firstAttribute="top" secondItem="xqa-xs-PAm" secondAttribute="top" constant="8.6699999999999999" id="3q6-CG-nOW"/>
+                            <constraint firstItem="xqa-xs-PAm" firstAttribute="trailing" secondItem="Iql-Rz-M4B" secondAttribute="trailing" constant="376.32999999999998" id="JsI-Yc-ipc"/>
+                            <constraint firstItem="9nE-Ta-Bbp" firstAttribute="top" secondItem="GRF-PB-xK4" secondAttribute="topMargin" constant="73.666666666666686" id="bvE-bK-D2l"/>
+                            <constraint firstItem="Iql-Rz-M4B" firstAttribute="leading" secondItem="xqa-xs-PAm" secondAttribute="leading" constant="18.329999999999998" id="ego-VQ-Wzr"/>
+                            <constraint firstItem="xqa-xs-PAm" firstAttribute="trailing" secondItem="9nE-Ta-Bbp" secondAttribute="trailing" constant="12" id="nw3-FY-zwI"/>
+                            <constraint firstItem="xqa-xs-PAm" firstAttribute="bottom" secondItem="9nE-Ta-Bbp" secondAttribute="bottom" constant="78" id="wSd-ya-gfc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xqa-xs-PAm"/>
                     </view>
                     <connections>
-                        <outlet property="wordDetailsTableView" destination="RdX-gV-SFr" id="diZ-zr-gXS"/>
+                        <outlet property="addedOnLabel" destination="LpT-tH-4M4" id="AT4-qV-NxY"/>
+                        <outlet property="meaningLabel" destination="tVk-YS-Zsd" id="FF1-qQ-jIe"/>
+                        <outlet property="sourceLabel" destination="mLu-vs-suL" id="sCq-Xg-iCt"/>
+                        <outlet property="wordContainerView" destination="5cg-qc-cjO" id="sDn-8s-1uu"/>
+                        <outlet property="wordDetailsContainerView" destination="9nE-Ta-Bbp" id="YcS-SV-8QY"/>
+                        <outlet property="wordLabel" destination="79v-9e-aw5" id="c8a-Oc-Zui"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwK-YW-qxz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -492,6 +542,7 @@
     </scenes>
     <resources>
         <image name="AnyWhereLogo" width="36" height="21"/>
+        <image name="BackButton" width="18" height="19"/>
         <image name="FullWordsLogo" width="188" height="188"/>
         <image name="SettingsIcon" width="25" height="25"/>
         <image name="WordsIcon" width="25" height="25"/>
