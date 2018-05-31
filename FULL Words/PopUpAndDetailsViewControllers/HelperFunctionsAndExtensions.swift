@@ -80,7 +80,6 @@ extension Date {
     
 }
 
-
 class HelperFunctionsAndExtensions: NSObject {
 
 }

@@ -13,15 +13,14 @@ import MBProgressHUD
 import Firebase
 
 // All these are notification names that adds observer and will be posted using these string constants
-let SAVE_BUTTON_PRESSED = "SAVE_BUTTON_PRESSED"
-let SAVE_BUTTON_INVALIDATE = "SAVE_BUTTON_INVALIDATE"
+
 let RESIZE_TABLEVIEWCELL = "CHANGE_TABLEVIEWCELL_LENGTH"
 let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
 
 class NewWordViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
-    let headingForTableViewCells = ["Word", "Meaning", "Source"]
+    let headingForTableViewCells = ["Enter Word", "Synonym", "Source"]
     static var userPressedCancel = false
 
     static var word: String? = ""
@@ -32,24 +31,21 @@ class NewWordViewController: UIViewController {
     var activeTextField: UITextView?
     var userName: String?
     
-    @IBOutlet weak var navigationBarX: UINavigationBar!
-    @IBOutlet weak var navigationBarItem: UINavigationItem!
-    
-    var saveBarButtonPressed: UIBarButtonItem!
-    
+    @IBOutlet weak var addButton: UIButton!
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
+        return UIStatusBarStyle.default
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addButton.layer.cornerRadius = 10
+        addButton.clipsToBounds = true
+        addButton.dropShadow(color: #colorLiteral(red: 0.9417235255, green: 0.7750624418, blue: 0.6908532977, alpha: 1), opacity: 1, radius: 4, offset: CGSize(width: 0, height: 4), maskToBounds: false)
         addWordsTableView.delegate = self
         addWordsTableView.dataSource = self
         addWordsTableView.rowHeight = UITableViewAutomaticDimension
         addWordsTableView.estimatedRowHeight = 100
-        saveBarButtonPressed = UIBarButtonItem(title: "Add",style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
-        self.navigationBarItem.setRightBarButton(saveBarButtonPressed, animated: true)
         registerForAllNotification()
     }
 
@@ -60,8 +56,6 @@ class NewWordViewController: UIViewController {
         
         // for other notifications
         NotificationCenter.default.addObserver(self, selector: #selector(changeTableHeight), name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonValidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveButtonInvalidated), name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
     }
     @objc func keyboardWillBeHidden(_ aNotification: NSNotification) {
         let contentInsets = UIEdgeInsets.zero
@@ -93,12 +87,7 @@ class NewWordViewController: UIViewController {
         UIView.setAnimationsEnabled(true)
         addWordsTableView.scrollToRow(at: addWordsTableView.indexPath(for:addWordsTableView.visibleCells.last!)!, at: UITableViewScrollPosition.bottom, animated: true)
     }
-    @objc func saveButtonValidated() {
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    }
-    @objc func saveButtonInvalidated() {
-        saveBarButtonPressed.tintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
-    }
+    
 
     override func viewWillAppear(_ animated: Bool) {
         NewWordViewController.userPressedCancel = false
@@ -110,7 +99,6 @@ class NewWordViewController: UIViewController {
         NewWordViewController.word = ""
         NewWordViewController.source = ""
         NewWordViewController.meaning = ""
-        saveBarButtonPressed = nil
         self.view.endEditing(true)
     }
     override func didReceiveMemoryWarning() {
@@ -131,7 +119,7 @@ class NewWordViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func addButtonPressed(_ sender: UIButton) {
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.word!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaning!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.source!)
@@ -364,17 +352,17 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         switch headingForTableViewCells[indexPath.row] {
-        case "Word":
+        case "Enter Word":
             let wordCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
-            wordCell?.headingLabel.text = "Word"
+            wordCell?.headingLabel.text = "Enter Word"
             wordCell?.wordTextView.tag = 0
             activeTextField = wordCell?.wordTextView
             wordCell?.wordTextView.becomeFirstResponder()
             return wordCell ?? cell
             
-        case "Meaning":
+        case "Synonym":
             let meaningCell =  addWordsTableView.dequeueReusableCell(withIdentifier: "wordsTableViewCells") as? WordTableViewCell
-            meaningCell?.headingLabel.text = "Meaning"
+            meaningCell?.headingLabel.text = "Synonym"
             meaningCell?.wordTextView.tag = 1
             activeTextField = meaningCell?.wordTextView
             meaningCell?.wordTextView.returnKeyType = UIReturnKeyType.default
@@ -398,15 +386,6 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
 // for the uitextview to display in the storyboard
 extension NewWordViewController {
     
-    static func chechAndEnableAddButton() {
-        
-        guard NewWordViewController.word != "", NewWordViewController.meaning != "", NewWordViewController.source != "" else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_INVALIDATE), object: nil)
-            return
-        }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SAVE_BUTTON_PRESSED), object: nil)
-    }
-    
     //function to remove the meaning if it contains only speces in prefixes
     func removeBlankSpaceIfPresentAtPrefix(_ string: inout String) {
         while string.hasPrefix(" ") || string.hasPrefix("\n") {
@@ -423,7 +402,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        textView.textColor = #colorLiteral(red: 0.415560782, green: 0.511218667, blue: 0.6291947365, alpha: 0.8028681507)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
 
@@ -463,7 +442,6 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
             NewWordViewController.source = wordTextView.text
         }
-        NewWordViewController.chechAndEnableAddButton()
     }
 }
 

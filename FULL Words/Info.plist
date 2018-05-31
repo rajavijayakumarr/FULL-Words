@@ -50,6 +50,8 @@
 		<string>Montserrat-Regular.otf</string>
 		<string>MontserratAlternates-Medium.otf</string>
 		<string>MontserratAlternates-Bold.otf</string>
+		<string>Montserrat-Bold.otf</string>
+		<string>Montserrat-SemiBold.otf</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>

@@ -43,6 +43,8 @@
 		CEAA670220BFF33E001ACE50 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */; };
 		CEAA670420C0055D001ACE50 /* MontserratAlternates-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */; };
 		CEAA670620C005EE001ACE50 /* MontserratAlternates-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */; };
+		CEAA670820C00A9A001ACE50 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670720C00A98001ACE50 /* Montserrat-Bold.otf */; };
+		CEAA670A20C00B3C001ACE50 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670920C00B3A001ACE50 /* Montserrat-SemiBold.otf */; };
 		CEF91B5E20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */; };
 		CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
@@ -116,6 +118,8 @@
 		CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-Medium.otf"; sourceTree = "<group>"; };
 		CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-Bold.otf"; sourceTree = "<group>"; };
+		CEAA670720C00A98001ACE50 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
+		CEAA670920C00B3A001ACE50 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctionsAndExtensions.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWordsViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -252,6 +256,8 @@
 		CE9D236C20A2C4BC0043962B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CEAA670920C00B3A001ACE50 /* Montserrat-SemiBold.otf */,
+				CEAA670720C00A98001ACE50 /* Montserrat-Bold.otf */,
 				CEAA670520C005EB001ACE50 /* MontserratAlternates-Bold.otf */,
 				CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */,
 				CE610D872087606E00C0377F /* SF-Pro-Display-ThinItalic.otf */,
@@ -408,6 +414,7 @@
 				CE550E1F208F3AB600DA10DF /* wordsIcon@2x.png in Resources */,
 				CEAA670120BFF33E001ACE50 /* Montserrat-Medium.otf in Resources */,
 				CE85979A20A1B15100FB6914 /* settings@2x.png in Resources */,
+				CEAA670A20C00B3C001ACE50 /* Montserrat-SemiBold.otf in Resources */,
 				CE550E23208F41C000DA10DF /* adaptiveUImage.png in Resources */,
 				CE19226D20874E8A000D7676 /* LaunchScreen.storyboard in Resources */,
 				CEAA670220BFF33E001ACE50 /* Montserrat-Regular.otf in Resources */,
@@ -427,6 +434,7 @@
 				CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */,
 				CE8597A120A1B4DD00FB6914 /* peersicon.png in Resources */,
 				CE610D8C2087606E00C0377F /* SF-Pro-Display-UltralightItalic.otf in Resources */,
+				CEAA670820C00A9A001ACE50 /* Montserrat-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
