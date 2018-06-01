@@ -108,13 +108,13 @@
         <scene sceneID="5zL-cu-MId">
             <objects>
                 <tabBarController storyboardIdentifier="userTabBarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="spF-2s-RvS" customClass="UserPageTabController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="xBD-5A-DU2">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="xBD-5A-DU2" customClass="MainTabBar" customModule="FULL_Words" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="tintColor" red="0.33800446989999999" green="0.45072531700000001" blue="0.73605519529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.338004469871521" green="0.45072531700134277" blue="0.73605519533157349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -130,7 +130,7 @@
             </objects>
             <point key="canvasLocation" x="1597.1014492753625" y="33.423913043478265"/>
         </scene>
-        <!--Words-->
+        <!--Words Table View Controller-->
         <scene sceneID="fDC-hJ-jQl">
             <objects>
                 <tableViewController storyboardIdentifier="wordsviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eqC-Iu-7go" customClass="WordsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
@@ -197,7 +197,7 @@
                             <outlet property="delegate" destination="eqC-Iu-7go" id="pO5-uv-Qtb"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Words" image="WordsIcon" selectedImage="WordsIcon" id="42y-5x-wmJ"/>
+                    <tabBarItem key="tabBarItem" title="" image="WordsTab" largeContentSizeImage="WordsTabHighlighted" selectedImage="WordsTab" id="42y-5x-wmJ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-Uq-udR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -354,7 +354,7 @@
             </objects>
             <point key="canvasLocation" x="3272.4637681159425" y="332.60869565217394"/>
         </scene>
-        <!--Settings-->
+        <!--Settings Table View Controller-->
         <scene sceneID="9AP-Wq-7cw">
             <objects>
                 <tableViewController storyboardIdentifier="settingsOfUser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PCY-V3-rMr" customClass="SettingsTableViewController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
@@ -427,7 +427,7 @@
                             <outlet property="delegate" destination="PCY-V3-rMr" id="T4A-l6-XcI"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Settings" image="SettingsIcon" selectedImage="SettingsIcon" id="Dkz-wJ-AQq"/>
+                    <tabBarItem key="tabBarItem" title="" image="SettingsTab" largeContentSizeImage="SettingsTabHighlighted" selectedImage="SettingsTab" id="Dkz-wJ-AQq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mA2-xY-gjh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -603,8 +603,10 @@
         <image name="BackButton" width="18" height="19"/>
         <image name="CloseButton" width="14" height="14"/>
         <image name="FullWordsLogo" width="188" height="188"/>
-        <image name="SettingsIcon" width="25" height="25"/>
+        <image name="SettingsTab" width="18" height="18"/>
+        <image name="SettingsTabHighlighted" width="18" height="18"/>
         <image name="ShareButton" width="25" height="25"/>
-        <image name="WordsIcon" width="25" height="25"/>
+        <image name="WordsTab" width="16" height="18"/>
+        <image name="WordsTabHighlighted" width="16" height="18"/>
     </resources>
 </document>
