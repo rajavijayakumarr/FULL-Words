@@ -536,31 +536,26 @@
                                     <action selector="backButtonPressed:" destination="sv6-NE-oYk" eventType="touchUpInside" id="Fmu-ri-MV2"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r15-mt-jKY" customClass="UIButton">
-                                <rect key="frame" x="366" y="25" width="36" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ShareButton" translatesAutoresizingMaskIntoConstraints="NO" id="CpL-S8-Xjr">
-                                        <rect key="frame" x="4" y="4" width="28" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-Ge-gZs">
+                                <rect key="frame" x="369" y="31" width="25" height="25"/>
+                                <state key="normal" image="ShareButton"/>
                                 <connections>
-                                    <action selector="shareButtonPressed:" destination="sv6-NE-oYk" eventType="valueChanged" id="4PN-Di-s5W"/>
+                                    <action selector="shareButtonPressed:" destination="sv6-NE-oYk" eventType="touchUpInside" id="C2l-e6-xEZ"/>
                                 </connections>
-                            </view>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.29041624069213867" green="0.56456547975540161" blue="0.88558632135391235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="j6S-Ge-gZs" firstAttribute="top" secondItem="xqa-xs-PAm" secondAttribute="top" constant="11" id="1yz-Fi-lZI"/>
                             <constraint firstItem="9nE-Ta-Bbp" firstAttribute="leading" secondItem="xqa-xs-PAm" secondAttribute="leading" constant="13" id="33f-yB-EwB"/>
                             <constraint firstItem="Crz-nc-MOc" firstAttribute="leading" secondItem="xqa-xs-PAm" secondAttribute="leading" constant="6" id="GGx-12-8Lu"/>
                             <constraint firstItem="xqa-xs-PAm" firstAttribute="trailing" secondItem="Crz-nc-MOc" secondAttribute="trailing" constant="361" id="Lkx-Or-bma"/>
                             <constraint firstItem="9nE-Ta-Bbp" firstAttribute="top" secondItem="GRF-PB-xK4" secondAttribute="topMargin" constant="73.666666666666686" id="bvE-bK-D2l"/>
+                            <constraint firstItem="xqa-xs-PAm" firstAttribute="trailing" secondItem="j6S-Ge-gZs" secondAttribute="trailing" constant="20" id="cGa-1H-Zlq"/>
                             <constraint firstItem="xqa-xs-PAm" firstAttribute="trailing" secondItem="9nE-Ta-Bbp" secondAttribute="trailing" constant="12" id="nw3-FY-zwI"/>
                             <constraint firstItem="Crz-nc-MOc" firstAttribute="top" secondItem="xqa-xs-PAm" secondAttribute="top" id="qJT-uL-40b"/>
+                            <constraint firstItem="j6S-Ge-gZs" firstAttribute="leading" secondItem="Crz-nc-MOc" secondAttribute="trailing" constant="316" id="r9C-CF-ECM"/>
                             <constraint firstItem="xqa-xs-PAm" firstAttribute="bottom" secondItem="9nE-Ta-Bbp" secondAttribute="bottom" constant="78" id="wSd-ya-gfc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xqa-xs-PAm"/>
@@ -568,7 +563,7 @@
                     <connections>
                         <outlet property="addedOnLabel" destination="LpT-tH-4M4" id="AT4-qV-NxY"/>
                         <outlet property="meaningLabel" destination="tVk-YS-Zsd" id="FF1-qQ-jIe"/>
-                        <outlet property="shareButton" destination="r15-mt-jKY" id="3Og-mD-pqn"/>
+                        <outlet property="shareButton" destination="j6S-Ge-gZs" id="0hp-87-su0"/>
                         <outlet property="sourceLabel" destination="mLu-vs-suL" id="sCq-Xg-iCt"/>
                         <outlet property="wordContainerView" destination="5cg-qc-cjO" id="sDn-8s-1uu"/>
                         <outlet property="wordDetailsContainerView" destination="9nE-Ta-Bbp" id="YcS-SV-8QY"/>

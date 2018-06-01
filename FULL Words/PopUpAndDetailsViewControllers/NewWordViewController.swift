@@ -145,6 +145,44 @@ class NewWordViewController: UIViewController {
         self.addWordToServer()
     }
     
+    fileprivate func refreshTheAccessToken(_ urlRequest: URLRequest, _ spinnerView: MBProgressHUD) {
+        print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
+        var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
+        var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&grant_type=refresh_token".data(using: .utf8)!)
+        urlRequestForToken.httpBody = data
+        urlRequestForToken.httpMethod = "POST"
+        
+        Alamofire.request(urlRequestForToken).responseJSON { (responseData) in
+            if responseData.error == nil{
+                print(responseData)
+                var dataContainingTokens = JSON(responseData.data!)
+                let accessToken = dataContainingTokens["access_token"].stringValue
+                let tokenType = dataContainingTokens["token_type"].stringValue
+                
+                print("****************************************************************************************")
+                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
+                userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
+                userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                
+                Alamofire.request(urlRequest).responseJSON { (responseData) in
+                    if responseData.error != nil {
+                        let receivedWordValues = JSON(responseData.data!)
+                        if receivedWordValues["response"].boolValue {
+                            self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
+                        } else {
+                            self.handleOtherErrors(fromData: receivedWordValues)
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
     func addWordToServer() {
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
         spinnerView.label.text = "Adding Word..."
@@ -170,41 +208,7 @@ class NewWordViewController: UIViewController {
                     self.receiveAndSave(from: JSONdata, loadingScreen: spinnerView)
                 } else if JSONdata["error"].stringValue == "unauthorized_request" {
                     
-                    print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
-                    var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
-                    var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
-                    data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
-                    data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
-                    data.append("&grant_type=refresh_token".data(using: .utf8)!)
-                    urlRequestForToken.httpBody = data
-                    urlRequestForToken.httpMethod = "POST"
-                    
-                    Alamofire.request(urlRequestForToken).responseJSON { (responseData) in
-                        if responseData.error == nil{
-                            print(responseData)
-                            var dataContainingTokens = JSON(responseData.data!)
-                            let accessToken = dataContainingTokens["access_token"].stringValue
-                            let tokenType = dataContainingTokens["token_type"].stringValue
-                            
-                            print("****************************************************************************************")
-                            print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
-                            userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
-                            userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
-                            userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
-                            
-                            Alamofire.request(urlRequest).responseJSON { (responseData) in
-                                if responseData.error != nil {
-                                    let receivedWordValues = JSON(responseData.data!)
-                                    if receivedWordValues["response"].boolValue {
-                                        self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
-                                    } else {
-                                        self.handleOtherErrors(fromData: receivedWordValues)
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
+                    self.refreshTheAccessToken(urlRequest, spinnerView)
                 } else {
                     self.handleOtherErrors(fromData: JSONdata)
                 }
@@ -334,7 +338,7 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
-    ///////////////////// to minimise the distance between two section in a tableview
+    // to minimise the distance between two section in a tableview
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 1.0
     }
@@ -347,7 +351,6 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView.init(frame: CGRect.zero)
     }
-    /////////////////////
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
@@ -399,13 +402,14 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         
+        headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
         if textView.text == "Type here" {
             textView.text = ""
         }
         textView.textColor = #colorLiteral(red: 0.415560782, green: 0.511218667, blue: 0.6291947365, alpha: 0.8028681507)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
-
+        headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.5)
         if textView.text == "" {
             textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
@@ -420,6 +424,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         }
         return true
     }
+    
     
     func textViewDidChange(_ textView: UITextView) {
         if textView.tag == 0{

@@ -327,6 +327,33 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
+    func refreshTheAccessToken() {
+        print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
+        var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
+        var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
+        data.append("&client_id=\(CLIENT_ID)".data(using: .utf8)!)
+        data.append("&client_secret=\(CLIENT_SECRET)".data(using: .utf8)!)
+        data.append("&grant_type=refresh_token".data(using: .utf8)!)
+        urlRequestForToken.httpBody = data
+        urlRequestForToken.httpMethod = "POST"
+        
+        Alamofire.request(urlRequestForToken).responseJSON { (responseData) in
+            if responseData.error == nil{
+                print(responseData)
+                var dataContainingTokens = JSON(responseData.data!)
+                let accessToken = dataContainingTokens["access_token"].stringValue
+                let tokenType = dataContainingTokens["token_type"].stringValue
+                
+                print("****************************************************************************************")
+                print("accessToken: \(accessToken)\ntoken_type: \(tokenType)")
+                userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
+                userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
+                userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                
+            }
+        }
+    }
+    
     func getWords(fromTime firstWordDate: Double = 1, toTime lastWordDate: Double = Double(Date().timeIntervalSince1970) * 1000 , _ completionBlock: @escaping (_ success: Bool, _ error: NSError?, _ message: [JSON]?) -> ()) {
 //        spinnerview
         let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
@@ -364,7 +391,12 @@ class WordsTableViewController: UITableViewController {
                     self.refreshController?.endRefreshing()
                     MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                     //spinner
-                } else {
+                }
+                else if responseJSON_Data["error"].stringValue == "unauthroized request, access token either invalid / expired"{
+                    self.refreshTheAccessToken()
+                    completionBlock(false, nil, responseJSON_Data["data"]["words"].arrayValue)
+                }
+                else {
                     let message = responseJSON_Data["msg"].stringValue
                     let error = responseJSON_Data["error"].stringValue
                     completionBlock(false, NSError(domain: error, code: 2, userInfo: nil), nil)
