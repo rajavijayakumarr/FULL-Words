@@ -80,6 +80,17 @@ extension Date {
     
 }
 
+/// to capitalize the first string
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
 class HelperFunctionsAndExtensions: NSObject {
 
 }

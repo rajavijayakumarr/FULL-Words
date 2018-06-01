@@ -13,8 +13,8 @@ import SwiftyJSON
 import MBProgressHUD
 import Firebase
 
-let STARTING_TIME_VALUE = "STARTING_TIME_VALUE"
-let ENDING_TIME_VALUE = "ENDING_TIME_VALUE"
+//let STARTING_TIME_VALUE = "STARTING_TIME_VALUE"
+//let ENDING_TIME_VALUE = "ENDING_TIME_VALUE"
 
 class WordsTableViewController: UITableViewController {
     typealias this = WordsTableViewController
@@ -327,7 +327,7 @@ class WordsTableViewController: UITableViewController {
         }
     }
     
-    func refreshTheAccessToken() {
+    func refreshTheAccessToken(completionBlock: @escaping (_ success: Bool) -> ()) {
         print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
         var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
         var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
@@ -349,7 +349,10 @@ class WordsTableViewController: UITableViewController {
                 userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
                 userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
                 userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                completionBlock(true)
                 
+            } else {
+                completionBlock(false)
             }
         }
     }
@@ -393,7 +396,80 @@ class WordsTableViewController: UITableViewController {
                     //spinner
                 }
                 else if responseJSON_Data["error"].stringValue == "unauthroized request, access token either invalid / expired"{
-                    self.refreshTheAccessToken()
+                    self.refreshTheAccessToken() {[weak self] (success) in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        if success {
+                            Alamofire.request(urlRequest).responseJSON { (responseData) in
+                                if responseData.error == nil  {
+                                    print("*******************************************************")
+                                    print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+                                    let responseJSON_Data = JSON(responseData.data!)
+                                    
+                                    if responseJSON_Data["response"].boolValue {
+                                        let arrayOfJSON = responseJSON_Data["data"]["words"].arrayValue
+                                        for JSONwordData in arrayOfJSON {
+                                            let wordDetails = WordDetails(context: PersistenceService.context)
+                                            wordDetails.dateAdded = JSONwordData["createdAt"].doubleValue
+                                            wordDetails.dateUpdated = JSONwordData["updatedAt"].doubleValue
+                                            wordDetails.nameOfWord = JSONwordData["word"].stringValue
+                                            wordDetails.sourceOfWord = JSONwordData["src"].stringValue
+                                            wordDetails.meaningOfWord = JSONwordData["desc"].stringValue
+                                            wordDetails.wordAddedBy = strongSelf.userName
+                                            wordDetails.userId = JSONwordData["userId"].stringValue
+                                            PersistenceService.saveContext()
+                                            userDefaultsObject.set(JSONwordData["createdAt"].doubleValue, forKey: ENDING_TIME_VALUE)
+                                        }
+                                        completionBlock(true, nil, responseJSON_Data["data"]["words"].arrayValue)
+                                        strongSelf.refreshController?.endRefreshing()
+                                        MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                        //spinner
+                                    }
+                                    else {
+                                        let message = responseJSON_Data["msg"].stringValue
+                                        let error = responseJSON_Data["error"].stringValue
+                                        completionBlock(false, NSError(domain: error, code: 2, userInfo: nil), nil)
+                                        let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                                            strongSelf.refreshController?.endRefreshing()
+                                        }))
+                                        strongSelf.present(alert, animated: true, completion: nil)
+                                        //spinner
+                                        MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    }
+                                } else {
+                                    
+                                    var title = "", message = ""
+                                    //spinner
+                                    MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    strongSelf.refreshController?.endRefreshing()
+                                    switch responseData.result {
+                                    case .failure(let error):
+                                        if error._code == NSURLErrorTimedOut {
+                                            title = "Server timed out!"
+                                            message = "try again"
+                                        } else {
+                                            title = "Netword error!"
+                                            message = "Check your internet connection and try again"
+                                        }
+                                    default: break
+                                    }
+                                    print(title)
+                                    print(message)
+                                    //spinner
+                                    MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    strongSelf.refreshController?.endRefreshing()
+                                    completionBlock(false, NSError(domain: title + ": " + message, code: 3, userInfo: nil), nil)
+                                }
+                            }
+                        } else {
+                            let alert = UIAlertController(title: "error", message: "cannot refresh the access token", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            strongSelf.present(alert, animated: true)
+                            completionBlock(false, NSError(domain: "error_refreshing_token", code: 3, userInfo: nil), nil)
+                        }
+                    }
                     completionBlock(false, nil, responseJSON_Data["data"]["words"].arrayValue)
                 }
                 else {
@@ -471,14 +547,5 @@ class AddedWordsCells: UITableViewCell {
     var userId: String?
 }
 
-/// to capitalize the first string
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).uppercased() + dropFirst()
-    }
-    
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
-}
+
 

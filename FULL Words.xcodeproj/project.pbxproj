@@ -44,6 +44,7 @@
 		CEAA670E20C11E7B001ACE50 /* lineto-brown-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670C20C11BB4001ACE50 /* lineto-brown-bold.ttf */; };
 		CEAA670F20C11E7B001ACE50 /* lineto-brown-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670D20C11BB6001ACE50 /* lineto-brown-light.ttf */; };
 		CEAA671020C11E7B001ACE50 /* lineto-brown-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670B20C11BB0001ACE50 /* lineto-brown-regular.ttf */; };
+		CEAA671220C1252A001ACE50 /* WordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA671120C1252A001ACE50 /* WordsViewController.swift */; };
 		CEF91B5E20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */; };
 		CEFF532B2090D147006FEB2C /* ViewWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */; };
 		DA2B14D84649F9B88E6F3A30 /* Pods_FULL_WordsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C285B75FEA32AF8FA9B2782 /* Pods_FULL_WordsUITests.framework */; };
@@ -118,6 +119,7 @@
 		CEAA670B20C11BB0001ACE50 /* lineto-brown-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lineto-brown-regular.ttf"; sourceTree = "<group>"; };
 		CEAA670C20C11BB4001ACE50 /* lineto-brown-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lineto-brown-bold.ttf"; sourceTree = "<group>"; };
 		CEAA670D20C11BB6001ACE50 /* lineto-brown-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lineto-brown-light.ttf"; sourceTree = "<group>"; };
+		CEAA671120C1252A001ACE50 /* WordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewController.swift; sourceTree = "<group>"; };
 		CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunctionsAndExtensions.swift; sourceTree = "<group>"; };
 		CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWordsViewController.swift; sourceTree = "<group>"; };
 		E48CB485EC84858B854CDE60 /* Pods_FULL_Words.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FULL_Words.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +275,7 @@
 				CE610D91208880D800C0377F /* UserPageTabController.swift */,
 				CE610D93208888BE00C0377F /* SettingsTableViewController.swift */,
 				CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */,
+				CEAA671120C1252A001ACE50 /* WordsViewController.swift */,
 			);
 			path = TabBarControllersAllTabs;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				CE19226220874E88000D7676 /* LoginPageViewController.swift in Sources */,
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
 				CE48B6FC20AD4163001B8660 /* WordDetails+CoreDataProperties.swift in Sources */,
+				CEAA671220C1252A001ACE50 /* WordsViewController.swift in Sources */,
 				CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */,
 				CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,

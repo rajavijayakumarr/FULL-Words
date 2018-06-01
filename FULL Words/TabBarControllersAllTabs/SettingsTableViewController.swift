@@ -40,6 +40,9 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        DispatchQueue.main.async {
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        }
         self.navigationController?.navigationBar.barStyle = .default
         let color =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.navigationController?.navigationBar.backgroundColor = color
@@ -57,6 +60,7 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         UINavigationBar.appearance().barStyle = .blackOpaque
+        self.navigationController?.view.layoutSubviews()
     }
 
     override func didReceiveMemoryWarning() {
@@ -162,8 +166,8 @@ class SettingsTableViewController: UITableViewController {
         formatter.dateFormat = "yyyy-MM-dd, hh:mm a z"
         let myString = formatter.string(from: Date())
         
-        feedBackViewController.navBarColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
-        feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        feedBackViewController.navBarColor = #colorLiteral(red: 0.2904162407, green: 0.5645654798, blue: 0.8855863214, alpha: 1)// #colorLiteral(red: 0.07908757776, green: 0.1757853031, blue: 0.3321891427, alpha: 1)
+        feedBackViewController.segmentControlTintColor = #colorLiteral(red: 0.2904162407, green: 0.5645654798, blue: 0.8855863214, alpha: 1)
         feedBackViewController.rightButtonTitleColor = UIColor.white
         feedBackViewController.statusBarStyle = .lightContent
         feedBackViewController.userName = userName ?? ""

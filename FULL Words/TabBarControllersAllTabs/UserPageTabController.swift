@@ -30,7 +30,7 @@ class UserPageTabController: UITabBarController {
         navigationItem.title = "Dashboard"
         
         let setting = self.viewControllers?.last as? SettingsTableViewController
-        let wordsTable = self.viewControllers?.first as? WordsTableViewController
+        let wordsTable = self.viewControllers?.first as? WordsViewController
         
         if let userName = userName, let emailId = emailId {
             wordsTable?.userName = userName
