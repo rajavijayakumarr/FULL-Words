@@ -11,20 +11,17 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Bold.otf">
-            <string>Montserrat-Bold</string>
-        </array>
-        <array key="Montserrat-Medium.otf">
-            <string>Montserrat-Medium</string>
-        </array>
-        <array key="Montserrat-Regular.otf">
-            <string>Montserrat-Regular</string>
-        </array>
         <array key="Montserrat-SemiBold.otf">
             <string>Montserrat-SemiBold</string>
         </array>
         <array key="MontserratAlternates-Bold.otf">
             <string>MontserratAlternates-Bold</string>
+        </array>
+        <array key="lineto-brown-bold.ttf">
+            <string>Brown-Bold</string>
+        </array>
+        <array key="lineto-brown-regular.ttf">
+            <string>Brown-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -108,13 +105,13 @@
         <scene sceneID="5zL-cu-MId">
             <objects>
                 <tabBarController storyboardIdentifier="userTabBarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="spF-2s-RvS" customClass="UserPageTabController" customModule="FULL_Words" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="xBD-5A-DU2" customClass="MainTabBar" customModule="FULL_Words" customModuleProvider="target">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xBD-5A-DU2" customClass="MainTabBar" customModule="FULL_Words" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.33433759210000003" green="0.44639676810000001" blue="0.72829991579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.33800446989999999" green="0.45072531700000001" blue="0.73605519529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" red="0.338004469871521" green="0.45072531700134277" blue="0.73605519533157349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.33433759212493896" green="0.44639676809310913" blue="0.72829991579055786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -197,7 +194,12 @@
                             <outlet property="delegate" destination="eqC-Iu-7go" id="pO5-uv-Qtb"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="" image="WordsTab" largeContentSizeImage="WordsTabHighlighted" selectedImage="WordsTab" id="42y-5x-wmJ"/>
+                    <tabBarItem key="tabBarItem" title="" image="WordsTab" largeContentSizeImage="WordsTabHighlighted" selectedImage="WordsTab" id="42y-5x-wmJ">
+                        <color key="badgeColor" red="0.33433759210000003" green="0.44639676810000001" blue="0.72829991579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="WordsTabHighlighted"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-Uq-udR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -211,11 +213,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-pK-qF2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-pK-qF2">
                                 <rect key="frame" x="0.0" y="96" width="414" height="640"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" red="0.44200104480000002" green="0.56225413079999997" blue="0.61402809619999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="KCg-wH-B4i">
@@ -227,7 +229,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kx2-Na-B7K">
                                                     <rect key="frame" x="55" y="15" width="114" height="25"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="Brown-Bold" family="Brown" pointSize="21"/>
                                                     <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -257,7 +259,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aDd-O8-rQ4" id="Xos-uP-TSg">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="124.66666666666667"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Urh-5w-wgh">
@@ -268,7 +270,7 @@
                                                             <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="aDd-O8-rQ4" id="haR-L0-SHe"/>
@@ -285,7 +287,7 @@
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading Label:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHj-l8-6D9">
                                                     <rect key="frame" x="20" y="11" width="386" height="22"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="18"/>
                                                     <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -427,7 +429,12 @@
                             <outlet property="delegate" destination="PCY-V3-rMr" id="T4A-l6-XcI"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="" image="SettingsTab" largeContentSizeImage="SettingsTabHighlighted" selectedImage="SettingsTab" id="Dkz-wJ-AQq"/>
+                    <tabBarItem key="tabBarItem" title="" image="SettingsTab" largeContentSizeImage="SettingsTabHighlighted" selectedImage="SettingsTab" id="Dkz-wJ-AQq">
+                        <color key="badgeColor" red="0.33433759210000003" green="0.44639676810000001" blue="0.72829991579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="SettingsTabHighlighted"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mA2-xY-gjh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -463,32 +470,32 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SYNONYM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAe-gX-HQ5">
-                                        <rect key="frame" x="25" y="124.99999999999999" width="79" height="17.333333333333329"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <rect key="frame" x="25" y="125" width="83" height="20"/>
+                                        <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="17"/>
                                         <color key="textColor" red="0.41556078195571899" green="0.51121866703033447" blue="0.62919473648071289" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOURCE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucC-A0-jbl">
-                                        <rect key="frame" x="25.000000000000004" y="192" width="61.333333333333343" height="17.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <rect key="frame" x="25" y="194.33333333333331" width="66.333333333333329" height="20.666666666666657"/>
+                                        <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="17"/>
                                         <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Added on " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpT-tH-4M4">
-                                        <rect key="frame" x="21.999999999999993" y="275.33333333333331" width="88.333333333333314" height="18.666666666666686"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
+                                        <rect key="frame" x="21.999999999999993" y="280.66666666666663" width="90.333333333333314" height="23"/>
+                                        <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="19"/>
                                         <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word meaning" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVk-YS-Zsd" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="24.999999999999993" y="151" width="125.33333333333331" height="21"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                        <rect key="frame" x="25.000000000000007" y="153.66666666666669" width="115.66666666666669" height="20.666666666666657"/>
+                                        <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="17"/>
                                         <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word source" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLu-vs-suL" customClass="CopyableUILabel" customModule="FULL_Words" customModuleProvider="target">
-                                        <rect key="frame" x="25.000000000000007" y="218.33333333333331" width="104.66666666666669" height="21"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
+                                        <rect key="frame" x="25.000000000000007" y="224" width="96.666666666666686" height="20.666666666666657"/>
+                                        <fontDescription key="fontDescription" name="Brown-Regular" family="Brown" pointSize="17"/>
                                         <color key="textColor" red="0.41556078200000002" green="0.51121866699999996" blue="0.62919473650000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -536,7 +543,7 @@
                                     <action selector="backButtonPressed:" destination="sv6-NE-oYk" eventType="touchUpInside" id="Fmu-ri-MV2"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-Ge-gZs">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-Ge-gZs">
                                 <rect key="frame" x="369" y="31" width="25" height="25"/>
                                 <state key="normal" image="ShareButton"/>
                                 <connections>

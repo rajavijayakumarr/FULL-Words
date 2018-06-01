@@ -406,7 +406,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "Type here" {
             textView.text = ""
         }
-        textView.textColor = #colorLiteral(red: 0.415560782, green: 0.511218667, blue: 0.6291947365, alpha: 0.8028681507)
+        textView.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.5)
