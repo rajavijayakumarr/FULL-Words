@@ -407,12 +407,14 @@ extension NewWordViewController {
 class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var wordTextView: UITextView!
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var seperationLine: UIView!
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         
         headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
         if textView.text == "Type here" {
             textView.text = ""
+            seperationLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 0.2984267979)
         }
         textView.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
     }
@@ -421,6 +423,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "" {
             textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+            seperationLine.backgroundColor = UIColor.red
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
