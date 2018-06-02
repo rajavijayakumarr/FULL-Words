@@ -21,7 +21,7 @@ class WordsViewController: UIViewController {
     var refreshController: UIRefreshControl? = {
         let refreshController = UIRefreshControl()
         refreshController.addTarget(self, action: #selector(pullToRefreshHandler), for: UIControlEvents.valueChanged)
-        refreshController.tintColor = #colorLiteral(red: 0.2419127524, green: 0.6450607777, blue: 0.9349957108, alpha: 1)
+        refreshController.tintColor = #colorLiteral(red: 0.4915913939, green: 0.5727371573, blue: 0.6729450226, alpha: 1)
         return refreshController
     }()
     
@@ -72,11 +72,6 @@ class WordsViewController: UIViewController {
         super.viewWillDisappear(animated)
         this.addButtonUIButton.removeFromSuperview()
     }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        self.view.reloadInputViews()
-//    }
-
 }
 
 extension WordsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -164,6 +159,7 @@ extension WordsViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     DispatchQueue.main.async {
                         strongSelf.fetchWordsFromCoreData()
+                        strongSelf.handleGettingWeekValues()
                         strongSelf.arrangeWordsByWeek()
                         UIView.transition(with: strongSelf.wordsTableView,
                                           duration: 0.35,
@@ -238,9 +234,87 @@ extension WordsViewController {
                     MBProgressHUD.hide(for: self.navigationController?.view ?? self.view, animated: true)
                     //spinner
                 }
-                else if responseJSON_Data["error"].stringValue == "unauthroized request, access token either invalid / expired"{
-                    self.refreshTheAccessToken()
-                    completionBlock(false, nil, responseJSON_Data["data"]["words"].arrayValue)
+                else if responseJSON_Data["error"].stringValue == "unauthorized_request"{
+                    self.refreshTheAccessToken() {[weak self] (success) in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        if success {
+                            var urlRequest_new = URLRequest(url: URL(string: FULL_WORDS_ME_API + "&endTime=\(Int(lastWordDate))" + "&startTime=\(Int(firstWordDate))")!)
+                            urlRequest_new.setValue(tokenType + " " + (userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String), forHTTPHeaderField: "Authorization")
+                            urlRequest_new.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                            urlRequest_new.httpMethod = "GET"
+                            
+                            
+                            Alamofire.request(urlRequest_new).responseJSON { (responseData) in
+                                if responseData.error == nil  {
+                                    print("*******************************************************")
+                                    print(String(data: responseData.data!, encoding: String.Encoding.utf8) as Any)
+                                    let responseJSON_Data = JSON(responseData.data!)
+                                    
+                                    if responseJSON_Data["response"].boolValue {
+                                        let arrayOfJSON = responseJSON_Data["data"]["words"].arrayValue
+                                        for JSONwordData in arrayOfJSON {
+                                            let wordDetails = WordDetails(context: PersistenceService.context)
+                                            wordDetails.dateAdded = JSONwordData["createdAt"].doubleValue
+                                            wordDetails.dateUpdated = JSONwordData["updatedAt"].doubleValue
+                                            wordDetails.nameOfWord = JSONwordData["word"].stringValue
+                                            wordDetails.sourceOfWord = JSONwordData["src"].stringValue
+                                            wordDetails.meaningOfWord = JSONwordData["desc"].stringValue
+                                            wordDetails.wordAddedBy = strongSelf.userName
+                                            wordDetails.userId = JSONwordData["userId"].stringValue
+                                            PersistenceService.saveContext()
+                                            userDefaultsObject.set(JSONwordData["createdAt"].doubleValue, forKey: ENDING_TIME_VALUE)
+                                        }
+                                        completionBlock(true, nil, responseJSON_Data["data"]["words"].arrayValue)
+                                        strongSelf.refreshController?.endRefreshing()
+                                        MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                        //spinner
+                                    }
+                                    else {
+                                        let message = responseJSON_Data["msg"].stringValue
+                                        let error = responseJSON_Data["error"].stringValue
+                                        completionBlock(false, NSError(domain: error, code: 2, userInfo: nil), nil)
+                                        let alert = UIAlertController(title: message, message: error, preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                                            strongSelf.refreshController?.endRefreshing()
+                                        }))
+                                        strongSelf.present(alert, animated: true, completion: nil)
+                                        //spinner
+                                        MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    }
+                                } else {
+                                    
+                                    var title = "", message = ""
+                                    //spinner
+                                    MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    strongSelf.refreshController?.endRefreshing()
+                                    switch responseData.result {
+                                    case .failure(let error):
+                                        if error._code == NSURLErrorTimedOut {
+                                            title = "Server timed out!"
+                                            message = "try again"
+                                        } else {
+                                            title = "Netword error!"
+                                            message = "Check your internet connection and try again"
+                                        }
+                                    default: break
+                                    }
+                                    print(title)
+                                    print(message)
+                                    //spinner
+                                    MBProgressHUD.hide(for: strongSelf.navigationController?.view ?? strongSelf.view, animated: true)
+                                    strongSelf.refreshController?.endRefreshing()
+                                    completionBlock(false, NSError(domain: title + ": " + message, code: 3, userInfo: nil), nil)
+                                }
+                            }
+                        } else {
+                            let alert = UIAlertController(title: "error", message: "cannot refresh the access token", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            strongSelf.present(alert, animated: true)
+                            completionBlock(false, NSError(domain: "error_refreshing_token", code: 3, userInfo: nil), nil)
+                        }
+                    }
                 }
                 else {
                     let message = responseJSON_Data["msg"].stringValue
@@ -281,7 +355,7 @@ extension WordsViewController {
         }
     }
 
-    func refreshTheAccessToken() {
+    func refreshTheAccessToken(completionBlock: @escaping (_ success: Bool) -> ()) {
         print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
         var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
         var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
@@ -303,7 +377,10 @@ extension WordsViewController {
                 userDefaultsObject.set(accessToken, forKey: ACCESS_TOKEN)
                 userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
                 userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                completionBlock(true)
                 
+            } else {
+                completionBlock(false)
             }
         }
     }
@@ -322,12 +399,12 @@ extension WordsViewController {
         this.addButtonUIButton.frame = CGRect(x: self.view.frame.maxX * 4.9/6, y: self.view.frame.maxY * 4.9/6, width: 50, height: 50)
         this.addButtonUIButton.clipsToBounds = true
         this.addButtonUIButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        this.addButtonUIButton.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.9044587016, green: 0.2473695874, blue: 0.223312825, alpha: 1)
+        this.addButtonUIButton.tintColor = #colorLiteral(red: 0.9999127984, green: 1, blue: 0.9998814464, alpha: 1)
+        this.addButtonUIButton.layer.backgroundColor = #colorLiteral(red: 0.9329633117, green: 0.491658628, blue: 0.2886041999, alpha: 1)
         this.addButtonUIButton.layer.isOpaque = true
         this.addButtonUIButton.layer.cornerRadius = this.addButtonUIButton.frame.width / 2
-        this.addButtonUIButton.dropShadow(color: .black, opacity: 1, radius: 3)
-        this.addButtonUIButton.titleLabel?.font = UIFont.init(name: "CourierNewPS-BoldMT", size: 40)
+        this.addButtonUIButton.dropShadow(color: #colorLiteral(red: 0.9417235255, green: 0.7750624418, blue: 0.6908532977, alpha: 1), opacity: 1, radius: 6, offset: CGSize(width: 0, height: 4))
+        this.addButtonUIButton.titleLabel?.font = UIFont.init(name: "KohinoorTelugu-Regular", size: 40)
         this.addButtonUIButton.setTitle("+", for: UIControlState.normal)
         this.addButtonUIButton.addTarget(self, action: #selector(addButtonPressed), for: UIControlEvents.touchUpInside)
     }
@@ -393,7 +470,6 @@ extension WordsViewController {
         UIView.transition(with: self.wordsTableView, duration: 0.35, options: .transitionCrossDissolve, animations: {self.wordsTableView.reloadData()}, completion: nil)
     }
     @objc func pullToRefreshHandler() {
-        
         // firebase reports - tracks how many times the user pulls to refresh
         Analytics.logEvent("pulledToRefresh", parameters: nil)
         

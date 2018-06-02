@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // here is where the firebase is being configured 
             FirebaseApp.configure()
         
-            if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN) {
+            if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN)  {
             let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String
             let tokenType = userDefaultsObject.value(forKey: TOKEN_TYPE) as! String
             
@@ -193,6 +193,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 userDefaultsObject.set(firstName + " " + (lastName != "" ? lastName:"") , forKey: USER_NAME)
                 userDefaultsObject.set(emailId, forKey: EMAIL_ID)
                 userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
+                // did for testing the bug like if the access token is expired then will other api calls handle the refreshing of the access tokens
+//                userDefaultsObject.set("invalid_accesstoken", forKey: ACCESS_TOKEN)
+//                print("the access token is set to invalid access token string")
                 success = true
             } else {
                 print("something went wrong refreshing access token")

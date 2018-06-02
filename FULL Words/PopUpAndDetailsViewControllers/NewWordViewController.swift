@@ -120,6 +120,7 @@ class NewWordViewController: UIViewController {
         }
     }
     @IBAction func addButtonPressed(_ sender: UIButton) {
+       
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.word!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaning!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.source!)
@@ -145,7 +146,7 @@ class NewWordViewController: UIViewController {
         self.addWordToServer()
     }
     
-    fileprivate func refreshTheAccessToken(_ urlRequest: URLRequest, _ spinnerView: MBProgressHUD) {
+    fileprivate func refreshTheAccessToken(_ word: String, _ meaning: String, _ source: String, _ spinnerView: MBProgressHUD) {
         print("this is sent if the access token is expired and refresh token is sent to refresh the access token")
         var urlRequestForToken = URLRequest(url: URL(string: TOKEN_URL)!)
         var data:Data = "refresh_token=\(userDefaultsObject.value(forKey: REFRESH_TOKEN) as? String ?? "token_revoked")".data(using: .utf8)!
@@ -168,15 +169,21 @@ class NewWordViewController: UIViewController {
                 userDefaultsObject.set(tokenType, forKey: TOKEN_TYPE)
                 userDefaultsObject.set(true, forKey: IS_USER_LOGGED_IN)
                 
-                Alamofire.request(urlRequest).responseJSON { (responseData) in
-                    if responseData.error != nil {
+                var urlRequests = URLRequest(url: URL(string: FULL_WORDS_API_URL)!)
+                urlRequests.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userDefaultsObject.value(forKey: ACCESS_TOKEN) as? String)!]
+                let dataToSend = ["word": word, "desc": meaning, "src": source]
+                urlRequests.httpBody = try? JSONSerialization.data(withJSONObject: dataToSend, options: .prettyPrinted)
+                urlRequests.httpMethod = "POST"
+                urlRequests.timeoutInterval = 60
+                
+                Alamofire.request(urlRequests).responseJSON { (responseData) in
+                    if responseData.error == nil {
                         let receivedWordValues = JSON(responseData.data!)
                         if receivedWordValues["response"].boolValue {
                             self.receiveAndSave(from: receivedWordValues, loadingScreen: spinnerView)
                         } else {
                             self.handleOtherErrors(fromData: receivedWordValues)
                         }
-                        
                     }
                 }
             }
@@ -207,8 +214,8 @@ class NewWordViewController: UIViewController {
                 if JSONdata["response"].boolValue {
                     self.receiveAndSave(from: JSONdata, loadingScreen: spinnerView)
                 } else if JSONdata["error"].stringValue == "unauthorized_request" {
-                    
-                    self.refreshTheAccessToken(urlRequest, spinnerView)
+                    //responseJSON_Data["error"].stringValue == "unauthorized_request"
+                    self.refreshTheAccessToken(word ?? "", meaning ?? "", source ?? "", spinnerView)
                 } else {
                     self.handleOtherErrors(fromData: JSONdata)
                 }
@@ -252,6 +259,7 @@ class NewWordViewController: UIViewController {
     
     func receiveAndSave(from JSONdata: JSON, loadingScreen spinnerView: MBProgressHUD) {
         
+        print("receiving and saving data....")
         let wordsDetails = WordDetails(context: PersistenceService.context)
         wordsDetails.dateUpdated = JSONdata["data"]["word"]["updatedAt"].doubleValue
         wordsDetails.dateAdded = JSONdata["data"]["word"]["createdAt"].doubleValue

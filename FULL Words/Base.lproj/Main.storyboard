@@ -462,11 +462,11 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="a6B-kE-LIZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.94959253070000005" green="0.95809918640000002" blue="0.97926789520000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.94959253070000005" green="0.95809918640000002" blue="0.97926789520000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="settingTableViewCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="settingTableViewCell" rowHeight="51" id="xb0-Hf-Jlt" customClass="tableCell" customModule="FULL_Words" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="51"/>
@@ -599,7 +599,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-Ge-gZs">
-                                        <rect key="frame" x="162" y="345.66666666666663" width="65" height="106.33333333333331"/>
+                                        <rect key="frame" x="162" y="454.66666666666669" width="65" height="106.33333333333331"/>
                                         <state key="normal" image="ShareButton"/>
                                         <connections>
                                             <action selector="shareButtonPressed:" destination="sv6-NE-oYk" eventType="touchUpInside" id="C2l-e6-xEZ"/>
@@ -609,7 +609,7 @@
                                 <color key="backgroundColor" red="0.97325140237808228" green="0.98136454820632935" blue="0.9989960789680481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="ucC-A0-jbl" firstAttribute="top" secondItem="tVk-YS-Zsd" secondAttribute="bottom" constant="20" id="14H-25-U9L"/>
-                                    <constraint firstItem="j6S-Ge-gZs" firstAttribute="top" secondItem="LpT-tH-4M4" secondAttribute="bottom" constant="42" id="4xm-GT-jNK"/>
+                                    <constraint firstItem="j6S-Ge-gZs" firstAttribute="top" relation="lessThanOrEqual" secondItem="LpT-tH-4M4" secondAttribute="bottom" constant="150.99999999999994" id="4xm-GT-jNK"/>
                                     <constraint firstItem="5cg-qc-cjO" firstAttribute="top" secondItem="9nE-Ta-Bbp" secondAttribute="top" id="5cI-Im-VHn"/>
                                     <constraint firstItem="mLu-vs-suL" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="BJA-bj-Uro"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mLu-vs-suL" secondAttribute="trailing" constant="62" id="Bhv-d4-X4R"/>
@@ -617,7 +617,7 @@
                                     <constraint firstItem="tVk-YS-Zsd" firstAttribute="top" secondItem="DAe-gX-HQ5" secondAttribute="bottom" constant="8.6666666666666856" id="KLg-vT-i7R"/>
                                     <constraint firstItem="DAe-gX-HQ5" firstAttribute="top" secondItem="5cg-qc-cjO" secondAttribute="bottom" constant="22.999999999999986" id="QTE-Tc-5we"/>
                                     <constraint firstItem="LpT-tH-4M4" firstAttribute="top" secondItem="mLu-vs-suL" secondAttribute="bottom" constant="36" id="T01-Tf-sBf"/>
-                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="j6S-Ge-gZs" secondAttribute="bottom" constant="112.33" id="TG3-NK-hea"/>
+                                    <constraint firstAttribute="bottom" secondItem="j6S-Ge-gZs" secondAttribute="bottom" constant="3.3333333333333712" id="TG3-NK-hea"/>
                                     <constraint firstItem="mLu-vs-suL" firstAttribute="top" secondItem="ucC-A0-jbl" secondAttribute="bottom" constant="8.9999999999999716" id="ZvT-Q1-XsY"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tVk-YS-Zsd" secondAttribute="trailing" constant="62" id="aZ0-VV-1Oq"/>
                                     <constraint firstItem="tVk-YS-Zsd" firstAttribute="leading" secondItem="9nE-Ta-Bbp" secondAttribute="leading" constant="25" id="c8C-ZJ-Sqf"/>
