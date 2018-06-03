@@ -41,7 +41,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         //test function to crash the app
-        Crashlytics.sharedInstance().crash()
+//        Crashlytics.sharedInstance().crash()
         
         super.viewDidAppear(true)
         DispatchQueue.main.async {
