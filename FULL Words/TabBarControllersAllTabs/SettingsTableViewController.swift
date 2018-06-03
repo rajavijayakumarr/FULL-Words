@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 import FullFeedback
+import Crashlytics
 
 
 class SettingsTableViewController: UITableViewController {
@@ -39,6 +40,9 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //test function to crash the app
+        Crashlytics.sharedInstance().crash()
+        
         super.viewDidAppear(true)
         DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(false, animated: false)

@@ -423,7 +423,7 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "" {
             textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-            seperationLine.backgroundColor = UIColor.red
+            seperationLine.backgroundColor = #colorLiteral(red: 0.8741984963, green: 0.7725793123, blue: 0.7280942202, alpha: 1)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

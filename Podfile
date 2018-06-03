@@ -8,6 +8,8 @@ target 'FULL Words' do
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Firebase/Core'
   pod 'FullFeedback', '~> 0.1.7'
+  pod 'Fabric', '~> 1.7.7'
+  pod 'Crashlytics', '~> 3.10.2'
   use_frameworks!
 
   # Pods for FULL Words

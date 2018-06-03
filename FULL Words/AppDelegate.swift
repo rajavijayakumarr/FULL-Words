@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 import Firebase
+import Fabric
 
 
 @UIApplicationMain
@@ -25,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
             // here is where the firebase is being configured 
             FirebaseApp.configure()
+            Fabric.sharedSDK().debug = true
         
             if userDefaultsObject.bool(forKey: IS_USER_LOGGED_IN)  {
             let accessToken = userDefaultsObject.value(forKey: ACCESS_TOKEN) as! String

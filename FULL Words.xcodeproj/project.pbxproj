@@ -311,9 +311,10 @@
 				289A3A3FE1145FC34116EB27 /* [CP] Check Pods Manifest.lock */,
 				CE19225820874E88000D7676 /* Sources */,
 				CE19225920874E88000D7676 /* Frameworks */,
-				CEF91B4920B5A83A00BA25CC /* ShellScript */,
+				CEF91B4920B5A83A00BA25CC /* Run Script - Automatic Build No Incrementor */,
 				CE19225A20874E88000D7676 /* Resources */,
 				CD9125B5E86F7031CD2ED6DE /* [CP] Embed Pods Frameworks */,
+				CEAA671320C463EF001ACE50 /* Run Script - Firebase Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -536,13 +537,28 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FULL Words/Pods-FULL Words-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CEF91B4920B5A83A00BA25CC /* ShellScript */ = {
+		CEAA671320C463EF001ACE50 /* Run Script - Firebase Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Firebase Crashlytics";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
+		};
+		CEF91B4920B5A83A00BA25CC /* Run Script - Automatic Build No Incrementor */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script - Automatic Build No Incrementor";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;

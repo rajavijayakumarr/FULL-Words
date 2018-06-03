@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (4.7.2)
+  - Crashlytics (3.10.2):
+    - Fabric (~> 1.7.7)
+  - Fabric (1.7.7)
   - Firebase/Core (5.1.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
@@ -30,6 +33,8 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - Crashlytics (~> 3.10.2)
+  - Fabric (~> 1.7.7)
   - Firebase/Core
   - FullFeedback (~> 0.1.7)
   - MBProgressHUD (~> 1.0.0)
@@ -38,6 +43,8 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - Crashlytics
+    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -50,6 +57,8 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
+  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
   Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
   FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
@@ -60,6 +69,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: b943807438ac9f0e37b11cd469b0f164e2c6443e
+PODFILE CHECKSUM: 20bcf06fc9913804939f5ce55f39529dfff83211
 
 COCOAPODS: 1.5.0
