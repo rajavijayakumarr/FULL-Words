@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "549811491.134756"
+            timestampString = "549813455.424446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
             landmarkName = "receiveAndSave(from:loadingScreen:)"
             landmarkType = "7">
          </BreakpointContent>

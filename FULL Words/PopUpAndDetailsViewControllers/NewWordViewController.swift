@@ -120,7 +120,6 @@ class NewWordViewController: UIViewController {
         }
     }
     @IBAction func addButtonPressed(_ sender: UIButton) {
-       
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.word!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaning!)
         removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.source!)
@@ -258,7 +257,7 @@ class NewWordViewController: UIViewController {
     }
     
     func receiveAndSave(from JSONdata: JSON, loadingScreen spinnerView: MBProgressHUD) {
-        
+        self.view.endEditing(true)
         print("receiving and saving data....")
         let wordsDetails = WordDetails(context: PersistenceService.context)
         wordsDetails.dateUpdated = JSONdata["data"]["word"]["updatedAt"].doubleValue
@@ -280,7 +279,7 @@ class NewWordViewController: UIViewController {
         let alert = UIAlertController(title: "Success!", message: "Word added!", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            alert.dismiss(animated: false, completion: {
+            alert.dismiss(animated: true, completion: {
                 self.dismiss(animated: true, completion: nil)
                 let name = NSNotification.Name.init(self.newWOrdAdded)
                 NotificationCenter.default.post(name: name, object: nil)
