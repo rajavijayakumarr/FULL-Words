@@ -28,11 +28,20 @@ class ViewWordsViewController: UIViewController {
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var addedOnLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var wordDetailsContainerScrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         prepareToDisplayWordDetails()
+       
+        var contentRect = CGRect.zero
+        
+        for view in wordDetailsContainerScrollView.subviews {
+            contentRect = contentRect.union(view.frame)
+        }
+        wordDetailsContainerScrollView.contentSize = contentRect.size
+
         self.navigationItem.setRightBarButton(shareBarButton, animated: true)
     }
     
