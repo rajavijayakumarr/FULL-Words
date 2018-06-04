@@ -414,16 +414,17 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
         if textView.text == "Type here" {
             textView.text = ""
-            seperationLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 0.2984267979)
         }
         textView.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.8032427226)
+        seperationLine.backgroundColor = #colorLiteral(red: 0.8741984963, green: 0.7725793123, blue: 0.7280942202, alpha: 1)
+
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         headingLabel.textColor = #colorLiteral(red: 0.1026113406, green: 0.194866389, blue: 0.3516743779, alpha: 0.5)
         if textView.text == "" {
             textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-            seperationLine.backgroundColor = #colorLiteral(red: 0.8741984963, green: 0.7725793123, blue: 0.7280942202, alpha: 1)
+            seperationLine.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1049604024)
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
