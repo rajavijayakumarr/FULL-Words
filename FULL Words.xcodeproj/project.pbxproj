@@ -539,7 +539,7 @@
 		};
 		CEAA671320C463EF001ACE50 /* Run Script - Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -547,7 +547,7 @@
 			name = "Run Script - Firebase Crashlytics";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
@@ -760,6 +760,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = U6EUGX9769;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -783,6 +784,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = U6EUGX9769;
 				INFOPLIST_FILE = "FULL Words/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

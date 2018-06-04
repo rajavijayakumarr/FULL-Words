@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/WordsViewController.swift"
-            timestampString = "549743621.2400351"
+            timestampString = "549811491.0830311"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "98"
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/PopUpAndDetailsViewControllers/NewWordViewController.swift"
-            timestampString = "549799961.939981"
+            timestampString = "549811491.134756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/WordsViewController.swift"
-            timestampString = "549743621.24145"
+            timestampString = "549811491.135515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
             landmarkName = "getWords(fromTime:toTime:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/WordsViewController.swift"
-            timestampString = "549743621.241673"
+            timestampString = "549811491.137212"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "getWords(fromTime:toTime:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,12 +234,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FULL Words/TabBarControllersAllTabs/WordsViewController.swift"
-            timestampString = "549743621.24189"
+            timestampString = "549811491.138607"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "getWords(fromTime:toTime:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FULL Words/TabBarControllersAllTabs/WordsViewController.swift"
+            timestampString = "549811491.144956"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

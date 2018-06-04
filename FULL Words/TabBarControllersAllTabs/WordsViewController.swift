@@ -109,6 +109,13 @@ extension WordsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: "Share") { (action, sourceView, completionHandler) in
+            let cells = tableView.cellForRow(at: indexPath) as? WordsTableViewCell
+            if let width = cells?.frame.width, let height = cells?.frame.height {
+                sourceView.bounds.size = CGSize(width: width, height: height)
+            }
+            sourceView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.09934182363)
+            sourceView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.09934182363)
+            
             let fullWordsString = "#fullwords"
             let cell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
             let word = cell?.word ?? ""

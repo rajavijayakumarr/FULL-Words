@@ -280,7 +280,7 @@ class NewWordViewController: UIViewController {
         let alert = UIAlertController(title: "Success!", message: "Word added!", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            alert.dismiss(animated: true, completion: {
+            alert.dismiss(animated: false, completion: {
                 self.dismiss(animated: true, completion: nil)
                 let name = NSNotification.Name.init(self.newWOrdAdded)
                 NotificationCenter.default.post(name: name, object: nil)
@@ -424,8 +424,8 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
         if textView.text == "" {
             textView.text = "Type here"
             textView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-            seperationLine.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1049604024)
         }
+        seperationLine.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1049604024)
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
