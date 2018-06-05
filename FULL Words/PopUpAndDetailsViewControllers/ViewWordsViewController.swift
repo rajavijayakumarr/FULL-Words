@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewWordsViewController: UIViewController {
     
@@ -49,11 +50,24 @@ class ViewWordsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
     
     @IBAction func shareButtonPressed(_ sender: UIButton) {
         let fullWordsString = "#fullwords"
         let constructedStringToShare = "Hey, check out this new word that i've learnt, thought of sharing it with you.\n\nWord: \(word ?? "")\nMeaning: \(meaning ?? "")\nSource: \(source ?? "")\n\(fullWordsString)"
         let activityViewController = UIActivityViewController(activityItems: [constructedStringToShare], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect.zero
+        activityViewController.completionWithItemsHandler = { activity, completed, items, error in
+            if completed {
+                // handle task completed
+                // firebase reports - tracks if the word is shared
+                Analytics.logEvent("wordShared", parameters: nil)
+                return
+            }
+        }
         self.present(activityViewController, animated: true, completion: nil)
     }
     @IBAction func backButtonPressed(_ sender: UIButton) {
@@ -76,8 +90,12 @@ class ViewWordsViewController: UIViewController {
         
         let dateVar = Date(timeIntervalSince1970: (dateUpdated ?? 1000)/1000)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        addedOnLabel.text = "Added on \(dateFormatter.string(from: dateVar))"
+        let monthNameFormatter = DateFormatter()
+        let yearFormatter = DateFormatter()
+        monthNameFormatter.dateFormat = "LLLL"
+        dateFormatter.dateFormat = "dd"
+        yearFormatter.dateFormat = "yyyy"
+        addedOnLabel.text = "Added on \(dateFormatter.string(from: dateVar)) \(monthNameFormatter.string(from: dateVar)), \(yearFormatter.string(from: dateVar))"
     }
     
     @objc private func longPressLabelWithURL (recognizer: UILongPressGestureRecognizer) {
@@ -114,9 +132,6 @@ class ViewWordsViewController: UIViewController {
         
     }
 }
-
-
-
 
 ///to make a uiview drop a shadow in side bottom and top
 extension UIView {

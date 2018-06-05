@@ -33,8 +33,7 @@
 		CE85979E20A1B26A00FB6914 /* learnicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979C20A1B26900FB6914 /* learnicon@2x.png */; };
 		CE8597A120A1B4DD00FB6914 /* peersicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE85979F20A1B4DA00FB6914 /* peersicon.png */; };
 		CE8597A220A1B4DD00FB6914 /* peersicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */; };
-		CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */; };
-		CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */; };
+		CE9724CE208C40C4001F2ABC /* AddWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9724CD208C40C4001F2ABC /* AddWordsViewController.swift */; };
 		CEAA670120BFF33E001ACE50 /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA66FF20BFF33D001ACE50 /* Montserrat-Medium.otf */; };
 		CEAA670220BFF33E001ACE50 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */; };
 		CEAA670420C0055D001ACE50 /* MontserratAlternates-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */; };
@@ -108,8 +107,7 @@
 		CE85979C20A1B26900FB6914 /* learnicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "learnicon@2x.png"; sourceTree = "<group>"; };
 		CE85979F20A1B4DA00FB6914 /* peersicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = peersicon.png; sourceTree = "<group>"; };
 		CE8597A020A1B4DC00FB6914 /* peersicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peersicon@2x.png"; sourceTree = "<group>"; };
-		CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
-		CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWordViewController.swift; sourceTree = "<group>"; };
+		CE9724CD208C40C4001F2ABC /* AddWordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordsViewController.swift; sourceTree = "<group>"; };
 		CEAA66FF20BFF33D001ACE50 /* Montserrat-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.otf"; sourceTree = "<group>"; };
 		CEAA670020BFF33E001ACE50 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		CEAA670320C0055A001ACE50 /* MontserratAlternates-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-Medium.otf"; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 			children = (
 				CE610D91208880D800C0377F /* UserPageTabController.swift */,
 				CE610D93208888BE00C0377F /* SettingsTableViewController.swift */,
-				CE9724CB208C3C39001F2ABC /* WordsTableViewController.swift */,
 				CEAA671120C1252A001ACE50 /* WordsViewController.swift */,
 			);
 			path = TabBarControllersAllTabs;
@@ -294,7 +291,7 @@
 		CE9D236F20A31A460043962B /* PopUpAndDetailsViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				CE9724CD208C40C4001F2ABC /* NewWordViewController.swift */,
+				CE9724CD208C40C4001F2ABC /* AddWordsViewController.swift */,
 				CEFF532A2090D147006FEB2C /* ViewWordsViewController.swift */,
 				CEF91B5D20BBF2BB00BA25CC /* HelperFunctionsAndExtensions.swift */,
 			);
@@ -577,8 +574,7 @@
 				CE3FA824209B37720022D4D5 /* PersistenceService.swift in Sources */,
 				CE48B6FC20AD4163001B8660 /* WordDetails+CoreDataProperties.swift in Sources */,
 				CEAA671220C1252A001ACE50 /* WordsViewController.swift in Sources */,
-				CE9724CC208C3C39001F2ABC /* WordsTableViewController.swift in Sources */,
-				CE9724CE208C40C4001F2ABC /* NewWordViewController.swift in Sources */,
+				CE9724CE208C40C4001F2ABC /* AddWordsViewController.swift in Sources */,
 				CE610D94208888BE00C0377F /* SettingsTableViewController.swift in Sources */,
 				CE610D92208880D800C0377F /* UserPageTabController.swift in Sources */,
 				CE19226020874E88000D7676 /* AppDelegate.swift in Sources */,
@@ -773,7 +769,7 @@
 				PROVISIONING_PROFILE = "73cbf749-9b13-4816-806e-46bfb2f1b36b";
 				PROVISIONING_PROFILE_SPECIFIER = "FullWords Dev_Provision_Profile";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -797,7 +793,7 @@
 				PROVISIONING_PROFILE = "c017060c-32bf-487b-915d-8404ab47e188";
 				PROVISIONING_PROFILE_SPECIFIER = "FullWords Dist_Provisioning_Profile";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

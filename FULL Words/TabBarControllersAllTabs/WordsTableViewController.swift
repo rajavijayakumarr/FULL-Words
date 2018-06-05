@@ -144,7 +144,7 @@ class WordsTableViewController: UITableViewController {
     }
 
     @objc func addButtonPressed(){
-        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? NewWordViewController
+        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? AddWordsViewController
         wordsViewController?.userName = userName
         self.present(wordsViewController!, animated: true, completion: nil)
     }

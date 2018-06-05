@@ -51,7 +51,7 @@ class WordsViewController: UIViewController {
         
         wordsTableView.rowHeight = 135
         wordsTableView.estimatedRowHeight = 105
-        
+                
         if let refreshController = refreshController {
             wordsTableView.addSubview(refreshController)
         }
@@ -65,8 +65,7 @@ class WordsViewController: UIViewController {
         DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
-        let window = UIApplication.shared.keyWindow
-        window?.addSubview(this.addButtonUIButton)
+        self.navigationController?.view.addSubview(this.addButtonUIButton)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -88,8 +87,9 @@ extension WordsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {return "This Week"}
-        if section == 1 {return "Last Week"}
+        if section == 0 {return sectionHeaders.stringRep[section].from + " - " + sectionHeaders.stringRep[section].to + " (This Week)"
+        }
+        if section == 1 {return sectionHeaders.stringRep[section].from + " - " + sectionHeaders.stringRep[section].to + " (Last Week)"}
         return sectionHeaders.stringRep[section].from + " - " + sectionHeaders.stringRep[section].to
     }
     
@@ -117,16 +117,25 @@ extension WordsViewController: UITableViewDelegate, UITableViewDataSource {
             sourceView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.09934182363)
             
             let fullWordsString = "#fullwords"
-            let cell = tableView.cellForRow(at: indexPath) as? AddedWordsCells
+            let cell = tableView.cellForRow(at: indexPath) as? WordsTableViewCell
             let word = cell?.word ?? ""
             let meaning = cell?.meaning ?? ""
             let source = cell?.source ?? ""
             let constructedStringToShare = "Hey, check out this new word that i've learnt, thought of sharing it with you.\n\nWord: \(word)\nMeaning: \(meaning)\nSource: \(source)\n\(fullWordsString)"
             let activityViewController = UIActivityViewController(activityItems: [constructedStringToShare], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            activityViewController.popoverPresentationController?.sourceRect = CGRect.zero
+            activityViewController.completionWithItemsHandler = { activity, completed, items, error in
+                if completed {
+                    // handle task completed
+                    // firebase reports - tracks if the word is shared
+                    Analytics.logEvent("wordShared", parameters: nil)
+                    return
+                }
+            }
             self.present(activityViewController, animated: true, completion: nil)
             completionHandler(true)
         }
-        
         let swipeActionConfig = UISwipeActionsConfiguration(actions: [share])
         swipeActionConfig.performsFirstActionWithFullSwipe = true
         return swipeActionConfig
@@ -530,7 +539,7 @@ extension WordsViewController {
         }
     }
     @objc func addButtonPressed(){
-        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? NewWordViewController
+        let wordsViewController = self.storyboard?.instantiateViewController(withIdentifier: "newwordviewcontroller") as? AddWordsViewController
         wordsViewController?.userName = userName
         self.present(wordsViewController!, animated: true, completion: nil)
     }

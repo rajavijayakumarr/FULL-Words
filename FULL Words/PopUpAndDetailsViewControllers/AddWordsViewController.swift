@@ -17,7 +17,7 @@ import Firebase
 let RESIZE_TABLEVIEWCELL = "CHANGE_TABLEVIEWCELL_LENGTH"
 let POPUP_UP_KEYBOARD = "POPUP_UP_KEYBOARD"
 
-class NewWordViewController: UIViewController {
+class AddWordsViewController: UIViewController {
     
     let newWOrdAdded = "newWordAddedForWOrds"
     let headingForTableViewCells = ["Enter Word", "Synonym", "Source"]
@@ -90,15 +90,15 @@ class NewWordViewController: UIViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
-        NewWordViewController.userPressedCancel = false
+        AddWordsViewController.userPressedCancel = false
         super.viewWillAppear(true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NewWordViewController.word = ""
-        NewWordViewController.source = ""
-        NewWordViewController.meaning = ""
+        AddWordsViewController.word = ""
+        AddWordsViewController.source = ""
+        AddWordsViewController.meaning = ""
         self.view.endEditing(true)
     }
     override func didReceiveMemoryWarning() {
@@ -107,7 +107,7 @@ class NewWordViewController: UIViewController {
     }
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         
-        if NewWordViewController.userPressedCancel {
+        if AddWordsViewController.userPressedCancel {
             let alert = UIAlertController(title: "Word not Saved", message: "Are you sure you want to close?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .destructive, handler: {_ in
                 self.dismiss(animated: true, completion: nil)
@@ -120,19 +120,19 @@ class NewWordViewController: UIViewController {
         }
     }
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.word!)
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.meaning!)
-        removeBlankSpaceIfPresentAtPrefix(&NewWordViewController.source!)
+        removeBlankSpaceIfPresentAtPrefix(&AddWordsViewController.word!)
+        removeBlankSpaceIfPresentAtPrefix(&AddWordsViewController.meaning!)
+        removeBlankSpaceIfPresentAtPrefix(&AddWordsViewController.source!)
         let title = "Missing fields" ; var messange = ""; var hasValue = true
-        if NewWordViewController.word == "" {
+        if AddWordsViewController.word == "" {
             messange = "Word field is be blank!"
             hasValue = false
         }
-        else if NewWordViewController.meaning == ""  {
+        else if AddWordsViewController.meaning == ""  {
             messange = "Meaning field is be blank!"
             hasValue = false
         }
-        else if NewWordViewController.source == ""  {
+        else if AddWordsViewController.source == ""  {
             messange = "Source field is be blank!"
             hasValue = false
         }
@@ -193,9 +193,9 @@ class NewWordViewController: UIViewController {
         let spinnerView = MBProgressHUD.showAdded(to: self.view, animated: true)
         spinnerView.label.text = "Adding Word..."
         
-        let word = NewWordViewController.word
-        let meaning = NewWordViewController.meaning
-        let source = NewWordViewController.source
+        let word = AddWordsViewController.word
+        let meaning = AddWordsViewController.meaning
+        let source = AddWordsViewController.source
         
         var urlRequest = URLRequest(url: URL(string: FULL_WORDS_API_URL)!)
         urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json", "Authorization": "Bearer " + (userDefaultsObject.value(forKey: ACCESS_TOKEN) as? String)!]
@@ -325,7 +325,7 @@ extension UIViewController {
     }
 }
 
-extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
+extension AddWordsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -394,7 +394,7 @@ extension NewWordViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // for the uitextview to display in the storyboard
-extension NewWordViewController {
+extension AddWordsViewController {
     
     //function to remove the meaning if it contains only speces in prefixes
     func removeBlankSpaceIfPresentAtPrefix(_ string: inout String) {
@@ -440,23 +440,23 @@ class WordTableViewCell: UITableViewCell, UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if textView.tag == 0{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
-            NewWordViewController.word = wordTextView.text
+            AddWordsViewController.word = wordTextView.text
             if !(textView.text == "") {
-                NewWordViewController.userPressedCancel = true
+                AddWordsViewController.userPressedCancel = true
             } else {
-                NewWordViewController.userPressedCancel = false
+                AddWordsViewController.userPressedCancel = false
             }
         } else if textView.tag == 1 {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
-            NewWordViewController.meaning = wordTextView.text
+            AddWordsViewController.meaning = wordTextView.text
             if !(textView.text == "") {
-                NewWordViewController.userPressedCancel = true
+                AddWordsViewController.userPressedCancel = true
             } else {
-                NewWordViewController.userPressedCancel = false
+                AddWordsViewController.userPressedCancel = false
             }
         } else if textView.tag == 2{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: RESIZE_TABLEVIEWCELL), object: nil)
-            NewWordViewController.source = wordTextView.text
+            AddWordsViewController.source = wordTextView.text
         }
     }
 }

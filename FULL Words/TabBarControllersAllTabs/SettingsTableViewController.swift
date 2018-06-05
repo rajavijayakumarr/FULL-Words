@@ -140,7 +140,8 @@ class SettingsTableViewController: UITableViewController {
                     tableView.deselectRow(at: selection, animated: true)
                 }
             }))
-            
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = CGRect.zero
             self.present(alert, animated: true, completion: nil)
         default:
             break
